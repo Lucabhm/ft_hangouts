@@ -5,6 +5,12 @@ import android.graphics.Picture
 data class Contacts(
     val id: String,
     var name: String,
-    val number: Int,
-    var profilePicture: Picture
+    var number: Int,
+    var profilePicture: Int
+)
+
+data class Calls(
+    val id: String,
+    var contact: Contacts,
+    var createdAt: String
 )
