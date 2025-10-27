@@ -1,9 +1,11 @@
 package com.example.ft_hangouts
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -41,10 +43,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 import model.Calls
 import model.Contacts
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,10 +165,10 @@ fun CallScreen(modifier: Modifier = Modifier) {
         Contacts("9", "MOIN MOIN", 5551234, R.drawable.cr),
     )
     val calls = listOf(
-        Calls("1", contacts[0], "02-05-2022"),
-        Calls("2", contacts[1], "02-05-2022"),
-        Calls("3", contacts[2], "02-05-2022"),
-        Calls("3", contacts[3], "02-05-2022"),
+        Calls("1", contacts[0], "2022-05-02"),
+        Calls("2", contacts[1], "2022-05-02"),
+        Calls("3", contacts[2], "2022-05-02"),
+        Calls("3", contacts[3], "2022-05-02"),
     )
     LazyColumn(
         modifier = modifier
@@ -179,6 +184,15 @@ fun CallScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun CallCard(call: Calls, modifier: Modifier = Modifier) {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd. MMM yyyy", Locale.getDefault())
+
+    val date = inputFormat.parse(call.createdAt)
+    val formatted = if (date != null) {
+        outputFormat.format(date)
+    } else {
+        "Lost"
+    }
     Card(
         modifier
             .fillMaxWidth()
@@ -198,10 +212,38 @@ fun CallCard(call: Calls, modifier: Modifier = Modifier) {
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = modifier.width(12.dp))
-            Text(text = call.contact.name)
-            Spacer(modifier = modifier.width(12.dp))
-            Text(text = call.createdAt)
+            Row(
+                modifier = modifier.fillMaxSize().padding(10.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = call.contact.name)
+                Spacer(modifier = modifier.weight(1f))
+                Text(text = formatted)
+            }
         }
     }
+}
+
+@Preview
+@Composable
+fun TestCallCard() {
+    val contacts = listOf(
+        Contacts("1", "Anna", 123456789, R.drawable.cr),
+        Contacts("2", "Tom", 987654321, R.drawable.cr),
+        Contacts("3", "Chris", 5551234, R.drawable.cr),
+        Contacts("4", "Hallo", 5551234, R.drawable.cr),
+        Contacts("5", "Test", 5551234, R.drawable.cr),
+        Contacts("6", "LOL", 5551234, R.drawable.cr),
+        Contacts("7", "Mama", 5551234, R.drawable.cr),
+        Contacts("8", "What the hell", 5551234, R.drawable.cr),
+        Contacts("9", "MOIN MOIN", 5551234, R.drawable.cr),
+    )
+    val calls = listOf(
+        Calls("1", contacts[0], "2022-05-02"),
+        Calls("2", contacts[1], "02-05-2022"),
+        Calls("3", contacts[2], "02-05-2022"),
+        Calls("3", contacts[3], "02-05-2022"),
+    )
+    CallCard(calls[0])
 }
