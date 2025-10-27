@@ -1,6 +1,4 @@
-package model
-
-import android.graphics.Picture
+package com.example.ft_hangouts.data.model
 
 data class Contacts(
     val id: String,
