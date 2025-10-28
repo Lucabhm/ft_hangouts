@@ -1,6 +1,7 @@
 package com.example.ft_hangouts.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -57,6 +58,7 @@ fun ContactCard(contact: Contacts, modifier: Modifier = Modifier) {
         modifier
             .fillMaxWidth()
             .height(100.dp)
+
     ) {
         Row(
             modifier = modifier

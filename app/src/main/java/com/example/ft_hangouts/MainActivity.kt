@@ -19,12 +19,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.ft_hangouts.ui.screens.CallScreen
+import com.example.ft_hangouts.ui.screens.ChatsScreen
+import com.example.ft_hangouts.ui.screens.SettingsScreen
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,12 +35,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Ft_hangoutsTheme {
+                val navController = rememberNavController()
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    bottomBar = { BottomBar() },
+                    bottomBar = { BottomBar(navController) },
                     topBar = { TopBar() }
                 ) { innerPadding ->
-                    CallScreen(modifier = Modifier.padding(innerPadding))
+                    NavHost(
+                        navController = navController,
+                        startDestination = "chats",
+                        modifier = Modifier.padding((innerPadding))
+                    ) {
+                        composable("chats") { ChatsScreen() }
+                        composable("calls") { CallScreen() }
+                        composable("settings") { SettingsScreen() }
+                    }
                 }
             }
         }
@@ -55,19 +67,18 @@ fun TopBar() {
 }
 
 @Composable
-fun BottomBar() {
+fun BottomBar(navController: NavController) {
     val items = listOf("chats", "calls", "settings")
-    var currItem by remember { mutableIntStateOf(0) }
     NavigationBar {
-        items.forEachIndexed { index, item ->
+        items.forEach { route ->
             NavigationBarItem(
-                selected = currItem == index,
-                onClick = { currItem = index },
+                selected = false,
+                onClick = { navController.navigate(route) },
                 icon = {
-                    when (item) {
-                        "chats" -> Icon(Icons.Default.AccountBox, contentDescription = item)
-                        "calls" -> Icon(Icons.Default.Call, contentDescription = item)
-                        "settings" -> Icon(Icons.Default.Settings, contentDescription = item)
+                    when (route) {
+                        "chats" -> Icon(Icons.Default.AccountBox, contentDescription = route)
+                        "calls" -> Icon(Icons.Default.Call, contentDescription = route)
+                        "settings" -> Icon(Icons.Default.Settings, contentDescription = route)
                     }
                 })
         }
