@@ -1,7 +1,7 @@
 # ft_hangouts 📱  
 
 A contact management mobile application built for the **42 curriculum**.  
-The goal of this project is to become familiar with mobile systems by building an app that works on both **Android** and **iOS**, without external libraries.  
+The goal of this project is to become familiar with mobile systems by building an app that works on **Android**, without external libraries.  
 
 ---
 
@@ -23,9 +23,9 @@ The goal of this project is to become familiar with mobile systems by building a
 
 ## 🛠️ Tech Stack  
 
-- **Languages**: Your choice (Java/Kotlin for Android, Swift for iOS, etc.)  
+- **Languages**: Kotlin 
 - **Database**: SQLite (local storage for contacts)  
-- **IDE**: Recommended: **Android Studio** (if building for Android)  
+- **IDE**: **Android Studio**
 
 ⚠️ **No external libraries are allowed** — including for UI/design.  
 
