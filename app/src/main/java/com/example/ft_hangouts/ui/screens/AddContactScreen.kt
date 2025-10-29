@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -27,7 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -46,15 +45,20 @@ fun AddContactScreen(modifier: Modifier = Modifier) {
 
         Box(
             contentAlignment = Alignment.Center,
-            modifier = modifier
+            modifier = Modifier
                 .size(120.dp)
                 .border(
                     width = 4.dp,
                     color = MaterialTheme.colorScheme.secondary,
                     shape = CircleShape
                 )
-                .clickable(enabled = true, onClick = {})
+                .clip(CircleShape)
+                .clickable(
+                    onClick = {},
+                ),
         ) { Icon(Icons.Filled.Add, contentDescription = "Add Picture") }
+
+        Text(text = "Add a Picture")
 
         Column {
             Text(text = "Enter a name")
@@ -65,6 +69,7 @@ fun AddContactScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth()
             )
         }
+
         Column {
             Text(text = "Enter a Phone Number")
             OutlinedTextField(
@@ -74,8 +79,14 @@ fun AddContactScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth()
             )
         }
+
         Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = {}, modifier = Modifier.fillMaxWidth().height(50.dp)) {
+
+        Button(
+            onClick = {}, modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
             Text(text = "Create Contact")
         }
     }
