@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ft_hangouts.ui.screens.AddContactScreen
 import com.example.ft_hangouts.ui.screens.CallScreen
 import com.example.ft_hangouts.ui.screens.ChatsScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
@@ -47,9 +48,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = "chats",
                         modifier = Modifier.padding((innerPadding))
                     ) {
-                        composable("chats") { ChatsScreen() }
+                        composable("chats") { ChatsScreen(navController) }
                         composable("calls") { CallScreen() }
                         composable("settings") { SettingsScreen() }
+                        composable ("createContact") { AddContactScreen() }
                     }
                 }
             }

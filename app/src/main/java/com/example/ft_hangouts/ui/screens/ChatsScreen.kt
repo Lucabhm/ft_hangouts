@@ -24,12 +24,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.Contacts
 import com.example.ft_hangouts.ui.components.AddContactButton
 
 @Composable
-fun ChatsScreen(modifier: Modifier = Modifier) {
+fun ChatsScreen(navController: NavController, modifier: Modifier = Modifier) {
     val contacts = listOf(
         Contacts("1", "Anna", 123456789, R.drawable.cr),
         Contacts("2", "Tom", 987654321, R.drawable.cr),
@@ -41,7 +42,7 @@ fun ChatsScreen(modifier: Modifier = Modifier) {
         Contacts("8", "What the hell", 5551234, R.drawable.cr),
         Contacts("9", "MOIN MOIN", 5551234, R.drawable.cr),
     )
-    Scaffold(floatingActionButton = { AddContactButton({}) }) { innerPadding ->
+    Scaffold(floatingActionButton = { AddContactButton(navController) }) { innerPadding ->
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
@@ -81,10 +82,4 @@ fun ContactCard(contact: Contacts, modifier: Modifier = Modifier) {
             Text(text = contact.name)
         }
     }
-}
-
-@Preview
-@Composable
-fun TestChatsScreen() {
-    ChatsScreen()
 }
