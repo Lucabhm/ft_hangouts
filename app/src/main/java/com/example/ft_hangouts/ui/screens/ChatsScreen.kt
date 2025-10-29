@@ -1,7 +1,6 @@
 package com.example.ft_hangouts.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,9 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.Contacts
+import com.example.ft_hangouts.ui.components.AddContactButton
 
 @Composable
 fun ChatsScreen(modifier: Modifier = Modifier) {
@@ -39,16 +41,17 @@ fun ChatsScreen(modifier: Modifier = Modifier) {
         Contacts("8", "What the hell", 5551234, R.drawable.cr),
         Contacts("9", "MOIN MOIN", 5551234, R.drawable.cr),
     )
-
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(5.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-        items(items = contacts, itemContent = { item ->
-            ContactCard(item)
-        })
+    Scaffold(floatingActionButton = { AddContactButton({}) }) { innerPadding ->
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(5.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            items(items = contacts, itemContent = { item ->
+                ContactCard(item)
+            })
+        }
     }
 }
 
@@ -78,4 +81,10 @@ fun ContactCard(contact: Contacts, modifier: Modifier = Modifier) {
             Text(text = contact.name)
         }
     }
+}
+
+@Preview
+@Composable
+fun TestChatsScreen() {
+    ChatsScreen()
 }
