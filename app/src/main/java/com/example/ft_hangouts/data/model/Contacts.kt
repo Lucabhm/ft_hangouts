@@ -12,3 +12,10 @@ data class Calls(
     var contact: Contacts,
     var createdAt: String
 )
+
+data class Messages(
+    val id: Number,
+    val message: String,
+    val fromId: Number,
+    val createdAt: String
+)

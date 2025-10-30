@@ -18,7 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun TopBar(navController: NavController) {
     val getRoute = navController.currentBackStackEntryAsState()
     val currentRoute = getRoute.value?.destination?.route
-    val showBack = listOf("CreateContact")
+    val showBack = listOf("CreateContact", "Messages")
 
     CenterAlignedTopAppBar(
         title = { Text("ft_hangouts") },

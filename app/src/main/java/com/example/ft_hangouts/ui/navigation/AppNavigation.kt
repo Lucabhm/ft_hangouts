@@ -13,6 +13,7 @@ import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.screens.AddContactScreen
 import com.example.ft_hangouts.ui.screens.CallScreen
+import com.example.ft_hangouts.ui.screens.ChatScreen
 import com.example.ft_hangouts.ui.screens.ChatsScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
 
@@ -21,7 +22,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val getRoute = navController.currentBackStackEntryAsState()
     val currentRoute = getRoute.value?.destination?.route
-    val hideBar = listOf("CreateContact")
+    val hideBar = listOf("CreateContact", "Messages")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -41,6 +42,7 @@ fun AppNavigation() {
             composable("Calls") { CallScreen() }
             composable("Settings") { SettingsScreen() }
             composable("CreateContact") { AddContactScreen() }
+            composable("Messages") { ChatScreen() }
         }
     }
 }
