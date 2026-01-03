@@ -28,7 +28,7 @@ fun ContactCard(contact: Contacts, navController: NavController, modifier: Modif
     Card(
         modifier
             .fillMaxWidth()
-            .height(100.dp).clickable(onClick = {navController.navigate("Messages")})
+            .height(100.dp).clickable(onClick = {navController.navigate("Messages/${contact.profilePicture}/${contact.name}")})
     ) {
         Row(
             modifier = modifier

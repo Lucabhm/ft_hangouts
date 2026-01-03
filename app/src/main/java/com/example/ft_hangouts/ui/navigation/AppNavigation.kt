@@ -1,14 +1,21 @@
 package com.example.ft_hangouts.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.ft_hangouts.data.model.ContactViewModel
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.screens.AddContactScreen
@@ -18,11 +25,12 @@ import com.example.ft_hangouts.ui.screens.ChatsScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     val navController = rememberNavController()
     val getRoute = navController.currentBackStackEntryAsState()
     val currentRoute = getRoute.value?.destination?.route
     val hideBar = listOf("CreateContact", "Messages")
+    val checkContact by viewModel.selectedContact.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -31,7 +39,7 @@ fun AppNavigation() {
                 BottomBar(navController)
             }
         },
-        topBar = { TopBar(navController) }
+        topBar = { if (checkContact == null) TopBar(navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -42,7 +50,18 @@ fun AppNavigation() {
             composable("Calls") { CallScreen() }
             composable("Settings") { SettingsScreen() }
             composable("CreateContact") { AddContactScreen() }
-            composable("Messages") { ChatScreen() }
+            composable(
+                "Messages/{image}/{userName}", arguments = listOf(
+                    navArgument("image") { type = NavType.IntType },
+                    navArgument("userName") { type = NavType.StringType })
+            ) { entry ->
+                val profilePic = entry.arguments?.getInt("image")
+                val userName = entry.arguments?.getString("userName")
+
+                Log.d("AppNavigation", "profilePicture = $profilePic")
+                Log.d("AppNavigation", "userName = $userName")
+                ChatScreen()
+            }
         }
     }
 }

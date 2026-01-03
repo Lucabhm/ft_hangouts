@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.components
 
+import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -19,12 +20,17 @@ fun TopBar(navController: NavController) {
     val getRoute = navController.currentBackStackEntryAsState()
     val currentRoute = getRoute.value?.destination?.route
     val showBack = listOf("CreateContact", "Messages")
+    val checkShowBack = showBack.any { currentRoute?.startsWith(it) ?: false }
 
+    Log.d("TopBar", "currentRoute = $currentRoute")
     CenterAlignedTopAppBar(
-        title = { Text("ft_hangouts") },
+        title = {
+            if (currentRoute?.startsWith("Messages") == false)
+                Text("ft_hangouts")
+        },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         navigationIcon = {
-            if (currentRoute in showBack) {
+            if (checkShowBack) {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
