@@ -3,6 +3,7 @@ package com.example.ft_hangouts.ui.components
 import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +37,13 @@ fun TopBar(navController: NavController) {
                         Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "back"
                     )
+                }
+            }
+        },
+        actions = {
+            if (currentRoute?.startsWith("Messages") == true) {
+                IconButton(onClick = {}) {
+                    Icon(imageVector = Icons.Default.Call, contentDescription = "callIcon")
                 }
             }
         }
