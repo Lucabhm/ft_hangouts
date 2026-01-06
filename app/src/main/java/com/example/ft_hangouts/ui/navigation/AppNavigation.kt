@@ -30,12 +30,13 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     val getRoute = navController.currentBackStackEntryAsState()
     val currentRoute = getRoute.value?.destination?.route
     val hideBar = listOf("CreateContact", "Messages")
+    val checkHideBar = hideBar.any {currentRoute?.startsWith(it) == true}
     val checkContact by viewModel.selectedContact.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (currentRoute !in hideBar) {
+            if (!checkHideBar) {
                 BottomBar(navController)
             }
         },
@@ -54,12 +55,7 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
                 "Messages/{image}/{userName}", arguments = listOf(
                     navArgument("image") { type = NavType.IntType },
                     navArgument("userName") { type = NavType.StringType })
-            ) { entry ->
-                val profilePic = entry.arguments?.getInt("image")
-                val userName = entry.arguments?.getString("userName")
-
-                Log.d("AppNavigation", "profilePicture = $profilePic")
-                Log.d("AppNavigation", "userName = $userName")
+            ) {
                 ChatScreen()
             }
         }

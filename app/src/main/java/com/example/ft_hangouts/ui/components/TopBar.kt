@@ -1,6 +1,13 @@
 package com.example.ft_hangouts.ui.components
 
-import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
@@ -12,22 +19,54 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(navController: NavController) {
-    val getRoute = navController.currentBackStackEntryAsState()
-    val currentRoute = getRoute.value?.destination?.route
+fun TopBar(navController: NavController, modifier: Modifier = Modifier) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val args = navBackStackEntry?.arguments
+
     val showBack = listOf("CreateContact", "Messages")
     val checkShowBack = showBack.any { currentRoute?.startsWith(it) ?: false }
 
-    Log.d("TopBar", "currentRoute = $currentRoute")
     CenterAlignedTopAppBar(
         title = {
             if (currentRoute?.startsWith("Messages") == false)
                 Text("ft_hangouts")
+            else {
+                val name = args?.getString("userName")
+                val pic = args?.getInt("image")
+
+                Row(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(5.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (pic != null && pic != 0) {
+                        Image(
+                            painter = painterResource(id = pic),
+                            contentDescription = name,
+                            modifier = modifier
+                                .size(50.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Spacer(modifier = modifier.width(12.dp))
+                    Text(text = name ?: "")
+                }
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         navigationIcon = {
