@@ -22,6 +22,7 @@ import com.example.ft_hangouts.ui.screens.AddContactScreen
 import com.example.ft_hangouts.ui.screens.CallScreen
 import com.example.ft_hangouts.ui.screens.ChatScreen
 import com.example.ft_hangouts.ui.screens.ChatsScreen
+import com.example.ft_hangouts.ui.screens.HeaderColorScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
 
 @Composable
@@ -30,7 +31,7 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     val getRoute = navController.currentBackStackEntryAsState()
     val currentRoute = getRoute.value?.destination?.route
     val hideBar = listOf("CreateContact", "Messages")
-    val checkHideBar = hideBar.any {currentRoute?.startsWith(it) == true}
+    val checkHideBar = hideBar.any { currentRoute?.startsWith(it) == true }
     val checkContact by viewModel.selectedContact.collectAsState()
 
     Scaffold(
@@ -49,7 +50,8 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
         ) {
             composable("Chats") { ChatsScreen(navController) }
             composable("Calls") { CallScreen() }
-            composable("Settings") { SettingsScreen() }
+            composable("Settings") { SettingsScreen(navController = navController) }
+            composable("HeaderColor") { HeaderColorScreen() }
             composable("CreateContact") { AddContactScreen() }
             composable(
                 "Messages/{image}/{userName}", arguments = listOf(
