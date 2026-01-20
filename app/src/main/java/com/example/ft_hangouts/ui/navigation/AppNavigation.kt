@@ -1,8 +1,11 @@
 package com.example.ft_hangouts.ui.navigation
 
 import android.util.Log
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,13 +37,14 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     val checkContact by viewModel.selectedContact.collectAsState()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         bottomBar = {
             if (!checkHideBar) {
                 BottomBar(navController)
             }
         },
-        topBar = { if (checkContact == null) TopBar(navController) }
+        topBar = { if (checkContact == null) TopBar(navController) },
     ) { innerPadding ->
         NavHost(
             navController = navController,
