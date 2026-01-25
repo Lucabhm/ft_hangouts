@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.ft_hangouts.data.model.ContactViewModel
+import com.example.ft_hangouts.ui.components.AddContactButton
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.screens.AddContactScreen
@@ -45,6 +46,11 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
             }
         },
         topBar = { if (checkContact == null) TopBar(navController) },
+        floatingActionButton = {
+            if (currentRoute?.startsWith("Chats") == true) AddContactButton(
+                navController
+            )
+        }
     ) { innerPadding ->
         NavHost(
             navController = navController,

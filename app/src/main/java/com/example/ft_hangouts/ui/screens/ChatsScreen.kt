@@ -28,16 +28,14 @@ fun ChatsScreen(navController: NavController, modifier: Modifier = Modifier) {
         Contacts("8", "What the hell", 5551234, R.drawable.cr),
         Contacts("9", "MOIN MOIN", 5551234, R.drawable.cr),
     )
-    Scaffold(floatingActionButton = { AddContactButton(navController) }) { innerPadding ->
-        LazyColumn(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(5.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            items(items = contacts, itemContent = { item ->
-                ContactCard(item, navController)
-            })
-        }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        items(items = contacts, itemContent = { item ->
+            ContactCard(item, navController)
+        })
     }
 }
