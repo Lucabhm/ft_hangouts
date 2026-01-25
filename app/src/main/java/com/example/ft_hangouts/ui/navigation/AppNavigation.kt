@@ -1,11 +1,8 @@
 package com.example.ft_hangouts.ui.navigation
 
 import android.util.Log
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,8 +21,8 @@ import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.screens.AddContactScreen
 import com.example.ft_hangouts.ui.screens.CallScreen
-import com.example.ft_hangouts.ui.screens.ChatScreen
 import com.example.ft_hangouts.ui.screens.ChatsScreen
+import com.example.ft_hangouts.ui.screens.MessagesScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
 
 @Composable
@@ -36,6 +33,8 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     val hideBar = listOf("CreateContact", "Messages")
     val checkHideBar = hideBar.any { currentRoute?.startsWith(it) == true }
     val checkContact by viewModel.selectedContact.collectAsState()
+
+    Log.d("App", "AppNavigation: $checkContact")
 
     Scaffold(
         modifier = Modifier
@@ -66,7 +65,7 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
                     navArgument("image") { type = NavType.IntType },
                     navArgument("userName") { type = NavType.StringType })
             ) {
-                ChatScreen()
+                MessagesScreen(modifier = Modifier.padding(innerPadding))
             }
         }
     }
