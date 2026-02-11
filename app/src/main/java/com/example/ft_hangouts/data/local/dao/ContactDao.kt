@@ -8,92 +8,127 @@ import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.toContact
 
 class ContactDao(private val dbHelper: SQLiteOpenHelper) {
-    fun selectAll(): List<Contact> {
-        val db = dbHelper.readableDatabase
-        val contacts = mutableListOf<Contact>()
-        val cursor = db.query(
-            ContactEntry.TABLE_NAME,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "${ContactEntry.COLUMN_LAST_MSG} DESC"
-        )
+    fun selectAll(): Result<List<Contact>> {
+        return try {
+            val db = dbHelper.readableDatabase
+            val contacts = mutableListOf<Contact>()
 
-        with(cursor) {
-            while (moveToNext()) {
-                contacts.add(toContact())
+            db.query(
+                ContactEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                "${ContactEntry.COLUMN_LAST_MSG} DESC"
+            ).use { cursor ->
+                while (cursor.moveToNext()) {
+                    contacts.add(cursor.toContact())
+                }
             }
+            Result.success(contacts)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-        cursor.close()
-        return contacts
     }
 
     fun selectById(contactId: Int): Result<Contact> {
-        val db = dbHelper.readableDatabase
-        var result: Result<Contact>
-        val cursor = db.query(
-            ContactEntry.TABLE_NAME,
-            null,
-            "${BaseColumns._ID} = ?",
-            arrayOf(contactId.toString()),
-            null,
-            null,
-            null
-        )
+        return try {
+            val db = dbHelper.readableDatabase
 
-        result = if (cursor.moveToFirst()) {
-            Result.success(cursor.toContact())
-        } else {
-            Result.failure(NoSuchElementException("No Contact found"))
+            db.query(
+                ContactEntry.TABLE_NAME,
+                null,
+                "${BaseColumns._ID} = ?",
+                arrayOf(contactId.toString()),
+                null,
+                null,
+                null
+            ).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    Result.success(cursor.toContact())
+                } else {
+                    Result.failure(NoSuchElementException("No Contact found"))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-
-        cursor.close()
-        return result
     }
 
-    fun insert(contact: Contact) {
-        val db = dbHelper.writableDatabase
+    fun insert(contact: Contact): Result<Long> {
+        return try {
+            val db = dbHelper.writableDatabase
+            val values = ContentValues().apply {
+                put(ContactEntry.COLUMN_FIRST_NAME, contact.firstName)
+                put(ContactEntry.COLUMN_LAST_NAME, contact.lastName)
+                put(ContactEntry.COLUMN_PHONE_NUMBER, contact.phoneNumber)
+                put(ContactEntry.COLUMN_PROFILE_PIC, contact.profilePicture)
+                put(ContactEntry.COLUMN_LAST_MSG, contact.lastMsg)
+                put(ContactEntry.COLUMN_CREATED_AT, contact.createdAt)
+            }
 
-        val values = ContentValues().apply {
-            put(ContactEntry.COLUMN_FIRST_NAME, contact.firstName)
-            put(ContactEntry.COLUMN_LAST_NAME, contact.lastName)
-            put(ContactEntry.COLUMN_PHONE_NUMBER, contact.phoneNumber)
-            put(ContactEntry.COLUMN_PROFILE_PIC, contact.profilePicture)
-            put(ContactEntry.COLUMN_LAST_MSG, contact.lastMsg)
-            put(ContactEntry.COLUMN_CREATED_AT, contact.createdAt)
+            val id = db.insert(ContactEntry.TABLE_NAME, null, values)
+            if (id == -1L)
+                Result.failure(Exception("Contact insert failed"))
+            else
+                Result.success(id)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-
-        db.insert(ContactEntry.TABLE_NAME, null, values)
     }
 
-    fun update(
+    fun updateById(
         contactId: Int,
         firstName: String? = null,
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: Int? = null,
         lastMsg: String? = null
-    ) {
-        val db = dbHelper.writableDatabase
-        val values = ContentValues()
+    ): Result<Int> {
+        return try {
+            val db = dbHelper.writableDatabase
+            val values = ContentValues()
 
-        firstName?.let { values.put(ContactEntry.COLUMN_FIRST_NAME, it) }
-        lastName?.let { values.put(ContactEntry.COLUMN_LAST_NAME, it) }
-        phoneNumber?.let { values.put(ContactEntry.COLUMN_PHONE_NUMBER, it) }
-        profilePicture?.let { values.put(ContactEntry.COLUMN_PROFILE_PIC, it) }
-        lastMsg?.let { values.put(ContactEntry.COLUMN_LAST_MSG, it) }
+            firstName?.let { values.put(ContactEntry.COLUMN_FIRST_NAME, it) }
+            lastName?.let { values.put(ContactEntry.COLUMN_LAST_NAME, it) }
+            phoneNumber?.let { values.put(ContactEntry.COLUMN_PHONE_NUMBER, it) }
+            profilePicture?.let { values.put(ContactEntry.COLUMN_PROFILE_PIC, it) }
+            lastMsg?.let { values.put(ContactEntry.COLUMN_LAST_MSG, it) }
 
-        db.update(
-            ContactEntry.TABLE_NAME, values, "${BaseColumns._ID} = ?", arrayOf(contactId.toString())
-        )
+            val count = db.update(
+                ContactEntry.TABLE_NAME,
+                values,
+                "${BaseColumns._ID} = ?",
+                arrayOf(contactId.toString())
+            )
+
+            if (count == 0)
+                Result.failure(Exception("Contact not found"))
+            else
+                Result.success(count)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
-    fun delete(contactId: Int) {
-        val db = dbHelper.writableDatabase
+    fun deleteById(contactId: Int): Result<Int> {
+        return try {
+            val db = dbHelper.writableDatabase
 
-        db.delete(ContactEntry.TABLE_NAME, "${BaseColumns._ID} = ?", arrayOf(contactId.toString()))
+            val count = db.delete(
+                ContactEntry.TABLE_NAME,
+                "${BaseColumns._ID} = ?",
+                arrayOf(contactId.toString())
+            )
+
+            if (count == 0)
+                Result.failure(Exception("Contact not found"))
+            else
+                Result.success(count)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }
 
