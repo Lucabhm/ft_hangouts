@@ -3,11 +3,9 @@ package com.example.ft_hangouts.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -51,7 +49,7 @@ fun TopBar(navController: NavController, modifier: Modifier = Modifier) {
 
                 Row(
                     modifier = modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
                         .padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {

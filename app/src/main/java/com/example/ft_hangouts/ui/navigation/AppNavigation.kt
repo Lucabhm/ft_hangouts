@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.ui.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,13 +14,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.ft_hangouts.data.model.ContactViewModel
 import com.example.ft_hangouts.ui.components.AddContactButton
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.screens.AddContactScreen
 import com.example.ft_hangouts.ui.screens.CallScreen
-import com.example.ft_hangouts.ui.screens.ChatsScreen
+import com.example.ft_hangouts.ui.chats.ChatsScreen
 import com.example.ft_hangouts.ui.screens.MessagesScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
 
@@ -33,8 +31,6 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     val hideBar = listOf("CreateContact", "Messages")
     val checkHideBar = hideBar.any { currentRoute?.startsWith(it) == true }
     val checkContact by viewModel.selectedContact.collectAsState()
-
-    Log.d("App", "AppNavigation: $checkContact")
 
     Scaffold(
         modifier = Modifier
@@ -53,7 +49,7 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "chats",
+            startDestination = "Chats",
             modifier = Modifier.padding((innerPadding))
         ) {
             composable("Chats") { ChatsScreen(navController) }
@@ -65,7 +61,7 @@ fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
                     navArgument("image") { type = NavType.IntType },
                     navArgument("userName") { type = NavType.StringType })
             ) {
-                MessagesScreen(modifier = Modifier.padding(innerPadding))
+                MessagesScreen()
             }
         }
     }

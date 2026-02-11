@@ -17,7 +17,7 @@ import com.example.ft_hangouts.data.model.Messages
 import com.example.ft_hangouts.ui.components.MessageCard
 
 @Composable
-fun MessagesScreen(modifier: Modifier = Modifier) {
+fun MessagesScreen() {
     var textFieldValue by remember { mutableStateOf(TextFieldValue()) }
     val messages = listOf(
         Messages(1, "Hallo was geht test das ist ein test", 0, "2022-05-02 14:23:57.123456"),
@@ -31,19 +31,32 @@ fun MessagesScreen(modifier: Modifier = Modifier) {
         ),
         Messages(5, "Hallo was geht", 1, "2022-05-02 14:23:57.123456"),
         Messages(6, "Hallo was geht", 1, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
+        Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456"),
         Messages(7, "Hallo was geht", 0, "2022-05-02 14:23:57.123456")
+
     )
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
     ) {
-        LazyColumn(modifier = modifier.weight(1f)) {
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+        ) {
             items(messages) { item -> MessageCard(messageInfo = item) }
         }
         TextField(
             value = textFieldValue,
             onValueChange = { textFieldValue = it },
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
         )
     }
