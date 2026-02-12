@@ -32,7 +32,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun selectById(contactId: Int): Result<Contact> {
+    fun selectById(contactId: Long): Result<Contact> {
         return try {
             val db = dbHelper.readableDatabase
 
@@ -79,7 +79,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
     }
 
     fun updateById(
-        contactId: Int,
+        contactId: Long,
         firstName: String? = null,
         lastName: String? = null,
         phoneNumber: String? = null,
@@ -104,7 +104,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
             )
 
             if (count == 0)
-                Result.failure(Exception("Contact not found"))
+                Result.failure(NoSuchElementException("Contact not found"))
             else
                 Result.success(count)
         } catch (e: Exception) {
@@ -112,7 +112,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun deleteById(contactId: Int): Result<Int> {
+    fun deleteById(contactId: Long): Result<Int> {
         return try {
             val db = dbHelper.writableDatabase
 
@@ -123,7 +123,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
             )
 
             if (count == 0)
-                Result.failure(Exception("Contact not found"))
+                Result.failure(NoSuchElementException("Contact not found"))
             else
                 Result.success(count)
         } catch (e: Exception) {
