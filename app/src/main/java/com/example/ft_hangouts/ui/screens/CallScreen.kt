@@ -21,31 +21,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.model.Calls
-import com.example.ft_hangouts.data.model.Contacts
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
 fun CallScreen(modifier: Modifier = Modifier) {
-    val contacts = listOf(
-        Contacts("1", "Anna", 123456789, R.drawable.cr),
-        Contacts("2", "Tom", 987654321, R.drawable.cr),
-        Contacts("3", "Chris", 5551234, R.drawable.cr),
-        Contacts("4", "Hallo", 5551234, R.drawable.cr),
-        Contacts("5", "Test", 5551234, R.drawable.cr),
-        Contacts("6", "LOL", 5551234, R.drawable.cr),
-        Contacts("7", "Mama", 5551234, R.drawable.cr),
-        Contacts("8", "What the hell", 5551234, R.drawable.cr),
-        Contacts("9", "MOIN MOIN", 5551234, R.drawable.cr),
-    )
-    val calls = listOf(
-        Calls("1", contacts[0], "2022-05-02"),
-        Calls("2", contacts[1], "2022-05-02"),
-        Calls("3", contacts[2], "2022-05-02"),
-        Calls("3", contacts[3], "2022-05-02"),
-    )
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
