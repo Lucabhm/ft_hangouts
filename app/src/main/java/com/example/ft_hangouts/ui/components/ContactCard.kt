@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.components
 
+import com.example.ft_hangouts.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -20,15 +21,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.ft_hangouts.data.model.Contacts
+import com.example.ft_hangouts.data.model.Contact
 
 @Composable
-fun ContactCard(contact: Contacts, navController: NavController, modifier: Modifier = Modifier) {
+fun ContactCard(contact: Contact, modifier: Modifier = Modifier) {
     Card(
         modifier
             .fillMaxWidth()
-            .height(100.dp).clickable(onClick = {navController.navigate("Messages/${contact.profilePicture}/${contact.name}")})
+            .height(100.dp).clickable(onClick = {})
     ) {
         Row(
             modifier = modifier
@@ -37,15 +37,15 @@ fun ContactCard(contact: Contacts, navController: NavController, modifier: Modif
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = contact.profilePicture),
-                contentDescription = contact.name,
+                painter = painterResource(id = contact.profilePicture ?: R.drawable.cr),
+                contentDescription = contact.firstName,
                 modifier = modifier
                     .size(64.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = modifier.width(12.dp))
-            Text(text = contact.name)
+            Text(text = contact.firstName ?: contact.phoneNumber)
         }
     }
 }

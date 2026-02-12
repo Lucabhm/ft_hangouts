@@ -6,23 +6,39 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.model.Contacts
+import com.example.ft_hangouts.data.repository.UIResult
 import com.example.ft_hangouts.ui.components.ContactCard
+import com.example.ft_hangouts.data.model.Contact
 
 @Composable
-fun ChatsScreen(navController: NavController, modifier: Modifier = Modifier, viewModel: ChatsViewModel = ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(5.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-        items(items = contacts, itemContent = { item ->
-            ContactCard(item, navController)
-        })
+fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel) {
+    LaunchedEffect(Unit) {
+        viewModel.loadContacts()
+    }
+
+    val state by viewModel.data.collectAsState()
+
+    when (state) {
+        is UIResult.Loading -> {}
+        is UIResult.Success -> {
+            val contacts = (state as UIResult.Success<List<Contact>>).contact
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(5.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                items(items = contacts, itemContent = { item ->
+                    ContactCard(item)
+                })
+            }
+        }
+        is UIResult.NotFound -> {}
+        else -> {}
     }
 }

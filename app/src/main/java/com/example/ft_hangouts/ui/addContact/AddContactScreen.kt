@@ -1,4 +1,4 @@
-package com.example.ft_hangouts.ui.screens
+package com.example.ft_hangouts.ui.addContact
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,13 +27,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview(showSystemUi = true)
 @Composable
-fun AddContactScreen(modifier: Modifier = Modifier) {
+fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewModel) {
     val scrollState = rememberScrollState()
+
     Column(
         modifier = modifier
             .fillMaxSize()
