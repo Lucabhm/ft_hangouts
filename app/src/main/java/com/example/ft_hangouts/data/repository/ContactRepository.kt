@@ -30,7 +30,9 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
-    fun createContact(contact: Contact): UIResult<Long> {
+    fun createContact(
+        contact: Contact
+    ): UIResult<Long> {
         return contactDao.insert(contact).fold(
             onSuccess = { UIResult.Success(it) },
             onFailure = {

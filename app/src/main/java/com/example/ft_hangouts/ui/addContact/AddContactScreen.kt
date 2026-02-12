@@ -15,15 +15,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,9 +36,6 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        var name by remember { mutableStateOf("") }
-        var number by remember { mutableStateOf("") }
-
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -57,16 +49,26 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
                 .clickable(
                     onClick = {},
                 ),
-        ) { Icon(Icons.Filled.Add, contentDescription = "Add Picture") }
+        ) {  }
 
         Text(text = "Add a Picture")
 
         Column {
-            Text(text = "Enter a name")
+            Text(text = "Enter a First Name")
             OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Name") },
+                value = viewModel.firstName,
+                onValueChange = { viewModel.firstName = it },
+                label = { Text("First Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        Column {
+            Text(text = "Enter a Last Name")
+            OutlinedTextField(
+                value = viewModel.lastName,
+                onValueChange = { viewModel.lastName = it },
+                label = { Text("Last Name") },
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -74,8 +76,8 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         Column {
             Text(text = "Enter a Phone Number")
             OutlinedTextField(
-                value = number,
-                onValueChange = { number = it },
+                value = viewModel.phoneNumber,
+                onValueChange = { viewModel.phoneNumber = it },
                 label = { Text("Phone Number") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -84,7 +86,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = {}, modifier = Modifier
+            onClick = {viewModel.saveContact()}, modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
@@ -92,4 +94,3 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         }
     }
 }
-
