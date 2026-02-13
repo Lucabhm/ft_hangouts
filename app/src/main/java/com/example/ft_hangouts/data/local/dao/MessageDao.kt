@@ -1,26 +1,33 @@
 package com.example.ft_hangouts.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
-import com.example.ft_hangouts.data.local.entities.Message
+import android.database.sqlite.SQLiteOpenHelper
+import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
+import com.example.ft_hangouts.data.local.toContact
+import com.example.ft_hangouts.data.local.toMessage
+import com.example.ft_hangouts.data.model.Message
 
-@Dao
-interface MessageDao {
-    @Query("SELECT * FROM messages")
-    suspend fun selectAllMessages(): List<Message>
+class MessageDao(private val dbHelper: SQLiteOpenHelper) {
+    fun selectAll(): Result<List<Message>> {
+        return try {
+            val db = dbHelper.readableDatabase
+            val messages = mutableListOf<Message>()
 
-    @Query("SELECT * FROM messages WHERE id == :messageId")
-    suspend fun selectMessageById(messageId: Int): Message
-
-    @Insert
-    suspend fun insertMessage(vararg message: Message)
-
-    @Update
-    suspend fun updateMessage(vararg message: Message)
-
-    @Delete
-    suspend fun deleteMessage(vararg message: Message)
+            db.query(
+                ContactEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                "${ContactEntry.COLUMN_LAST_MSG} DESC"
+            ).use { cursor ->
+                while (cursor.moveToNext()) {
+                    messages.add(cursor.toMessage())
+                }
+            }
+            Result.success(messages)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

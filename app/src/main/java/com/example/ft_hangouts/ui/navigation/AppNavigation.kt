@@ -13,7 +13,7 @@ import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.addContact.AddContactScreen
 import com.example.ft_hangouts.ui.call.CallScreen
 import com.example.ft_hangouts.ui.chats.ChatsScreen
-import com.example.ft_hangouts.ui.screens.MessagesScreen
+import com.example.ft_hangouts.ui.message.MessagesScreen
 import com.example.ft_hangouts.ui.screens.SettingsScreen
 
 @Composable

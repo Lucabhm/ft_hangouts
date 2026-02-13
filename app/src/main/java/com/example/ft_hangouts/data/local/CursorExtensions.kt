@@ -6,6 +6,8 @@ import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Call
 import com.example.ft_hangouts.data.local.ContactContract.CallEntry
+import com.example.ft_hangouts.data.model.Message
+import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 
 fun Cursor.toContact() = Contact(
     id = getLong(getColumnIndexOrThrow(BaseColumns._ID)),
@@ -23,4 +25,12 @@ fun Cursor.toCall() = Call(
             CallEntry.COLUMN_CONTACT_ID
         )
     ), createdAt = getString(getColumnIndexOrThrow(CallEntry.COLUMN_CREATED_AT))
+)
+
+fun Cursor.toMessage() = Message(
+    id = getLong(getColumnIndexOrThrow(BaseColumns._ID)),
+    message = getString(getColumnIndexOrThrow(MessageEntry.COLUMN_MESSAGE)),
+    fromId = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_FROM_ID)),
+    sendToId = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_SEND_TO_ID)),
+    createdAt = getString(getColumnIndexOrThrow(MessageEntry.COLUMN_CREATED_AT))
 )
