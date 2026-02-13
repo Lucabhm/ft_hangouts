@@ -1,4 +1,4 @@
-package com.example.ft_hangouts.ui.chats
+package com.example.ft_hangouts.ui.call
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,32 +12,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.repository.UIResult
-import com.example.ft_hangouts.ui.components.ContactCard
-import com.example.ft_hangouts.data.model.Contact
+import com.example.ft_hangouts.data.model.Call
+import com.example.ft_hangouts.ui.components.CallCard
 
 @Composable
-fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel) {
+fun CallScreen(modifier: Modifier = Modifier, viewModel: CallViewModel) {
     LaunchedEffect(Unit) {
-        viewModel.loadContacts()
+        viewModel.loadCalls()
     }
 
-    val state by viewModel.data.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     when (state) {
         is UIResult.Loading -> {}
         is UIResult.Success -> {
-            val contacts = (state as UIResult.Success<List<Contact>>).data
+            val calls = (state as UIResult.Success<List<Call>>).data
+
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
                     .padding(5.dp),
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                items(items = contacts, itemContent = { item ->
-                    ContactCard(item)
-                })
+                items(
+                    items = calls,
+                    itemContent = { item -> CallCard(item) })
             }
         }
+
         is UIResult.NotFound -> {}
         else -> {}
     }

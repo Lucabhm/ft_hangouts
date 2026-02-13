@@ -1,4 +1,4 @@
-package com.example.ft_hangouts.ui.screens
+package com.example.ft_hangouts.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -23,23 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.example.ft_hangouts.data.model.Call
 
 @Composable
-fun CallScreen(modifier: Modifier = Modifier) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(5.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-        items(
-            items = calls,
-            itemContent = { item -> CallCard(item) })
-    }
-}
-
-@Composable
-fun CallCard(call: Calls, modifier: Modifier = Modifier) {
+fun CallCard(call: Call, modifier: Modifier = Modifier) {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val outputFormat = SimpleDateFormat("dd. MMM yyyy", Locale.getDefault())
 
