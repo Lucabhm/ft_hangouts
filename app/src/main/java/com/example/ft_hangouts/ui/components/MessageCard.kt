@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ft_hangouts.data.model.Messages
+import com.example.ft_hangouts.data.model.Message
 
 @Composable
-fun MessageCard(modifier: Modifier = Modifier, messageInfo: Messages) {
+fun MessageCard(modifier: Modifier = Modifier, messageInfo: Message) {
     Row(
         modifier = modifier.fillMaxWidth().padding(5.dp),
-        horizontalArrangement = if (messageInfo.fromId != 0) Arrangement.Start else Arrangement.End
+        horizontalArrangement = if (messageInfo.fromId != 0L) Arrangement.Start else Arrangement.End
     ) {
         Card() {
             Column(modifier = Modifier
