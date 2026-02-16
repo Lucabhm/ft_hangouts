@@ -6,12 +6,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 
 @Composable
-fun AddContactButton(navController: NavController,) {
+fun AddContactButton(onClick: () -> Unit) {
     SmallFloatingActionButton(
-        onClick = { navController.navigate("createContact") },
+        onClick = onClick,
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.primary
     ) {

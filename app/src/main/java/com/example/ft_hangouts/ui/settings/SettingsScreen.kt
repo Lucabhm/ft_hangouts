@@ -1,4 +1,4 @@
-package com.example.ft_hangouts.ui.screens
+package com.example.ft_hangouts.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,16 +8,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.ft_hangouts.ui.components.HeaderColorCard
 import com.example.ft_hangouts.ui.components.LanguageCard
 
-@Preview
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier, navController: NavController) {
+fun SettingsScreen(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
+
     Column(
         modifier = modifier
             .fillMaxSize()

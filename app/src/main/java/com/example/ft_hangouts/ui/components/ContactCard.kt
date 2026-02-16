@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.model.Contact
 
 @Composable
-fun ContactCard(contact: Contact, modifier: Modifier = Modifier) {
+fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> Unit) {
     Card(
         modifier
             .fillMaxWidth()
-            .height(100.dp).clickable(onClick = {})
+            .height(100.dp).clickable(onClick = onClick)
     ) {
         Row(
             modifier = modifier

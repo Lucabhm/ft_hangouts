@@ -16,7 +16,7 @@ import com.example.ft_hangouts.ui.components.ContactCard
 import com.example.ft_hangouts.data.model.Contact
 
 @Composable
-fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel) {
+fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel, onClick: (Contact) -> Unit) {
     LaunchedEffect(Unit) {
         viewModel.loadContacts()
     }
@@ -34,10 +34,11 @@ fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel) {
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(items = contacts, itemContent = { item ->
-                    ContactCard(item)
+                    ContactCard(contact = item, onClick = { onClick(item) })
                 })
             }
         }
+
         is UIResult.NotFound -> {}
         else -> {}
     }

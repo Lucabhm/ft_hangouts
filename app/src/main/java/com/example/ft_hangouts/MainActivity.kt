@@ -4,28 +4,38 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.core.view.WindowCompat
-import com.example.ft_hangouts.data.local.AppDatabaseHelper
-import com.example.ft_hangouts.data.local.dao.ContactDao
-import com.example.ft_hangouts.data.repository.ContactRepository
-import com.example.ft_hangouts.ui.chats.ChatsScreen
+import androidx.compose.ui.Modifier
+import com.example.ft_hangouts.data.local.AppContainer
+import com.example.ft_hangouts.ui.addContact.AddContactViewModel
+import com.example.ft_hangouts.ui.call.CallViewModel
 import com.example.ft_hangouts.ui.chats.ChatsViewModel
+import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.navigation.AppNavigation
+import com.example.ft_hangouts.ui.navigation.NavViewModel
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 
 class MainActivity : ComponentActivity() {
+    private val _container = AppContainer(this)
+    private val navViewModel = NavViewModel()
+    private val chatViewModel = ChatsViewModel(_container.contactRepo)
+    private val callViewModel = CallViewModel(_container.callRepo)
+    private val messageViewModel = MessageViewModel(_container.messageRepo)
+    private val addContactViewModel = AddContactViewModel(_container.contactRepo)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val db = AppDatabaseHelper(this)
-        val contactDao = ContactDao(db)
-        val contactRepository = ContactRepository(contactDao)
-        val contactViewModel = ChatsViewModel(contactRepository)
-
         setContent {
             Ft_hangoutsTheme {
-                ChatsScreen(viewModel = contactViewModel)
+                AppNavigation(
+                    modifier = Modifier,
+                    navViewModel,
+                    chatViewModel,
+                    messageViewModel,
+                    callViewModel,
+                    addContactViewModel
+                )
             }
         }
     }

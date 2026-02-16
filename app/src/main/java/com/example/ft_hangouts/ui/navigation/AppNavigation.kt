@@ -7,54 +7,70 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.example.ft_hangouts.ui.addContact.AddContactScreen
+import com.example.ft_hangouts.ui.addContact.AddContactViewModel
+import com.example.ft_hangouts.ui.call.CallScreen
+import com.example.ft_hangouts.ui.call.CallViewModel
+import com.example.ft_hangouts.ui.chats.ChatsScreen
+import com.example.ft_hangouts.ui.chats.ChatsViewModel
 import com.example.ft_hangouts.ui.components.AddContactButton
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
-import com.example.ft_hangouts.ui.addContact.AddContactScreen
-import com.example.ft_hangouts.ui.call.CallScreen
-import com.example.ft_hangouts.ui.chats.ChatsScreen
+import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.message.MessagesScreen
-import com.example.ft_hangouts.ui.screens.SettingsScreen
+import com.example.ft_hangouts.ui.settings.SettingsScreen
 
 @Composable
-fun AppNavigation(viewModel: ContactViewModel = viewModel()) {
-    val navController = rememberNavController()
-    val getRoute = navController.currentBackStackEntryAsState()
-    val currentRoute = getRoute.value?.destination?.route
-    val hideBar = listOf("CreateContact", "Messages")
-    val checkHideBar = hideBar.any { currentRoute?.startsWith(it) == true }
-    val checkContact by viewModel.selectedContact.collectAsState()
+fun AppNavigation(
+    modifier: Modifier = Modifier,
+    navViewModel: NavViewModel,
+    chatsViewModel: ChatsViewModel,
+    messageViewModel: MessageViewModel,
+    callViewModel: CallViewModel,
+    addContactViewModel: AddContactViewModel
+) {
+    val state by navViewModel.currentScreen.collectAsState()
+
+    val showTopBar = state !is NavResult.AddContactScreen && state !is NavResult.ChatScreen
+    val showFloatingButton = state is NavResult.ContactsScreen
 
     Scaffold(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         bottomBar = {
-            if (!checkHideBar) {
-                BottomBar(navController)
+            if (showTopBar) {
+                BottomBar(state)
             }
         },
-        topBar = { if (checkContact == null) TopBar(navController) },
+        topBar = { TopBar(currentRoute = state, goBack = { navViewModel.goBack() }) },
         floatingActionButton = {
-            if (currentRoute?.startsWith("Chats") == true) AddContactButton(
-                navController
-            )
+            if (showFloatingButton) AddContactButton(onClick = { navViewModel.navigateTo(NavResult.AddContactScreen) })
         }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "Chats",
-            modifier = Modifier.padding((innerPadding))
-        ) {
-            composable("Chats") { ChatsScreen(navController) }
-            composable("Calls") { CallScreen() }
-            composable("Settings") { SettingsScreen(navController = navController) }
-            composable("CreateContact") { AddContactScreen() }
-            composable(
-                "Messages/{image}/{userName}", arguments = listOf(
-                    navArgument("image") { type = NavType.IntType },
-                    navArgument("userName") { type = NavType.StringType })
-            ) {
-                MessagesScreen()
+        when (state) {
+            is NavResult.ContactsScreen -> {
+                ChatsScreen(Modifier.padding((innerPadding)), chatsViewModel, onClick = { contact ->
+                    navViewModel.navigateTo(
+                        NavResult.ChatScreen(contact)
+                    )
+                })
+            }
+
+            is NavResult.ChatScreen -> {
+                val contact = (state as NavResult.ChatScreen).contact
+                MessagesScreen(Modifier.padding((innerPadding)), messageViewModel)
+            }
+
+            is NavResult.CallScreen -> {
+                CallScreen(Modifier.padding((innerPadding)), callViewModel)
+            }
+
+            is NavResult.AddContactScreen -> {
+                AddContactScreen(Modifier.padding((innerPadding)), addContactViewModel)
+            }
+
+            is NavResult.SettingsScreen -> {
+                SettingsScreen(Modifier.padding((innerPadding)))
             }
         }
     }
