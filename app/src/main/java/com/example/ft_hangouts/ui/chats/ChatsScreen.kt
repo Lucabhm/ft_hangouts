@@ -43,7 +43,6 @@ fun ChatsScreen(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(items = contacts, itemContent = { item ->
-                    Log.d("", "test ${item.id}, ${item.firstName}, ${item.lastName}, ${item.phoneNumber}, ${item.profilePicture}")
                     ContactCard(contact = item, onClick = { onClick(item) })
                 })
             }

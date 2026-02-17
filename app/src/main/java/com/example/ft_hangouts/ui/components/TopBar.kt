@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.navigation.NavResult
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,18 +46,33 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
                         .padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (contact.profilePicture != null && contact.profilePicture != 0) {
-                        Image(
-                            painter = painterResource(id = contact.profilePicture),
-                            contentDescription = contact.firstName,
-                            modifier = modifier
-                                .size(50.dp)
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
+                    var pic = contact.profilePicture
+                    if (pic == null || pic == 0)
+                        pic = R.drawable.cr
+
+                    Image(
+                        painter = painterResource(id = pic),
+                        contentDescription = contact.firstName,
+                        modifier = modifier
+                            .size(50.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
                     Spacer(modifier = modifier.width(12.dp))
-                    Text(text = contact.firstName ?: "")
+                    val firstName = contact.firstName
+                    val lastName = contact.lastName
+
+                    if ((firstName != null && !firstName.isBlank()) || (lastName != null && !lastName.isBlank())) {
+                        if (firstName != null && !firstName.isBlank()) {
+                            Text(text = firstName)
+                            if (lastName != null && !lastName.isBlank())
+                                Spacer(modifier = modifier.width(5.dp))
+                        }
+                        if (lastName != null && !lastName.isBlank())
+                            Text(text = lastName)
+                    } else {
+                        Text(text = contact.phoneNumber)
+                    }
                 }
             }
         },

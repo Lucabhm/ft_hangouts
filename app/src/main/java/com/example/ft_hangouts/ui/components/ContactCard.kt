@@ -49,7 +49,20 @@ fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> 
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = modifier.width(12.dp))
-            Text(text = contact.firstName ?: contact.phoneNumber)
+            val firstName = contact.firstName
+            val lastName = contact.lastName
+
+            if ((firstName != null && !firstName.isBlank()) || (lastName != null && !lastName.isBlank())) {
+                if (firstName != null && !firstName.isBlank()) {
+                    Text(text = firstName)
+                    if (lastName != null && !lastName.isBlank())
+                        Spacer(modifier = modifier.width(5.dp))
+                }
+                if (lastName != null && !lastName.isBlank())
+                    Text(text = lastName)
+            } else {
+                Text(text = contact.phoneNumber)
+            }
         }
     }
 }
