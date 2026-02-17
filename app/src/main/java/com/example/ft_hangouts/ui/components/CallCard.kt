@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.example.ft_hangouts.data.model.Call
+import com.example.ft_hangouts.R
 
 @Composable
 fun CallCard(call: Call, modifier: Modifier = Modifier) {
@@ -46,8 +47,8 @@ fun CallCard(call: Call, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = call.contact.profilePicture),
-                contentDescription = call.contact.name,
+                painter = painterResource(id = call.contact?.profilePicture ?: R.drawable.cr),
+                contentDescription = call.contact?.firstName,
                 modifier = modifier
                     .size(64.dp)
                     .clip(CircleShape),
@@ -58,7 +59,7 @@ fun CallCard(call: Call, modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = call.contact.name)
+                Text(text = call.contact?.firstName ?: "")
                 Spacer(modifier = modifier.weight(1f))
                 Text(text = formatted)
             }

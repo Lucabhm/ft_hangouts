@@ -39,7 +39,7 @@ fun AppNavigation(
             .fillMaxSize(),
         bottomBar = {
             if (showTopBar) {
-                BottomBar(state)
+                BottomBar(state, onClick = {screen -> navViewModel.changeStack(screen)})
             }
         },
         topBar = { TopBar(currentRoute = state, goBack = { navViewModel.goBack() }) },

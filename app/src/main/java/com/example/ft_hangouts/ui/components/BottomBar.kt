@@ -9,7 +9,7 @@ import com.example.ft_hangouts.data.model.BottomNavItems
 import com.example.ft_hangouts.ui.navigation.NavResult
 
 @Composable
-fun BottomBar(currentRoute: NavResult) {
+fun BottomBar(currentRoute: NavResult, onClick: (NavResult) -> Unit) {
     val items = listOf(
         BottomNavItems.Chats,
         BottomNavItems.Calls,
@@ -20,9 +20,7 @@ fun BottomBar(currentRoute: NavResult) {
         items.forEach { item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,
-                onClick = {
-
-                },
+                onClick = { onClick(item.route) },
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(item.label) }
             )

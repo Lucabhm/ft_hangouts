@@ -20,11 +20,17 @@ fun Cursor.toContact() = Contact(
 )
 
 fun Cursor.toCall() = Call(
-    id = getLong(getColumnIndexOrThrow(BaseColumns._ID)), contactId = getLong(
-        getColumnIndexOrThrow(
-            CallEntry.COLUMN_CONTACT_ID
-        )
-    ), createdAt = getString(getColumnIndexOrThrow(CallEntry.COLUMN_CREATED_AT))
+    id = getLong(getColumnIndexOrThrow("call_id")),
+    contact = Contact(
+        id = getLong(getColumnIndexOrThrow("contact_id")),
+        firstName = getString(getColumnIndexOrThrow("first_name")),
+        lastName = getString(getColumnIndexOrThrow("last_name")),
+        phoneNumber = getString(getColumnIndexOrThrow("phone_number")),
+        profilePicture = getInt(getColumnIndexOrThrow("profile_picture")),
+        lastMsg = getString(getColumnIndexOrThrow("last_msg")),
+        createdAt = getString(getColumnIndexOrThrow("created_at"))
+    ),
+    createdAt = getString(getColumnIndexOrThrow("call_created_at"))
 )
 
 fun Cursor.toMessage() = Message(

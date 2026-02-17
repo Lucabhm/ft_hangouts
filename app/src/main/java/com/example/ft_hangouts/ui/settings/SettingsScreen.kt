@@ -22,7 +22,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
             .padding(5.dp)
             .verticalScroll(scrollState), verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        HeaderColorCard(modifier, navController)
+        HeaderColorCard(modifier)
         LanguageCard(modifier)
     }
 }

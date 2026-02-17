@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lbohm.ft_hangouts"
+    namespace = "com.example.ft_hangouts"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lbohm.ft_hangouts"
+        applicationId = "com.example.ft_hangouts"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

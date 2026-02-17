@@ -1,10 +1,12 @@
 package com.example.ft_hangouts.ui.chats
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,7 +18,11 @@ import com.example.ft_hangouts.ui.components.ContactCard
 import com.example.ft_hangouts.data.model.Contact
 
 @Composable
-fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel, onClick: (Contact) -> Unit) {
+fun ChatsScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ChatsViewModel,
+    onClick: (Contact) -> Unit
+) {
     LaunchedEffect(Unit) {
         viewModel.loadContacts()
     }
@@ -24,7 +30,10 @@ fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel, onClic
     val state by viewModel.data.collectAsState()
 
     when (state) {
-        is UIResult.Loading -> {}
+        is UIResult.Loading -> {
+            Text("Loading")
+        }
+
         is UIResult.Success -> {
             val contacts = (state as UIResult.Success<List<Contact>>).data
             LazyColumn(
@@ -34,12 +43,18 @@ fun ChatsScreen(modifier: Modifier = Modifier, viewModel: ChatsViewModel, onClic
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(items = contacts, itemContent = { item ->
+                    Log.d("", "test ${item.id}, ${item.firstName}, ${item.lastName}, ${item.phoneNumber}, ${item.profilePicture}")
                     ContactCard(contact = item, onClick = { onClick(item) })
                 })
             }
         }
 
-        is UIResult.NotFound -> {}
-        else -> {}
+        is UIResult.NotFound -> {
+            Text("NotFound")
+        }
+
+        is UIResult.DataBaseError -> {
+            Text("DB Error")
+        }
     }
 }

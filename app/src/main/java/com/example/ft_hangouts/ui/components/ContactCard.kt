@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.ui.components
 
-import com.example.ft_hangouts.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -22,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.model.Contact
+import com.example.ft_hangouts.R
 
 @Composable
 fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> Unit) {
@@ -36,8 +36,12 @@ fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> 
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            var pic = contact.profilePicture
+            if (pic == 0 || pic == null)
+                pic = R.drawable.cr
+
             Image(
-                painter = painterResource(id = contact.profilePicture ?: R.drawable.cr),
+                painter = painterResource(id = pic),
                 contentDescription = contact.firstName,
                 modifier = modifier
                     .size(64.dp)
