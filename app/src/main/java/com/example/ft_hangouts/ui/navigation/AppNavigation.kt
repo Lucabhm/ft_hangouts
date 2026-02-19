@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -58,7 +59,7 @@ fun AppNavigation(
 
             is NavResult.ChatScreen -> {
                 val contact = (state as NavResult.ChatScreen).contact
-                MessagesScreen(Modifier.padding((innerPadding)), messageViewModel)
+                MessagesScreen(Modifier.padding((innerPadding)), messageViewModel, contact)
             }
 
             is NavResult.CallScreen -> {

@@ -8,7 +8,7 @@ import com.example.ft_hangouts.data.local.toMessage
 import com.example.ft_hangouts.data.model.Message
 
 class MessageDao(private val dbHelper: SQLiteOpenHelper) {
-    fun selectAll(): Result<List<Message>> {
+    fun selectAll(contactId: Long): Result<List<Message>> {
         return try {
             val db = dbHelper.readableDatabase
             val messages = mutableListOf<Message>()
@@ -16,8 +16,8 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
             db.query(
                 MessageEntry.TABLE_NAME,
                 null,
-                null,
-                null,
+                "${MessageEntry.COLUMN_SEND_TO_ID} = ? OR ${MessageEntry.COLUMN_FROM_ID} = ?",
+                arrayOf(contactId.toString()),
                 null,
                 null,
                 "${MessageEntry.COLUMN_CREATED_AT} DESC"

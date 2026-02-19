@@ -2,6 +2,7 @@ package com.example.ft_hangouts.ui.message
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.repository.MessageRepository
 import com.example.ft_hangouts.data.repository.UIResult
@@ -11,11 +12,24 @@ import kotlinx.coroutines.launch
 
 class MessageViewModel(private val messageRepository: MessageRepository) : ViewModel() {
     private val _state = MutableStateFlow<UIResult<List<Message>>>(UIResult.Loading)
+    private val _message = MutableStateFlow<UIResult<Long>>(UIResult.Loading)
     val state: StateFlow<UIResult<List<Message>>> = _state
 
-    fun loadMessages() {
+    val messageState: StateFlow<UIResult<Long>> = _message
+
+    fun loadMessages(contact: Contact) {
         viewModelScope.launch {
-            _state.value = messageRepository.getAllMessages()
+            if (contact.id != null)
+                _state.value = messageRepository.getAllMessages(contact.id)
         }
     }
+
+    fun sendMessage(input: String, sendTo: Long) {
+        viewModelScope.launch {
+            val message = Message(message = input, fromId = 0L, sendToId = sendTo)
+
+            _message.value = messageRepository.createMessage(message)
+        }
+    }
+
 }
