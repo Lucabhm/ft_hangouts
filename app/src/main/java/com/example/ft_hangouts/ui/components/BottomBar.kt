@@ -6,7 +6,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.ft_hangouts.data.model.BottomNavItems
-import com.example.ft_hangouts.ui.navigation.NavResult
+import com.example.ft_hangouts.data.model.NavResult
 
 @Composable
 fun BottomBar(currentRoute: NavResult, onClick: (NavResult) -> Unit) {

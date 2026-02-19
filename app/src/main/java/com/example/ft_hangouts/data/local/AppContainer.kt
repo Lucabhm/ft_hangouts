@@ -7,6 +7,7 @@ import com.example.ft_hangouts.data.local.dao.MessageDao
 import com.example.ft_hangouts.data.repository.CallRepository
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.repository.MessageRepository
+import com.example.ft_hangouts.data.repository.SMSRepository
 
 class AppContainer(context: Context) {
     private val _db = AppDatabaseHelper(context)
@@ -16,4 +17,6 @@ class AppContainer(context: Context) {
     val contactRepo = ContactRepository(_contactDao)
     val callRepo = CallRepository(_callDao)
     val messageRepo = MessageRepository(_messageDao)
+
+    val smsRepository = SMSRepository(context)
 }

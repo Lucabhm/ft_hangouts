@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.ft_hangouts.ui.navigation.NavResult
+import com.example.ft_hangouts.data.model.NavResult
 
 
 sealed class BottomNavItems(val route: NavResult, val icon: ImageVector, val label: String) {

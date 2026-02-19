@@ -26,7 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.ui.navigation.NavResult
+import com.example.ft_hangouts.data.model.NavResult
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

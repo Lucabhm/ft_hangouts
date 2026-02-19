@@ -89,7 +89,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
                         keyboardActions = KeyboardActions(
                             onSend = {
                                 if (contact.id != null)
-                                    viewModel.sendMessage(input.value, contact.id)
+                                    viewModel.sendMessage(input.value, contact)
                                 input.value = ""
                             }
                         )
@@ -98,7 +98,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
                     IconButton(
                         onClick = {
                             if (contact.id != null)
-                                viewModel.sendMessage(input.value, contact.id)
+                                viewModel.sendMessage(input.value, contact)
                             input.value = ""
                         }
                     ) {
