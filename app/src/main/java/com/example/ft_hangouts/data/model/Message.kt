@@ -5,5 +5,5 @@ data class Message(
     val message: String,
     val fromId: Long,
     val sendToId: Long,
-    val createdAt: String? = null
+    val createdAt: String
 )

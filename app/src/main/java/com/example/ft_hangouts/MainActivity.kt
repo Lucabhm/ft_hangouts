@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        applicationContext.deleteDatabase("Chat.db")
 
         setContent {
             Ft_hangoutsTheme {

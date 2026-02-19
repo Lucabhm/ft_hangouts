@@ -20,7 +20,7 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
                 arrayOf(contactId.toString()),
                 null,
                 null,
-                "${MessageEntry.COLUMN_CREATED_AT} DESC"
+                "${MessageEntry.COLUMN_CREATED_AT} ASC"
             ).use { cursor ->
                 while (cursor.moveToNext()) {
                     messages.add(cursor.toMessage())

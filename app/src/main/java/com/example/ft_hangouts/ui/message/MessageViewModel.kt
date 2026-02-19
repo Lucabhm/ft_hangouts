@@ -9,6 +9,9 @@ import com.example.ft_hangouts.data.repository.UIResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MessageViewModel(private val messageRepository: MessageRepository) : ViewModel() {
     private val _state = MutableStateFlow<UIResult<List<Message>>>(UIResult.Loading)
@@ -26,7 +29,9 @@ class MessageViewModel(private val messageRepository: MessageRepository) : ViewM
 
     fun sendMessage(input: String, sendTo: Long) {
         viewModelScope.launch {
-            val message = Message(message = input, fromId = 0L, sendToId = sendTo)
+            val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
+            val current = sdf.format(Date())
+            val message = Message(message = input, fromId = 0L, sendToId = sendTo, createdAt = current)
 
             _message.value = messageRepository.createMessage(message)
         }

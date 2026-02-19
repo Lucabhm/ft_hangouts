@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.ui.message
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +11,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -40,6 +38,16 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
     }
 
     val state by viewModel.state.collectAsState()
+    val msgState by viewModel.messageState.collectAsState()
+
+    when (msgState) {
+        is UIResult.Loading -> {}
+        is UIResult.Success -> {
+            viewModel.loadMessages(contact)
+        }
+        is UIResult.NotFound -> {}
+        is UIResult.DataBaseError -> {}
+    }
 
     when (state) {
         is UIResult.Loading -> {
