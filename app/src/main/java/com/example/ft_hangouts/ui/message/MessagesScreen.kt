@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -35,31 +34,17 @@ import com.example.ft_hangouts.ui.components.MessageCard
 
 @Composable
 fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, contact: Contact) {
-    LaunchedEffect(Unit) {
+    val state by remember(contact) {
         viewModel.loadMessages(contact)
-    }
-
-    val state by viewModel.state.collectAsState()
-    val msgState by viewModel.messageState.collectAsState()
-
-    when (msgState) {
-        is UIResult.Loading -> {}
-        is UIResult.Success -> {
-            viewModel.loadMessages(contact)
-        }
-        is UIResult.NotFound -> {}
-        is UIResult.DataBaseError -> {}
-    }
+    }.collectAsState()
 
     when (state) {
         is UIResult.Loading -> {
             Log.d("test", "Loading")
-            Text("Loading")
         }
 
         is UIResult.Success -> {
             val messages = (state as UIResult.Success<List<Message>>).data
-            Log.d("test", "messages $messages")
             val input = remember { mutableStateOf("") }
 
             Column(
@@ -117,12 +102,10 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
 
         is UIResult.NotFound -> {
             Log.d("test", "NotFound")
-            Text("Not Found")
         }
 
         is UIResult.DataBaseError -> {
             Log.d("test", "DataBaseError")
-            Text("DataBaseError")
         }
     }
 }
