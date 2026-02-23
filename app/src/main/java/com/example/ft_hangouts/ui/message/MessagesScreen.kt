@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.message
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -51,11 +53,13 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
 
     when (state) {
         is UIResult.Loading -> {
+            Log.d("test", "Loading")
             Text("Loading")
         }
 
         is UIResult.Success -> {
             val messages = (state as UIResult.Success<List<Message>>).data
+            Log.d("test", "messages $messages")
             val input = remember { mutableStateOf("") }
 
             Column(
@@ -112,10 +116,12 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
         }
 
         is UIResult.NotFound -> {
+            Log.d("test", "NotFound")
             Text("Not Found")
         }
 
         is UIResult.DataBaseError -> {
+            Log.d("test", "DataBaseError")
             Text("DataBaseError")
         }
     }

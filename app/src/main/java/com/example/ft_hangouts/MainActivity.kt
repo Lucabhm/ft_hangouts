@@ -5,31 +5,26 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
-import com.example.ft_hangouts.data.local.AppContainer
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
 import com.example.ft_hangouts.ui.call.CallViewModel
 import com.example.ft_hangouts.ui.chats.ChatsViewModel
 import com.example.ft_hangouts.ui.message.MessageViewModel
-import com.example.ft_hangouts.ui.message.SmsReceiver
 import com.example.ft_hangouts.ui.navigation.AppNavigation
 import com.example.ft_hangouts.ui.navigation.NavViewModel
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
-import java.util.jar.Manifest
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
-    private val _container = AppContainer(this)
-    private val _navViewModel = NavViewModel()
-    private val _chatViewModel = ChatsViewModel(_container.contactRepo)
-    private val _callViewModel = CallViewModel(_container.callRepo)
-    private val _messageViewModel =
-        MessageViewModel(_container.messageRepo, _container.smsRepository)
-    private val _addContactViewModel = AddContactViewModel(_container.contactRepo)
+    private val container by lazy { (application as FtHangouts).container }
 
-    private val _smsReceiver = SmsReceiver()
+    private val _navViewModel = NavViewModel()
+    private val _chatViewModel by lazy { ChatsViewModel(container.contactRepo) }
+    private val _callViewModel by lazy { CallViewModel(container.callRepo) }
+    private val _messageViewModel by lazy { MessageViewModel(container.messageRepo, container.smsRepository) }
+    private val _addContactViewModel by lazy { AddContactViewModel(container.contactRepo) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -39,6 +34,7 @@ class MainActivity : ComponentActivity() {
                 android.Manifest.permission.BROADCAST_SMS
             ),
             1
+
         )
 
         setContent {

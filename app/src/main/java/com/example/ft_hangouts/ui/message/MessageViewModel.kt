@@ -36,9 +36,7 @@ class MessageViewModel(private val messageRepository: MessageRepository, private
             val message = Message(message = input, fromId = 0L, sendToId = sendTo.id, createdAt = current)
 
             smsRepository.sendSms(sendTo.phoneNumber, input)
-
             _message.value = messageRepository.createMessage(message)
         }
     }
-
 }

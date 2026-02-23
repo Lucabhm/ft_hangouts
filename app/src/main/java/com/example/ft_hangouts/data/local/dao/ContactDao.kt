@@ -56,6 +56,30 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
+    fun selectByPhoneNumber(phoneNumber: String): Result<Contact> {
+        return try {
+            val db = dbHelper.readableDatabase
+
+            db.query(
+                ContactEntry.TABLE_NAME,
+                null,
+                "${ContactEntry.COLUMN_PHONE_NUMBER} = ?",
+                arrayOf(phoneNumber),
+                null,
+                null,
+                null
+            ).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    Result.success(cursor.toContact())
+                } else {
+                    Result.failure(NoSuchElementException("No Contact found"))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     fun insert(contact: Contact): Result<Long> {
         return try {
             val db = dbHelper.writableDatabase

@@ -30,6 +30,19 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
+    fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {
+        return contactDao.selectByPhoneNumber(phoneNumber)
+            .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
+                when (it) {
+                    is NoSuchElementException -> UIResult.NotFound(
+                        it.message ?: ""
+                    )
+
+                    else -> UIResult.DataBaseError
+                }
+            })
+    }
+
     fun createContact(
         contact: Contact
     ): UIResult<Long> {

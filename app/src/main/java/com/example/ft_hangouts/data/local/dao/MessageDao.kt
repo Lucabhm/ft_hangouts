@@ -12,12 +12,15 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
         return try {
             val db = dbHelper.readableDatabase
             val messages = mutableListOf<Message>()
+            val selection =
+                "(${MessageEntry.COLUMN_FROM_ID} = ? AND ${MessageEntry.COLUMN_SEND_TO_ID} = ?) " +
+                        "OR (${MessageEntry.COLUMN_FROM_ID} = ? AND ${MessageEntry.COLUMN_SEND_TO_ID} = ?)"
 
             db.query(
                 MessageEntry.TABLE_NAME,
                 null,
-                "${MessageEntry.COLUMN_SEND_TO_ID} = ? OR ${MessageEntry.COLUMN_FROM_ID} = ?",
-                arrayOf(contactId.toString()),
+                selection,
+                arrayOf("0", contactId.toString(), contactId.toString(), "0"),
                 null,
                 null,
                 "${MessageEntry.COLUMN_CREATED_AT} ASC"
