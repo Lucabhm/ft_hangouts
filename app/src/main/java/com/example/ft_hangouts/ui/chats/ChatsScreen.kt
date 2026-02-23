@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.repository.UIResult
@@ -23,11 +24,9 @@ fun ChatsScreen(
     viewModel: ChatsViewModel,
     onClick: (Contact) -> Unit
 ) {
-    LaunchedEffect(Unit) {
+    val state by remember {
         viewModel.loadContacts()
-    }
-
-    val state by viewModel.data.collectAsState()
+    }.collectAsState()
 
     when (state) {
         is UIResult.Loading -> {

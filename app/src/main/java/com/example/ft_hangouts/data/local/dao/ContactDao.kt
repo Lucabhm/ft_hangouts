@@ -6,6 +6,8 @@ import android.provider.BaseColumns
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.toContact
+import com.example.ft_hangouts.data.repository.UIResult
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 class ContactDao(private val dbHelper: SQLiteOpenHelper) {
     fun selectAll(): Result<List<Contact>> {

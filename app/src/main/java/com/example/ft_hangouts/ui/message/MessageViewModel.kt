@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
+import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.repository.MessageRepository
 import com.example.ft_hangouts.data.repository.SMSRepository
 import com.example.ft_hangouts.data.repository.UIResult
@@ -17,14 +18,15 @@ import java.util.Locale
 
 class MessageViewModel(
     private val messageRepository: MessageRepository,
+    private val contactRepository: ContactRepository,
     private val smsRepository: SMSRepository
 ) : ViewModel() {
     fun loadMessages(contact: Contact): StateFlow<UIResult<List<Message>>> {
-            return messageRepository.getAllMessages(contact.id!!).stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = UIResult.Loading
-            )
+        return messageRepository.getAllMessages(contact.id!!).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UIResult.Loading
+        )
     }
 
     fun sendMessage(input: String, sendTo: Contact) {
@@ -38,6 +40,7 @@ class MessageViewModel(
 
             smsRepository.sendSms(sendTo.phoneNumber, input)
             messageRepository.createMessage(message)
+            contactRepository.updateContact(sendTo.id, null, null, null, null, current)
         }
     }
 }

@@ -20,7 +20,13 @@ class MainActivity : ComponentActivity() {
     private val _navViewModel = NavViewModel()
     private val _chatViewModel by lazy { ChatsViewModel(container.contactRepo) }
     private val _callViewModel by lazy { CallViewModel(container.callRepo) }
-    private val _messageViewModel by lazy { MessageViewModel(container.messageRepo, container.smsRepository) }
+    private val _messageViewModel by lazy {
+        MessageViewModel(
+            container.messageRepo,
+            container.contactRepo,
+            container.smsRepository
+        )
+    }
     private val _addContactViewModel by lazy { AddContactViewModel(container.contactRepo) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,11 +2,18 @@ package com.example.ft_hangouts.data.repository
 
 import com.example.ft_hangouts.data.local.dao.ContactDao
 import com.example.ft_hangouts.data.model.Contact
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.map
 import kotlin.fold
 
 class ContactRepository(private val contactDao: ContactDao) {
-    fun getAllContacts(): UIResult<List<Contact>> {
-        return contactDao.selectAll().fold(onSuccess = { UIResult.Success(it) }, onFailure = {
+    private val _contactUpdate = MutableSharedFlow<Unit>(replay = 1).apply {
+        tryEmit(Unit)
+    }
+
+    fun getAllContacts(): Flow<UIResult<List<Contact>>> = _contactUpdate.map {
+        contactDao.selectAll().fold(onSuccess = { UIResult.Success(it) }, onFailure = {
             when (it) {
                 is NoSuchElementException -> UIResult.NotFound(
                     it.message ?: ""
@@ -32,7 +39,10 @@ class ContactRepository(private val contactDao: ContactDao) {
 
     fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {
         return contactDao.selectByPhoneNumber(phoneNumber)
-            .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
+            .fold(onSuccess = {
+                _contactUpdate.tryEmit(Unit)
+                UIResult.Success(it)
+            }, onFailure = {
                 when (it) {
                     is NoSuchElementException -> UIResult.NotFound(
                         it.message ?: ""
@@ -47,7 +57,10 @@ class ContactRepository(private val contactDao: ContactDao) {
         contact: Contact
     ): UIResult<Long> {
         return contactDao.insert(contact).fold(
-            onSuccess = { UIResult.Success(it) },
+            onSuccess = {
+                _contactUpdate.tryEmit(Unit)
+                UIResult.Success(it)
+            },
             onFailure = {
                 when (it) {
                     is NoSuchElementException -> UIResult.NotFound(
@@ -76,6 +89,7 @@ class ContactRepository(private val contactDao: ContactDao) {
             lastMsg
         ).fold(
             onSuccess = {
+                _contactUpdate.tryEmit(Unit)
                 UIResult.Success(it)
             },
             onFailure = {

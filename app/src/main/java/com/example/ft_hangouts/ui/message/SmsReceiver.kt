@@ -32,18 +32,26 @@ class SmsReceiver() : BroadcastReceiver() {
                         is UIResult.Loading -> {}
                         is UIResult.Success<Contact> -> {
                             val contact = check.data
+                            val date = Date(info.timestampMillis)
+                            val format =
+                                SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
+                            val formattedDate = format.format(date)
+
+                            contactRepository.updateContact(
+                                contact.id!!,
+                                null,
+                                null,
+                                null,
+                                null,
+                                formattedDate
+                            )
 
                             for (sms in messages) {
-                                val date = Date(sms.timestampMillis)
-                                val format =
-                                    SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-                                val formattedDate = format.format(date)
-
                                 messageRepository.createMessage(
                                     Message(
                                         null,
                                         sms.messageBody,
-                                        contact.id!!,
+                                        contact.id,
                                         0,
                                         formattedDate
                                     )
@@ -62,7 +70,7 @@ class SmsReceiver() : BroadcastReceiver() {
                                     null,
                                     phoneNumber,
                                     null,
-                                    null,
+                                    current,
                                     current
                                 )
                             )
@@ -71,16 +79,15 @@ class SmsReceiver() : BroadcastReceiver() {
                                 is UIResult.Loading -> {}
                                 is UIResult.Success -> {
                                     val id = contactId.data
+                                    val date = Date(info.timestampMillis)
+                                    val format =
+                                        SimpleDateFormat(
+                                            "dd.MM.yyyy HH:mm:ss",
+                                            Locale.getDefault()
+                                        )
+                                    val formattedDate = format.format(date)
 
                                     for (sms in messages) {
-                                        val date = Date(sms.timestampMillis)
-                                        val format =
-                                            SimpleDateFormat(
-                                                "dd.MM.yyyy HH:mm:ss",
-                                                Locale.getDefault()
-                                            )
-                                        val formattedDate = format.format(date)
-
                                         messageRepository.createMessage(
                                             Message(
                                                 null,

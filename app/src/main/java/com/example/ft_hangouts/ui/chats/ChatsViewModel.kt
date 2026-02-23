@@ -6,16 +6,16 @@ import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.repository.UIResult
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
 
 class ChatsViewModel(private val contactRepository: ContactRepository) : ViewModel() {
-    private val _data = MutableStateFlow<UIResult<List<Contact>>>(UIResult.Loading)
-    val data: StateFlow<UIResult<List<Contact>>> = _data
-
-    fun loadContacts() {
-        viewModelScope.launch {
-            _data.value = contactRepository.getAllContacts()
-        }
+    fun loadContacts(): StateFlow<UIResult<List<Contact>>> {
+        return contactRepository.getAllContacts().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UIResult.Loading
+        )
     }
 }
