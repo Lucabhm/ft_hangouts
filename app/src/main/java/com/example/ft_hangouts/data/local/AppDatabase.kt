@@ -14,7 +14,7 @@ private const val SQL_CREATE_CONTACT = "CREATE TABLE IF NOT EXISTS ${ContactEntr
         "${ContactEntry.COLUMN_LAST_NAME} TEXT," +
         "${ContactEntry.COLUMN_PHONE_NUMBER} TEXT NOT NULL UNIQUE," +
         "${ContactEntry.COLUMN_PROFILE_PIC} INTEGER," +
-        "${ContactEntry.COLUMN_LAST_MSG} TEST," +
+        "${ContactEntry.COLUMN_LAST_MSG} TEXT," +
         "${ContactEntry.COLUMN_CREATED_AT} TEXT)"
 
 private const val SQL_CREATE_CALL = "CREATE TABLE IF NOT EXISTS ${CallEntry.TABLE_NAME} (" +
@@ -44,6 +44,12 @@ private const val SQL_DROP_MESSAGE = "DROP TABLE IF EXISTS ${MessageEntry.TABLE_
 
 class AppDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    override fun onConfigure(db: SQLiteDatabase) {
+        super.onConfigure(db)
+
+        db.setForeignKeyConstraintsEnabled(true)
+    }
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_CONTACT)
         db.execSQL(SQL_CREATE_CALL)

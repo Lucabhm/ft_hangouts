@@ -87,7 +87,7 @@ fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> 
                     DropdownMenuItem(text = { Text("Edit") }, onClick = {
 
                     })
-                    DropdownMenuItem(text = { Text("Delete") }, onClick = onDelete)
+                    DropdownMenuItem(text = { Text("Delete") }, onClick = onDelete )
                 }
             }
         }
