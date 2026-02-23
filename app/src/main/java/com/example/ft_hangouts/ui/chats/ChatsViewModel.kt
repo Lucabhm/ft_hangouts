@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.repository.UIResult
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class ChatsViewModel(private val contactRepository: ContactRepository) : ViewModel() {
     fun loadContacts(): StateFlow<UIResult<List<Contact>>> {
@@ -17,5 +17,11 @@ class ChatsViewModel(private val contactRepository: ContactRepository) : ViewMod
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = UIResult.Loading
         )
+    }
+
+    fun deleteContact(contactId: Long) {
+        viewModelScope.launch {
+            contactRepository.deleteContact(contactId)
+        }
     }
 }

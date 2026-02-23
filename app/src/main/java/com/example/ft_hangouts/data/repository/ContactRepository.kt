@@ -102,7 +102,10 @@ class ContactRepository(private val contactDao: ContactDao) {
 
     fun deleteContact(contactId: Long): UIResult<Int> {
         return contactDao.deleteById(contactId)
-            .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
+            .fold(onSuccess = {
+                _contactUpdate.tryEmit(Unit)
+                UIResult.Success(it)
+            }, onFailure = {
                 when (it) {
                     is NoSuchElementException -> UIResult.NotFound(it.message ?: "")
                     else -> UIResult.DataBaseError

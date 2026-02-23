@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -42,7 +41,10 @@ fun ChatsScreen(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(items = contacts, itemContent = { item ->
-                    ContactCard(contact = item, onClick = { onClick(item) })
+                    ContactCard(
+                        contact = item,
+                        onClick = { onClick(item) },
+                        onDelete = { viewModel.deleteContact(item.id!!) })
                 })
             }
         }
