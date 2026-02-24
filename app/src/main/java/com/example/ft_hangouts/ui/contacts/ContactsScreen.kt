@@ -1,6 +1,5 @@
-package com.example.ft_hangouts.ui.chats
+package com.example.ft_hangouts.ui.contacts
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,10 +17,11 @@ import com.example.ft_hangouts.ui.components.ContactCard
 import com.example.ft_hangouts.data.model.Contact
 
 @Composable
-fun ChatsScreen(
+fun ContactsScreen(
     modifier: Modifier = Modifier,
-    viewModel: ChatsViewModel,
-    onClick: (Contact) -> Unit
+    viewModel: ContactsViewModel,
+    onClick: (Contact) -> Unit,
+    onUpdate: (Contact) -> Unit
 ) {
     val state by remember {
         viewModel.loadContacts()
@@ -44,7 +44,8 @@ fun ChatsScreen(
                     ContactCard(
                         contact = item,
                         onClick = { onClick(item) },
-                        onDelete = { viewModel.deleteContact(item.id!!) })
+                        onDelete = { viewModel.deleteContact(item.id!!) },
+                        onUpdate = { onUpdate(item) })
                 })
             }
         }

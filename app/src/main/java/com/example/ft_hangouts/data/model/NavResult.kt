@@ -6,4 +6,6 @@ sealed class NavResult(val route: String) {
     object SettingsScreen : NavResult("Settings")
     object AddContactScreen : NavResult("AddContact")
     data class ChatScreen(val contact: Contact) : NavResult("Chat")
+
+    data class UpdateContactScreen(val contact: Contact) : NavResult("UpdateContact")
 }

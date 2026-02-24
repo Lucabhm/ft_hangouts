@@ -7,18 +7,19 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
 import com.example.ft_hangouts.ui.call.CallViewModel
-import com.example.ft_hangouts.ui.chats.ChatsViewModel
+import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.navigation.AppNavigation
 import com.example.ft_hangouts.ui.navigation.NavViewModel
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
+import com.example.ft_hangouts.ui.updateContact.UpdateContactViewModel
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     private val container by lazy { (application as FtHangouts).container }
 
     private val _navViewModel = NavViewModel()
-    private val _chatViewModel by lazy { ChatsViewModel(container.contactRepo) }
+    private val _chatViewModel by lazy { ContactsViewModel(container.contactRepo) }
     private val _callViewModel by lazy { CallViewModel(container.callRepo) }
     private val _messageViewModel by lazy {
         MessageViewModel(
@@ -28,6 +29,8 @@ class MainActivity : ComponentActivity() {
         )
     }
     private val _addContactViewModel by lazy { AddContactViewModel(container.contactRepo) }
+
+    private val _updateContactViewModel by lazy { UpdateContactViewModel(container.contactRepo) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +54,8 @@ class MainActivity : ComponentActivity() {
                     _chatViewModel,
                     _messageViewModel,
                     _callViewModel,
-                    _addContactViewModel
+                    _addContactViewModel,
+                    _updateContactViewModel
                 )
             }
         }

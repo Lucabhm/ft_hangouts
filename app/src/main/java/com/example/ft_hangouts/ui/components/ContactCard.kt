@@ -35,7 +35,13 @@ import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.R
 
 @Composable
-fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> Unit, onDelete: () -> Unit) {
+fun ContactCard(
+    modifier: Modifier = Modifier,
+    contact: Contact,
+    onClick: () -> Unit,
+    onDelete: () -> Unit,
+    onUpdate: () -> Unit
+) {
     var expand by remember { mutableStateOf(false) }
 
     Card(
@@ -84,10 +90,8 @@ fun ContactCard(modifier: Modifier = Modifier, contact: Contact, onClick: () -> 
                 }
 
                 DropdownMenu(expanded = expand, onDismissRequest = { expand = false }) {
-                    DropdownMenuItem(text = { Text("Edit") }, onClick = {
-
-                    })
-                    DropdownMenuItem(text = { Text("Delete") }, onClick = onDelete )
+                    DropdownMenuItem(text = { Text("Edit") }, onClick = onUpdate)
+                    DropdownMenuItem(text = { Text("Delete") }, onClick = onDelete)
                 }
             }
         }

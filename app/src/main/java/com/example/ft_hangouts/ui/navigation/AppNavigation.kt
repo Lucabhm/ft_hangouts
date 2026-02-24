@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.ui.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,27 +12,31 @@ import com.example.ft_hangouts.ui.addContact.AddContactScreen
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
 import com.example.ft_hangouts.ui.call.CallScreen
 import com.example.ft_hangouts.ui.call.CallViewModel
-import com.example.ft_hangouts.ui.chats.ChatsScreen
-import com.example.ft_hangouts.ui.chats.ChatsViewModel
+import com.example.ft_hangouts.ui.contacts.ContactsScreen
+import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.components.AddContactButton
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.message.MessagesScreen
 import com.example.ft_hangouts.ui.settings.SettingsScreen
+import com.example.ft_hangouts.ui.updateContact.UpdateContactScreen
+import com.example.ft_hangouts.ui.updateContact.UpdateContactViewModel
 
 @Composable
 fun AppNavigation(
     modifier: Modifier = Modifier,
     navViewModel: NavViewModel,
-    chatsViewModel: ChatsViewModel,
+    chatsViewModel: ContactsViewModel,
     messageViewModel: MessageViewModel,
     callViewModel: CallViewModel,
-    addContactViewModel: AddContactViewModel
+    addContactViewModel: AddContactViewModel,
+    updateContactViewModel: UpdateContactViewModel
 ) {
     val state by navViewModel.currentScreen.collectAsState()
 
-    val showTopBar = state !is NavResult.AddContactScreen && state !is NavResult.ChatScreen
+    val showTopBar =
+        state !is NavResult.AddContactScreen && state !is NavResult.ChatScreen && state !is NavResult.UpdateContactScreen
     val showFloatingButton = state is NavResult.ContactsScreen
 
     Scaffold(
@@ -41,7 +44,7 @@ fun AppNavigation(
             .fillMaxSize(),
         bottomBar = {
             if (showTopBar) {
-                BottomBar(state, onClick = {screen -> navViewModel.changeStack(screen)})
+                BottomBar(state, onClick = { screen -> navViewModel.changeStack(screen) })
             }
         },
         topBar = { TopBar(currentRoute = state, goBack = { navViewModel.goBack() }) },
@@ -51,11 +54,21 @@ fun AppNavigation(
     ) { innerPadding ->
         when (state) {
             is NavResult.ContactsScreen -> {
-                ChatsScreen(Modifier.padding((innerPadding)), chatsViewModel, onClick = { contact ->
-                    navViewModel.navigateTo(
-                        NavResult.ChatScreen(contact)
-                    )
-                })
+                ContactsScreen(
+                    Modifier.padding((innerPadding)),
+                    chatsViewModel,
+                    onClick = { contact ->
+                        navViewModel.navigateTo(
+                            NavResult.ChatScreen(contact)
+                        )
+                    },
+                    onUpdate = { contact ->
+                        navViewModel.navigateTo(
+                            NavResult.UpdateContactScreen(
+                                contact
+                            )
+                        )
+                    })
             }
 
             is NavResult.ChatScreen -> {
@@ -73,6 +86,16 @@ fun AppNavigation(
 
             is NavResult.SettingsScreen -> {
                 SettingsScreen(Modifier.padding((innerPadding)))
+            }
+
+            is NavResult.UpdateContactScreen -> {
+                val contact = (state as NavResult.UpdateContactScreen).contact
+
+                UpdateContactScreen(
+                    modifier.padding((innerPadding)),
+                    updateContactViewModel,
+                    contact
+                )
             }
         }
     }

@@ -8,12 +8,6 @@ import com.example.ft_hangouts.data.repository.CallRepository
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.repository.MessageRepository
 import com.example.ft_hangouts.data.repository.SMSRepository
-import com.example.ft_hangouts.ui.addContact.AddContactViewModel
-import com.example.ft_hangouts.ui.call.CallViewModel
-import com.example.ft_hangouts.ui.chats.ChatsViewModel
-import com.example.ft_hangouts.ui.message.MessageViewModel
-import com.example.ft_hangouts.ui.message.SmsReceiver
-import com.example.ft_hangouts.ui.navigation.NavViewModel
 
 class AppContainer(context: Context) {
     private val _db = AppDatabaseHelper(context)

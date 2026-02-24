@@ -1,4 +1,4 @@
-package com.example.ft_hangouts.ui.chats
+package com.example.ft_hangouts.ui.contacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ChatsViewModel(private val contactRepository: ContactRepository) : ViewModel() {
+class ContactsViewModel(private val contactRepository: ContactRepository) : ViewModel() {
     fun loadContacts(): StateFlow<UIResult<List<Contact>>> {
         return contactRepository.getAllContacts().stateIn(
             scope = viewModelScope,

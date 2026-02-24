@@ -31,7 +31,8 @@ import com.example.ft_hangouts.data.model.NavResult
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () -> Unit) {
-   val showBack = currentRoute is NavResult.ChatScreen || currentRoute is NavResult.AddContactScreen
+    val showBack =
+        currentRoute is NavResult.ChatScreen || currentRoute is NavResult.AddContactScreen || currentRoute is NavResult.UpdateContactScreen
 
     CenterAlignedTopAppBar(
         title = {
