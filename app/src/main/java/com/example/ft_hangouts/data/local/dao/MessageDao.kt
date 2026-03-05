@@ -8,7 +8,7 @@ import com.example.ft_hangouts.data.local.toMessage
 import com.example.ft_hangouts.data.model.Message
 
 class MessageDao(private val dbHelper: SQLiteOpenHelper) {
-    fun selectAll(contactId: Long): Result<List<Message>> {
+    fun selectAll(ownId: Long, contactId: Long): Result<List<Message>> {
         return try {
             val db = dbHelper.readableDatabase
             val messages = mutableListOf<Message>()
@@ -20,7 +20,7 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
                 MessageEntry.TABLE_NAME,
                 null,
                 selection,
-                arrayOf("0", contactId.toString(), contactId.toString(), "0"),
+                arrayOf(ownId.toString(), contactId.toString(), contactId.toString(), ownId.toString()),
                 null,
                 null,
                 "${MessageEntry.COLUMN_CREATED_AT} ASC"

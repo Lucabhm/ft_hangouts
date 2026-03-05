@@ -40,7 +40,8 @@ class MainActivity : ComponentActivity() {
                 android.Manifest.permission.SEND_SMS,
                 android.Manifest.permission.RECEIVE_SMS,
                 android.Manifest.permission.READ_SMS,
-                android.Manifest.permission.BROADCAST_SMS
+                android.Manifest.permission.BROADCAST_SMS,
+                android.Manifest.permission.CALL_PHONE
             ),
             1
 

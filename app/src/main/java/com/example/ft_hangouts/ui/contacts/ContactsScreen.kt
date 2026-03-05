@@ -1,7 +1,9 @@
 package com.example.ft_hangouts.ui.contacts
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,11 +31,13 @@ fun ContactsScreen(
 
     when (state) {
         is UIResult.Loading -> {
-            Text("Loading")
+            Log.d("test", "Loading")
+            Text("Loading", modifier = modifier.fillMaxWidth())
         }
 
         is UIResult.Success -> {
             val contacts = (state as UIResult.Success<List<Contact>>).data
+            Log.d("test", "$contacts")
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
@@ -51,11 +55,13 @@ fun ContactsScreen(
         }
 
         is UIResult.NotFound -> {
-            Text("NotFound")
+            Log.d("test", "NotFound")
+            Text("NotFound", modifier = modifier.fillMaxWidth())
         }
 
         is UIResult.DataBaseError -> {
-            Text("DB Error")
+            Log.d("test", "DataBaseError")
+            Text("DB Error", modifier = modifier.fillMaxWidth())
         }
     }
 }

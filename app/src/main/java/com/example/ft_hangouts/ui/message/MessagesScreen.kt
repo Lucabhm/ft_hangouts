@@ -55,7 +55,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
                     modifier = modifier
                         .weight(1f)
                 ) {
-                    items(messages) { item -> MessageCard(messageInfo = item) }
+                    items(messages) { item -> MessageCard(messageInfo = item, contact = contact) }
                 }
                 Row(
                     modifier = Modifier

@@ -1,12 +1,17 @@
 package com.example.ft_hangouts.data.local
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
+import android.util.Log
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.ContactContract.CallEntry
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private const val SQL_CREATE_CONTACT = "CREATE TABLE IF NOT EXISTS ${ContactEntry.TABLE_NAME} (" +
         "${BaseColumns._ID} INTEGER PRIMARY KEY," +
@@ -54,6 +59,8 @@ class AppDatabaseHelper(context: Context) :
         db.execSQL(SQL_CREATE_CONTACT)
         db.execSQL(SQL_CREATE_CALL)
         db.execSQL(SQL_CREATE_MESSAGE)
+
+        createOwnContact(db)
     }
 
     override fun onUpgrade(
@@ -70,5 +77,19 @@ class AppDatabaseHelper(context: Context) :
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Chat.db"
+    }
+
+    private fun createOwnContact(db: SQLiteDatabase) {
+        val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
+        val current = sdf.format(Date())
+        val values = ContentValues().apply {
+            put(ContactEntry.COLUMN_PHONE_NUMBER, "self")
+            put(ContactEntry.COLUMN_CREATED_AT, current)
+        }
+        val check = db.insert(ContactEntry.TABLE_NAME, null, values)
+
+        if (check == -1L) {
+            Log.d("test", "self Creation Failed")
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.example.ft_hangouts.ui.components
 
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,10 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.NavResult
+import java.net.URI
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,7 +97,16 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
         },
         actions = {
             if (currentRoute is NavResult.ChatScreen) {
-                IconButton(onClick = {}) { // TODO add phone logic
+                val contact = currentRoute.contact
+                val context = LocalContext.current
+
+                IconButton(onClick = {
+                    val intent = Intent(Intent.ACTION_CALL).apply {
+                        data = "tel:${contact.phoneNumber}".toUri()
+                    }
+
+                    context.startActivity(intent)
+                }) {
                     Icon(imageVector = Icons.Default.Call, contentDescription = "callIcon")
                 }
             }

@@ -11,8 +11,8 @@ class MessageRepository(private val messageDao: MessageDao) {
         tryEmit(Unit)
     }
 
-    fun getAllMessages(contactId: Long): Flow<UIResult<List<Message>>> = _messageUpdate.map {
-        messageDao.selectAll(contactId)
+    fun getAllMessages(ownId: Long, contactId: Long): Flow<UIResult<List<Message>>> = _messageUpdate.map {
+        messageDao.selectAll(ownId, contactId)
             .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
                 when (it) {
                     is NoSuchElementException -> UIResult.NotFound(
