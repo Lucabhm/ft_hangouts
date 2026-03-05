@@ -24,13 +24,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
 fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewModel, onBack: () -> Unit) {
@@ -52,22 +51,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(120.dp)
-                .border(
-                    width = 4.dp,
-                    color = MaterialTheme.colorScheme.secondary,
-                    shape = CircleShape
-                )
-                .clip(CircleShape)
-                .clickable(
-                    onClick = {}, // TODO add Pic
-                ),
-        ) { Icon(Icons.Default.Add, "addPic") }
-
-        Text(text = "Add a Picture")
+        PickProfileImage()
 
         Column {
             Text(text = "Enter a First Name")
