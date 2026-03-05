@@ -35,6 +35,8 @@ import com.example.ft_hangouts.data.repository.UIResult
 @Composable
 fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewModel, onBack: () -> Unit) {
     val scrollState = rememberScrollState()
+    val uiState = viewModel.state.collectAsState(UIResult.Loading)
+
     LaunchedEffect(Unit) {
         viewModel.state.collect { it ->
             if (it is UIResult.Success)
@@ -94,6 +96,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text("Phone Number") },
                 modifier = Modifier.fillMaxWidth(),
+                isError = uiState.value is UIResult.NotFound
             )
         }
 
