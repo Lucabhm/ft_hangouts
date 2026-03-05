@@ -9,8 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.repository.UIResult
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -21,26 +23,28 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
     var lastName by mutableStateOf("")
     var phoneNumber by mutableStateOf("")
     var profilePic by mutableIntStateOf(0)
-    private val _state = MutableStateFlow<UIResult<Long>>(UIResult.Loading)
-    val state: StateFlow<UIResult<Long>> = _state
+    private val _state = MutableSharedFlow<UIResult<Long>>()
+    val state = _state.asSharedFlow()
 
     fun saveContact() {
         viewModelScope.launch {
             if (phoneNumber.isBlank())
-                _state.value = UIResult.NotFound("Need to enter a Phone number")
+                _state.emit(UIResult.NotFound("Need to enter a Phone number"))
             else {
                 val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
                 val current = sdf.format(Date())
 
-                _state.value = contactRepository.createContact(
-                    Contact(
-                        null,
-                        firstName,
-                        lastName,
-                        phoneNumber,
-                        profilePic,
-                        null,
-                        current
+                _state.emit(
+                    contactRepository.createContact(
+                        Contact(
+                            null,
+                            firstName,
+                            lastName,
+                            phoneNumber,
+                            profilePic,
+                            null,
+                            current
+                        )
                     )
                 )
             }

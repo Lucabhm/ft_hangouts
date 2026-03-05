@@ -22,14 +22,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.data.repository.UIResult
 
 @Composable
-fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewModel) {
+fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewModel, onBack: () -> Unit) {
     val scrollState = rememberScrollState()
+    LaunchedEffect(Unit) {
+        viewModel.state.collect { it ->
+            if (it is UIResult.Success)
+                onBack()
+        }
+    }
 
     Column(
         modifier = modifier
@@ -82,7 +93,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
                 value = viewModel.phoneNumber,
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text("Phone Number") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
 

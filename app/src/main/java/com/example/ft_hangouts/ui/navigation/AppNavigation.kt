@@ -81,7 +81,12 @@ fun AppNavigation(
             }
 
             is NavResult.AddContactScreen -> {
-                AddContactScreen(Modifier.padding((innerPadding)), addContactViewModel)
+                AddContactScreen(
+                    Modifier.padding((innerPadding)),
+                    addContactViewModel,
+                    onBack = {
+                        navViewModel.goBack()
+                    })
             }
 
             is NavResult.SettingsScreen -> {
