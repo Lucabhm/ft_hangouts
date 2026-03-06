@@ -4,11 +4,9 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import android.util.Log
-import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.toContact
-import com.example.ft_hangouts.data.repository.UIResult
-import kotlinx.coroutines.flow.MutableSharedFlow
+import com.example.ft_hangouts.data.model.Contact
 
 class ContactDao(private val dbHelper: SQLiteOpenHelper) {
     fun selectAll(): Result<List<Contact>> {
@@ -136,7 +134,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         firstName: String? = null,
         lastName: String? = null,
         phoneNumber: String? = null,
-        profilePicture: Int? = null,
+        profilePicture: String? = null,
         lastMsg: String? = null
     ): Result<Int> {
         return try {

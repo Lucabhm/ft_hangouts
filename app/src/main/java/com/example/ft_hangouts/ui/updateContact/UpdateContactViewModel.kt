@@ -18,7 +18,7 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
     var firstName by mutableStateOf("")
     var lastName by mutableStateOf("")
     var phoneNumber by mutableStateOf("")
-    var profilePic by mutableIntStateOf(0)
+    var profilePic by mutableStateOf("")
     private val _state = MutableStateFlow<UIResult<Int>>(UIResult.Loading)
     val state: StateFlow<UIResult<Int>> = _state
 
@@ -32,8 +32,6 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
                 profilePic,
                 null,
             )
-
-            Log.d("test", "state = ${_state.value}")
         }
     }
 }

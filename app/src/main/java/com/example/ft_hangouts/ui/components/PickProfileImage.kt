@@ -34,14 +34,15 @@ import java.io.FileOutputStream
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun PickProfileImage(viewModel: AddContactViewModel) {
+fun PickProfileImage(onUpdate: (String) -> Unit) {
+    var path = ""
     val context = LocalContext.current
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 val bitmap = uriToBitmap(context, uri)
-                val path = saveProfileImage(context, bitmap)
-                viewModel.profilePic = path
+                path = saveProfileImage(context, bitmap)
+                onUpdate(path)
             }
         }
 
@@ -61,10 +62,10 @@ fun PickProfileImage(viewModel: AddContactViewModel) {
                 },
             ),
     ) {
-        if (viewModel.profilePic.isEmpty())
+        if (path.isEmpty())
             Icon(Icons.Default.Add, "addPic")
         else {
-            Image(bitmap = loadStringToBitmap(viewModel.profilePic), null)
+            Image(bitmap = loadStringToBitmap(path), null)
         }
     }
 

@@ -27,9 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.model.Contact
+import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
-fun UpdateContactScreen(modifier: Modifier = Modifier, viewModel: UpdateContactViewModel, contact: Contact) {
+fun UpdateContactScreen(
+    modifier: Modifier = Modifier,
+    viewModel: UpdateContactViewModel,
+    contact: Contact
+) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -40,22 +45,7 @@ fun UpdateContactScreen(modifier: Modifier = Modifier, viewModel: UpdateContactV
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(120.dp)
-                .border(
-                    width = 4.dp,
-                    color = MaterialTheme.colorScheme.secondary,
-                    shape = CircleShape
-                )
-                .clip(CircleShape)
-                .clickable(
-                    onClick = {}, // TODO add Pic
-                ),
-        ) { Icon(Icons.Default.Add, "addPic") }
-
-        Text(text = "Add a Picture")
+        PickProfileImage { path -> viewModel.profilePic = path }
 
         Column {
             Text(text = "Enter a First Name")
@@ -90,7 +80,7 @@ fun UpdateContactScreen(modifier: Modifier = Modifier, viewModel: UpdateContactV
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = {viewModel.updateContact(contact)}, modifier = Modifier
+            onClick = { viewModel.updateContact(contact) }, modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {

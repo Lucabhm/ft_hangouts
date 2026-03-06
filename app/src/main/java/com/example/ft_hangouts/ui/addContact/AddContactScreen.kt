@@ -46,7 +46,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        PickProfileImage(viewModel)
+        PickProfileImage { path -> viewModel.profilePic = path }
 
         Column {
             Text(text = "Enter a First Name")
