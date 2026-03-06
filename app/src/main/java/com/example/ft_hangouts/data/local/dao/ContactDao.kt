@@ -19,8 +19,8 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
             db.query(
                 ContactEntry.TABLE_NAME,
                 null,
-                null,
-                null,
+                "${BaseColumns._ID} != ?",
+                arrayOf("1"),
                 null,
                 null,
                 "${ContactEntry.COLUMN_LAST_MSG} DESC"
