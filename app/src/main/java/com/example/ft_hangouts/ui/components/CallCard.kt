@@ -46,14 +46,26 @@ fun CallCard(call: Call, modifier: Modifier = Modifier) {
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = call.contact?.profilePicture ?: R.drawable.cr),
-                contentDescription = call.contact?.firstName,
-                modifier = modifier
-                    .size(64.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            val contact = call.contact
+            if (contact != null && !contact.profilePicture.isNullOrEmpty()) {
+                Image(
+                    bitmap = loadStringToBitmap(contact.profilePicture),
+                    contentDescription = contact.firstName,
+                    modifier = modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.cr),
+                    contentDescription = "Cr Profile Picture",
+                    modifier = modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            }
             Row(
                 modifier = modifier.fillMaxSize().padding(10.dp),
                 horizontalArrangement = Arrangement.Center,

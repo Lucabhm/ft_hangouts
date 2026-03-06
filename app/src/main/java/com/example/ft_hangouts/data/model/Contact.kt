@@ -5,7 +5,7 @@ data class Contact(
     val firstName: String?,
     val lastName: String?,
     val phoneNumber: String,
-    val profilePicture: Int?,
+    val profilePicture: String?,
     val lastMsg: String?,
     val createdAt: String
 )

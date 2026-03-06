@@ -22,7 +22,7 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
     var firstName by mutableStateOf("")
     var lastName by mutableStateOf("")
     var phoneNumber by mutableStateOf("")
-    var profilePic by mutableIntStateOf(0)
+    var profilePic by mutableStateOf("")
     private val _state = MutableSharedFlow<UIResult<Long>>()
     val state = _state.asSharedFlow()
 

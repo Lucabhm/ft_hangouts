@@ -54,18 +54,25 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
                         .padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    var pic = contact.profilePicture
-                    if (pic == null || pic == 0)
-                        pic = R.drawable.cr
-
-                    Image(
-                        painter = painterResource(id = pic),
-                        contentDescription = contact.firstName,
-                        modifier = modifier
-                            .size(50.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
+                    if (!contact.profilePicture.isNullOrEmpty()) {
+                        Image(
+                            bitmap = loadStringToBitmap(contact.profilePicture),
+                            contentDescription = contact.firstName,
+                            modifier = modifier
+                                .size(64.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(R.drawable.cr),
+                            contentDescription = contact.firstName,
+                            modifier = modifier
+                                .size(64.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                     Spacer(modifier = modifier.width(12.dp))
                     val firstName = contact.firstName
                     val lastName = contact.lastName

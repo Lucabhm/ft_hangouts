@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -56,18 +57,25 @@ fun ContactCard(
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            var pic = contact.profilePicture
-            if (pic == 0 || pic == null)
-                pic = R.drawable.cr
-
-            Image(
-                painter = painterResource(id = pic),
-                contentDescription = contact.firstName,
-                modifier = modifier
-                    .size(64.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            if (!contact.profilePicture.isNullOrEmpty()) {
+                Image(
+                    bitmap = loadStringToBitmap(contact.profilePicture),
+                    contentDescription = contact.firstName,
+                    modifier = modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.cr),
+                    contentDescription = contact.firstName,
+                    modifier = modifier
+                        .size(64.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            }
             Spacer(modifier = modifier.width(12.dp))
             val firstName = contact.firstName
             val lastName = contact.lastName

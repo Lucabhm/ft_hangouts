@@ -14,7 +14,7 @@ fun Cursor.toContact() = Contact(
     firstName = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_FIRST_NAME)),
     lastName = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_NAME)),
     phoneNumber = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PHONE_NUMBER)),
-    profilePicture = getInt(getColumnIndexOrThrow(ContactEntry.COLUMN_PROFILE_PIC)),
+    profilePicture = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PROFILE_PIC)),
     lastMsg = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_MSG)),
     createdAt = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_CREATED_AT))
 )
@@ -26,7 +26,7 @@ fun Cursor.toCall() = Call(
         firstName = getString(getColumnIndexOrThrow("first_name")),
         lastName = getString(getColumnIndexOrThrow("last_name")),
         phoneNumber = getString(getColumnIndexOrThrow("phone_number")),
-        profilePicture = getInt(getColumnIndexOrThrow("profile_picture")),
+        profilePicture = getString(getColumnIndexOrThrow("profile_picture")),
         lastMsg = getString(getColumnIndexOrThrow("last_msg")),
         createdAt = getString(getColumnIndexOrThrow("created_at"))
     ),

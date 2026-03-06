@@ -1,24 +1,15 @@
 package com.example.ft_hangouts.ui.addContact
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +17,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.repository.UIResult
 import com.example.ft_hangouts.ui.components.PickProfileImage
@@ -38,8 +28,13 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
 
     LaunchedEffect(Unit) {
         viewModel.state.collect { it ->
-            if (it is UIResult.Success)
+            if (it is UIResult.Success) {
+                viewModel.phoneNumber = ""
+                viewModel.profilePic = ""
+                viewModel.lastName = ""
+                viewModel.firstName = ""
                 onBack()
+            }
         }
     }
 
@@ -51,7 +46,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        PickProfileImage()
+        PickProfileImage(viewModel)
 
         Column {
             Text(text = "Enter a First Name")
