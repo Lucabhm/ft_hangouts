@@ -27,7 +27,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.R
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
 import java.io.File
 import java.io.FileOutputStream
@@ -69,7 +71,7 @@ fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
         }
     }
 
-    Text(text = "Add a Picture")
+    Text(text = stringResource(R.string.add_contact_pic))
 }
 
 @RequiresApi(Build.VERSION_CODES.P)

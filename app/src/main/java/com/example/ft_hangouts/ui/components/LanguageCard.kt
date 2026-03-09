@@ -16,21 +16,22 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ft_hangouts.R
 
-@Preview
 @Composable
 fun LanguageCard(modifier: Modifier = Modifier) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedLang by remember { mutableStateOf("English") }
-    val languages = listOf("German", "English")
+    var selectedLang by remember { mutableIntStateOf(R.string.settings_language_input_en) }
+    val languages = listOf(R.string.settings_language_input_ger, R.string.settings_language_input_en)
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -44,7 +45,7 @@ fun LanguageCard(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text("Change Language", fontSize = 25.sp)
+            Text(stringResource(R.string.settings_language_button), fontSize = 25.sp)
         }
         DropdownMenu(
             expanded = expanded,
@@ -53,7 +54,7 @@ fun LanguageCard(modifier: Modifier = Modifier) {
         ) {
             languages.forEach { language ->
                 DropdownMenuItem(
-                    text = { Text(language) },
+                    text = { Text(stringResource(language)) },
                     onClick = { selectedLang = language },
                     trailingIcon = {if (selectedLang == language) { Icon(Icons.Default.Done, contentDescription = null) }}
                 )

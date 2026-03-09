@@ -13,4 +13,8 @@
     <string name="add_contact_phone_number">Enter a Phone Number</string>
     <string name="add_contact_phone_number_input">Phone Number</string>
     <string name="add_contact_create_button">Create Contact</string>
+    <string name="settings_theme_button">Change Theme Color</string>
+    <string name="settings_language_button">Change Language</string>
+    <string name="settings_language_input_ger">German</string>
+    <string name="settings_language_input_en">English</string>
 </resources>

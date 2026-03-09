@@ -24,9 +24,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.repository.UIResult
@@ -40,7 +42,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
 
     when (state) {
         is UIResult.Loading -> {
-            Log.d("test", "Loading")
+            Text("Loading", modifier = modifier.fillMaxWidth())
         }
 
         is UIResult.Success -> {
@@ -69,7 +71,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 8.dp),
-                        placeholder = { Text("Type a message") },
+                        placeholder = { Text(stringResource(R.string.message_input)) },
                         maxLines = 4,
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Send,
@@ -101,11 +103,11 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
         }
 
         is UIResult.NotFound -> {
-            Log.d("test", "NotFound")
+            Text("Not Found", modifier = modifier.fillMaxWidth())
         }
 
         is UIResult.DataBaseError -> {
-            Log.d("test", "DataBaseError")
+            Text("DB Error", modifier = modifier.fillMaxWidth())
         }
     }
 }

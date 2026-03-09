@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.example.ft_hangouts.data.model.BottomNavItems
 import com.example.ft_hangouts.data.model.NavResult
 
@@ -16,7 +17,6 @@ import com.example.ft_hangouts.data.model.NavResult
 fun BottomBar(currentRoute: NavResult, onClick: (NavResult) -> Unit) {
     val items = listOf(
         BottomNavItems.Chats,
-        BottomNavItems.Calls,
         BottomNavItems.Settings
     )
 
@@ -25,8 +25,8 @@ fun BottomBar(currentRoute: NavResult, onClick: (NavResult) -> Unit) {
             NavigationBarItem(
                 selected = currentRoute == item.route,
                 onClick = { onClick(item.route) },
-                icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label) },
+                icon = { Icon(item.icon, contentDescription = "bottom_icon") },
+                label = { Text(stringResource(item.label)) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     indicatorColor = MaterialTheme.colorScheme.onPrimary

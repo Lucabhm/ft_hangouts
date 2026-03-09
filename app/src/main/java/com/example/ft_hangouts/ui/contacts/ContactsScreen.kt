@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.ui.contacts
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,9 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.repository.UIResult
 import com.example.ft_hangouts.ui.components.ContactCard
-import com.example.ft_hangouts.data.model.Contact
 
 @Composable
 fun ContactsScreen(
@@ -31,13 +30,11 @@ fun ContactsScreen(
 
     when (state) {
         is UIResult.Loading -> {
-            Log.d("test", "Loading")
             Text("Loading", modifier = modifier.fillMaxWidth())
         }
 
         is UIResult.Success -> {
             val contacts = (state as UIResult.Success<List<Contact>>).data
-            Log.d("test", "$contacts")
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
@@ -55,12 +52,10 @@ fun ContactsScreen(
         }
 
         is UIResult.NotFound -> {
-            Log.d("test", "NotFound")
             Text("NotFound", modifier = modifier.fillMaxWidth())
         }
 
         is UIResult.DataBaseError -> {
-            Log.d("test", "DataBaseError")
             Text("DB Error", modifier = modifier.fillMaxWidth())
         }
     }

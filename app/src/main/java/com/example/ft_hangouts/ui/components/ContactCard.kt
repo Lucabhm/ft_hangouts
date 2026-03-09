@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.R
@@ -80,13 +81,13 @@ fun ContactCard(
             val firstName = contact.firstName
             val lastName = contact.lastName
 
-            if ((firstName != null && !firstName.isBlank()) || (lastName != null && !lastName.isBlank())) {
-                if (firstName != null && !firstName.isBlank()) {
+            if (!firstName.isNullOrBlank() || !lastName.isNullOrBlank()) {
+                if (!firstName.isNullOrBlank()) {
                     Text(text = firstName)
-                    if (lastName != null && !lastName.isBlank())
+                    if (!lastName.isNullOrBlank())
                         Spacer(modifier = modifier.width(5.dp))
                 }
-                if (lastName != null && !lastName.isBlank())
+                if (!lastName.isNullOrBlank())
                     Text(text = lastName)
             } else {
                 Text(text = contact.phoneNumber)
@@ -98,8 +99,8 @@ fun ContactCard(
                 }
 
                 DropdownMenu(expanded = expand, onDismissRequest = { expand = false }) {
-                    DropdownMenuItem(text = { Text("Edit") }, onClick = onUpdate)
-                    DropdownMenuItem(text = { Text("Delete") }, onClick = onDelete)
+                    DropdownMenuItem(text = { Text(stringResource(R.string.contact_settings_edit)) }, onClick = onUpdate)
+                    DropdownMenuItem(text = { Text(stringResource(R.string.contact_settings_delete)) }, onClick = onDelete)
                 }
             }
         }

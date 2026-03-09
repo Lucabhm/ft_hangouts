@@ -17,7 +17,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.repository.UIResult
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
@@ -53,31 +55,31 @@ fun AddContactScreen(
         PickProfileImage("") { path -> viewModel.profilePic = path }
 
         Column {
-            Text(text = "Enter a First Name")
+            Text(text = stringResource(R.string.add_contact_first_name))
             OutlinedTextField(
                 value = viewModel.firstName,
                 onValueChange = { viewModel.firstName = it },
-                label = { Text("First Name") },
+                label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
                 modifier = Modifier.fillMaxWidth()
             )
         }
 
         Column {
-            Text(text = "Enter a Last Name")
+            Text(text = stringResource(R.string.add_contact_last_name))
             OutlinedTextField(
                 value = viewModel.lastName,
                 onValueChange = { viewModel.lastName = it },
-                label = { Text("Last Name") },
+                label = { Text(stringResource(R.string.add_contact_last_name_input)) },
                 modifier = Modifier.fillMaxWidth()
             )
         }
 
         Column {
-            Text(text = "Enter a Phone Number")
+            Text(text = stringResource(R.string.add_contact_phone_number))
             OutlinedTextField(
                 value = viewModel.phoneNumber,
                 onValueChange = { viewModel.phoneNumber = it },
-                label = { Text("Phone Number") },
+                label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
                 modifier = Modifier.fillMaxWidth(),
                 isError = uiState.value is UIResult.NotFound
             )
@@ -90,7 +92,7 @@ fun AddContactScreen(
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text(text = "Create Contact")
+            Text(text = stringResource(R.string.add_contact_create_button))
         }
     }
 }

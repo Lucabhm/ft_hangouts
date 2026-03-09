@@ -12,4 +12,8 @@
     <string name="add_contact_phone_number">Füge eine Telefonnummer hinzu</string>
     <string name="add_contact_phone_number_input">Telefonnummer</string>
     <string name="add_contact_create_button">Kontakt erstellen</string>
+    <string name="settings_theme_button">Themenfarbe ändern</string>
+    <string name="settings_language_button">Sprache ändern</string>
+    <string name="settings_language_input_ger">Deutsch</string>
+    <string name="settings_language_input_en">Englisch</string>
 </resources>
