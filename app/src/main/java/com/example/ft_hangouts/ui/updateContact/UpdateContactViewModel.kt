@@ -33,23 +33,7 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
         }
     }
 
-    fun loadContactById(id: Long) {
-        viewModelScope.launch {
-            val state = contactRepository.getContactById(id)
-
-            when(state) {
-                is UIResult.Loading -> {}
-                is UIResult.Success -> {
-                    val contact = state.data
-
-                    firstName = contact.firstName ?: ""
-                    lastName = contact.lastName ?: ""
-                    phoneNumber = contact.phoneNumber
-                    profilePic = contact.profilePicture ?: ""
-                }
-                is UIResult.NotFound -> {}
-                is UIResult.DataBaseError -> {}
-            }
-        }
+    fun resetState() {
+        _state.value = UIResult.Loading
     }
 }

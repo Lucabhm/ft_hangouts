@@ -99,7 +99,8 @@ fun AppNavigation(
                 UpdateContactScreen(
                     modifier.padding((innerPadding)),
                     updateContactViewModel,
-                    contact
+                    contact,
+                    onBack = {navViewModel.goBack()}
                 )
             }
         }

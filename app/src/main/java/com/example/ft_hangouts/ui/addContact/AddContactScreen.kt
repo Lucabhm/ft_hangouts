@@ -31,7 +31,7 @@ fun AddContactScreen(
     val uiState = viewModel.state.collectAsState(UIResult.Loading)
 
     LaunchedEffect(Unit) {
-        viewModel.state.collect { it ->
+        viewModel.state.collect {
             if (it is UIResult.Success) {
                 viewModel.phoneNumber = ""
                 viewModel.profilePic = ""
@@ -50,7 +50,7 @@ fun AddContactScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        PickProfileImage("", { path -> viewModel.profilePic = path })
+        PickProfileImage("") { path -> viewModel.profilePic = path }
 
         Column {
             Text(text = "Enter a First Name")
