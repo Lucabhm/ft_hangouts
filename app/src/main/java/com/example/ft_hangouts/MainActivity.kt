@@ -84,6 +84,7 @@ class MainActivity : ComponentActivity() {
             val onlyTime = outputFormat.format(date)
 
             Toast.makeText(this, "App stopped at $onlyTime", Toast.LENGTH_LONG).show()
+            _timeStopped = 0
         }
     }
 

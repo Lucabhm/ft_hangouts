@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name" translatable="false">ft_hangouts</string>
+    <string name="bottom_bar_chats">Kontakte</string>
+    <string name="bottom_bar_settings">Einstellungen</string>
+    <string name="contact_settings_edit">Ändern</string>
+    <string name="contact_settings_delete">Löschen</string>
+    <string name="message_input">Schreiben sie eine Nachricht</string>
+    <string name="add_contact_pic">Füge ein Bild hinzu</string>
+    <string name="add_contact_first_name">Füge den Vornamen ein</string>
+    <string name="add_contact_fist_name_input">Vorname</string>
+    <string name="add_contact_last_name">Füge den Nachnamen ein</string>
+    <string name="add_contact_last_name_input">Nachname</string>
+    <string name="add_contact_phone_number">Füge eine Telefonnummer hinzu</string>
+    <string name="add_contact_phone_number_input">Telefonnummer</string>
+    <string name="add_contact_create_button">Kontakt erstellen</string>
 </resources>
