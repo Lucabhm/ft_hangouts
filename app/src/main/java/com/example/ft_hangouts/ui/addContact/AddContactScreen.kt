@@ -22,7 +22,11 @@ import com.example.ft_hangouts.data.repository.UIResult
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
-fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewModel, onBack: () -> Unit) {
+fun AddContactScreen(
+    modifier: Modifier = Modifier,
+    viewModel: AddContactViewModel,
+    onBack: () -> Unit
+) {
     val scrollState = rememberScrollState()
     val uiState = viewModel.state.collectAsState(UIResult.Loading)
 
@@ -46,7 +50,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        PickProfileImage { path -> viewModel.profilePic = path }
+        PickProfileImage("", { path -> viewModel.profilePic = path })
 
         Column {
             Text(text = "Enter a First Name")
@@ -82,7 +86,7 @@ fun AddContactScreen(modifier: Modifier = Modifier, viewModel: AddContactViewMod
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = {viewModel.saveContact()}, modifier = Modifier
+            onClick = { viewModel.saveContact() }, modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {

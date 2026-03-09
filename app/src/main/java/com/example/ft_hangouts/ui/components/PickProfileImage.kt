@@ -34,8 +34,8 @@ import java.io.FileOutputStream
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun PickProfileImage(onUpdate: (String) -> Unit) {
-    var path = ""
+fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
+    var path = currPath
     val context = LocalContext.current
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->

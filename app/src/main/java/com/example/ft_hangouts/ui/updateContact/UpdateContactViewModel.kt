@@ -1,8 +1,6 @@
 package com.example.ft_hangouts.ui.updateContact
 
-import android.util.Log
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -32,6 +30,26 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
                 profilePic,
                 null,
             )
+        }
+    }
+
+    fun loadContactById(id: Long) {
+        viewModelScope.launch {
+            val state = contactRepository.getContactById(id)
+
+            when(state) {
+                is UIResult.Loading -> {}
+                is UIResult.Success -> {
+                    val contact = state.data
+
+                    firstName = contact.firstName ?: ""
+                    lastName = contact.lastName ?: ""
+                    phoneNumber = contact.phoneNumber
+                    profilePic = contact.profilePicture ?: ""
+                }
+                is UIResult.NotFound -> {}
+                is UIResult.DataBaseError -> {}
+            }
         }
     }
 }
