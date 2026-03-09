@@ -1,8 +1,12 @@
 package com.example.ft_hangouts.ui.components
 
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.ft_hangouts.data.model.BottomNavItems
@@ -22,7 +26,11 @@ fun BottomBar(currentRoute: NavResult, onClick: (NavResult) -> Unit) {
                 selected = currentRoute == item.route,
                 onClick = { onClick(item.route) },
                 icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label) }
+                label = { Text(item.label) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    indicatorColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
         }
     }

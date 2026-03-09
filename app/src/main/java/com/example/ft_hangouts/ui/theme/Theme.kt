@@ -1,6 +1,7 @@
 package com.example.ft_hangouts.ui.theme
 
 import android.app.Activity
+import androidx.compose.ui.graphics.Color
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -35,20 +36,10 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun Ft_hangoutsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    primaryColor: Color,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = lightColorScheme(primary = primaryColor, onPrimary = Color.White)
 
     MaterialTheme(
         colorScheme = colorScheme,

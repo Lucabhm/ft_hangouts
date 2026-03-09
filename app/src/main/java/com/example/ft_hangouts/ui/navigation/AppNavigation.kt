@@ -20,6 +20,7 @@ import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.message.MessagesScreen
 import com.example.ft_hangouts.ui.settings.SettingsScreen
+import com.example.ft_hangouts.ui.settings.SettingsViewModel
 import com.example.ft_hangouts.ui.updateContact.UpdateContactScreen
 import com.example.ft_hangouts.ui.updateContact.UpdateContactViewModel
 
@@ -31,7 +32,8 @@ fun AppNavigation(
     messageViewModel: MessageViewModel,
     callViewModel: CallViewModel,
     addContactViewModel: AddContactViewModel,
-    updateContactViewModel: UpdateContactViewModel
+    updateContactViewModel: UpdateContactViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
     val state by navViewModel.currentScreen.collectAsState()
 
@@ -90,7 +92,7 @@ fun AppNavigation(
             }
 
             is NavResult.SettingsScreen -> {
-                SettingsScreen(Modifier.padding((innerPadding)))
+                SettingsScreen(Modifier.padding((innerPadding)), settingsViewModel)
             }
 
             is NavResult.UpdateContactScreen -> {

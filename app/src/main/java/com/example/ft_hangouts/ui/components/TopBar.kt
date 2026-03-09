@@ -77,13 +77,13 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
                     val firstName = contact.firstName
                     val lastName = contact.lastName
 
-                    if ((firstName != null && !firstName.isBlank()) || (lastName != null && !lastName.isBlank())) {
-                        if (firstName != null && !firstName.isBlank()) {
+                    if (!firstName.isNullOrBlank() || !lastName.isNullOrBlank()) {
+                        if (!firstName.isNullOrBlank()) {
                             Text(text = firstName)
-                            if (lastName != null && !lastName.isBlank())
+                            if (!lastName.isNullOrBlank())
                                 Spacer(modifier = modifier.width(5.dp))
                         }
-                        if (lastName != null && !lastName.isBlank())
+                        if (!lastName.isNullOrBlank())
                             Text(text = lastName)
                     } else {
                         Text(text = contact.phoneNumber)
@@ -91,13 +91,17 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
                 }
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        ),
         navigationIcon = {
             if (showBack) {
                 IconButton(onClick = goBack) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "back"
+                        contentDescription = "back",
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -114,7 +118,11 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
 
                     context.startActivity(intent)
                 }) {
-                    Icon(imageVector = Icons.Default.Call, contentDescription = "callIcon")
+                    Icon(
+                        imageVector = Icons.Default.Call,
+                        contentDescription = "callIcon",
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
             }
         }

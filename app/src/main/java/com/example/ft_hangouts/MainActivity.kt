@@ -1,9 +1,12 @@
 package com.example.ft_hangouts
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontVariation
 import androidx.core.app.ActivityCompat
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
 import com.example.ft_hangouts.ui.call.CallViewModel
@@ -11,8 +14,12 @@ import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.navigation.AppNavigation
 import com.example.ft_hangouts.ui.navigation.NavViewModel
+import com.example.ft_hangouts.ui.settings.SettingsViewModel
 import com.example.ft_hangouts.ui.theme.Ft_hangoutsTheme
 import com.example.ft_hangouts.ui.updateContact.UpdateContactViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +39,9 @@ class MainActivity : ComponentActivity() {
 
     private val _updateContactViewModel by lazy { UpdateContactViewModel(container.contactRepo) }
 
+    private val _settingsViewModel = SettingsViewModel()
+    private var _timeStopped = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityCompat.requestPermissions(
@@ -48,7 +58,9 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            Ft_hangoutsTheme {
+            val themeColor = _settingsViewModel.color
+
+            Ft_hangoutsTheme(themeColor) {
                 AppNavigation(
                     modifier = Modifier,
                     _navViewModel,
@@ -56,15 +68,31 @@ class MainActivity : ComponentActivity() {
                     _messageViewModel,
                     _callViewModel,
                     _addContactViewModel,
-                    _updateContactViewModel
+                    _updateContactViewModel,
+                    _settingsViewModel
                 )
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (_timeStopped != 0L) {
+            val date = Date(_timeStopped)
+            val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val onlyTime = outputFormat.format(date)
+
+            Toast.makeText(this, "App stopped at $onlyTime", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        _timeStopped = System.currentTimeMillis()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-
-        applicationContext.deleteDatabase("Chat.db")
     }
 }

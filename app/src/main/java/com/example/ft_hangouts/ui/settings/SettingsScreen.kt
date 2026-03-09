@@ -13,7 +13,7 @@ import com.example.ft_hangouts.ui.components.HeaderColorCard
 import com.example.ft_hangouts.ui.components.LanguageCard
 
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
+fun SettingsScreen(modifier: Modifier = Modifier, settingsViewModel: SettingsViewModel) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -22,7 +22,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
             .padding(5.dp)
             .verticalScroll(scrollState), verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        HeaderColorCard(modifier)
-        LanguageCard(modifier)
+        HeaderColorCard(viewModel = settingsViewModel)
+        LanguageCard()
     }
 }

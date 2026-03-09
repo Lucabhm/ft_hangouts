@@ -27,11 +27,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ft_hangouts.ui.settings.SettingsViewModel
 
 @Composable
-fun HeaderColorCard(modifier: Modifier = Modifier) {
+fun HeaderColorCard(modifier: Modifier = Modifier, viewModel: SettingsViewModel) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedColor by remember {mutableStateOf(Color.Red )}
     val colors = listOf(
         Color.Red,
         Color.Blue,
@@ -42,8 +42,6 @@ fun HeaderColorCard(modifier: Modifier = Modifier) {
         Color.DarkGray,
         Color.Green,
         Color.Magenta,
-        Color.White,
-        Color.Yellow
     )
     Card(
         modifier
@@ -58,7 +56,7 @@ fun HeaderColorCard(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text("Change Header Color", fontSize = 25.sp)
+            Text("Change Theme Color", fontSize = 25.sp)
         }
         DropdownMenu(
             expanded = expanded,
@@ -68,8 +66,8 @@ fun HeaderColorCard(modifier: Modifier = Modifier) {
             colors.forEach { color ->
                 DropdownMenuItem(
                     text = { MenuItemCard(color = color) },
-                    onClick = { selectedColor = color },
-                    trailingIcon = {if (selectedColor == color) { Icon(Icons.Default.Done, contentDescription = null) }}
+                    onClick = { viewModel.changeThemeColor(color) },
+                    trailingIcon = {if (viewModel.color == color) { Icon(Icons.Default.Done, contentDescription = null) }}
                 )
             }
         }

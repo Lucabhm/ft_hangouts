@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 fun AddContactButton(onClick: () -> Unit) {
     SmallFloatingActionButton(
         onClick = onClick,
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.primary
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary
     ) {
         Icon(Icons.Filled.Add, contentDescription = "Add Contact")
     }
