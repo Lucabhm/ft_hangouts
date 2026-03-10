@@ -5,11 +5,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontVariation
 import androidx.core.app.ActivityCompat
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
-import com.example.ft_hangouts.ui.call.CallViewModel
 import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.navigation.AppNavigation
@@ -20,14 +17,12 @@ import com.example.ft_hangouts.ui.updateContact.UpdateContactViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     private val container by lazy { (application as FtHangouts).container }
 
     private val _navViewModel = NavViewModel()
     private val _chatViewModel by lazy { ContactsViewModel(container.contactRepo) }
-    private val _callViewModel by lazy { CallViewModel(container.callRepo) }
     private val _messageViewModel by lazy {
         MessageViewModel(
             container.messageRepo,
@@ -66,7 +61,6 @@ class MainActivity : ComponentActivity() {
                     _navViewModel,
                     _chatViewModel,
                     _messageViewModel,
-                    _callViewModel,
                     _addContactViewModel,
                     _updateContactViewModel,
                     _settingsViewModel

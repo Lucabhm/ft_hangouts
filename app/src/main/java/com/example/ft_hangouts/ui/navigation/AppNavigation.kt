@@ -10,8 +10,6 @@ import androidx.compose.ui.Modifier
 import com.example.ft_hangouts.data.model.NavResult
 import com.example.ft_hangouts.ui.addContact.AddContactScreen
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
-import com.example.ft_hangouts.ui.call.CallScreen
-import com.example.ft_hangouts.ui.call.CallViewModel
 import com.example.ft_hangouts.ui.contacts.ContactsScreen
 import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.components.AddContactButton
@@ -30,7 +28,6 @@ fun AppNavigation(
     navViewModel: NavViewModel,
     chatsViewModel: ContactsViewModel,
     messageViewModel: MessageViewModel,
-    callViewModel: CallViewModel,
     addContactViewModel: AddContactViewModel,
     updateContactViewModel: UpdateContactViewModel,
     settingsViewModel: SettingsViewModel
@@ -76,10 +73,6 @@ fun AppNavigation(
             is NavResult.ChatScreen -> {
                 val contact = (state as NavResult.ChatScreen).contact
                 MessagesScreen(Modifier.padding((innerPadding)), messageViewModel, contact)
-            }
-
-            is NavResult.CallScreen -> {
-                CallScreen(Modifier.padding((innerPadding)), callViewModel)
             }
 
             is NavResult.AddContactScreen -> {

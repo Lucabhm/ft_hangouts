@@ -13,12 +13,6 @@ object ContactContract {
         const val COLUMN_CREATED_AT = "created_at"
     }
 
-    object CallEntry : BaseColumns {
-        const val TABLE_NAME = "call"
-        const val COLUMN_CONTACT_ID = "contact_id"
-        const val COLUMN_CREATED_AT = "created_at"
-    }
-
     object MessageEntry : BaseColumns {
         const val TABLE_NAME = "message"
         const val COLUMN_MESSAGE = "message"

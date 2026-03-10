@@ -28,7 +28,7 @@ fun MessageCard(modifier: Modifier = Modifier, messageInfo: Message, contact: Co
         val date = inputFormat.parse(messageInfo.createdAt)
         val onlyTime = outputFormat.format(date!!)
 
-        Card() {
+        Card {
             Column(modifier = Modifier
                 .padding(5.dp)
                 .widthIn(max = 260.dp)) {

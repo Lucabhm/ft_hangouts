@@ -1,10 +1,8 @@
 package com.example.ft_hangouts.data.repository
 
-import android.app.PendingIntent
 import android.content.Context
 import android.telephony.SmsManager
 import android.util.Log
-import java.lang.Exception
 
 class SMSRepository(private val context: Context) {
     fun sendSms(phoneNumber: String, msg: String) {

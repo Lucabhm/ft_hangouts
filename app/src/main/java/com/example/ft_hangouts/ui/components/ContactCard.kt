@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -93,7 +92,7 @@ fun ContactCard(
                 Text(text = contact.phoneNumber)
             }
             Spacer(modifier = modifier.weight(1F))
-            Box() {
+            Box {
                 IconButton(onClick = { expand = !expand }) {
                     Icon(Icons.Default.MoreVert, "Edit Contact")
                 }

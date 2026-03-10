@@ -42,14 +42,4 @@ class MessageRepository(private val messageDao: MessageDao) {
                 }
             })
     }
-
-    fun deleteMessage(messageId: Long): UIResult<Int> {
-        return messageDao.deleteById(messageId)
-            .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
-                when (it) {
-                    is NoSuchElementException -> UIResult.NotFound(it.message ?: "")
-                    else -> UIResult.DataBaseError
-                }
-            })
-    }
 }

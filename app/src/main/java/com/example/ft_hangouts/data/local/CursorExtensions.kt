@@ -4,8 +4,6 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.model.Contact
-import com.example.ft_hangouts.data.model.Call
-import com.example.ft_hangouts.data.local.ContactContract.CallEntry
 import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 
@@ -17,20 +15,6 @@ fun Cursor.toContact() = Contact(
     profilePicture = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PROFILE_PIC)),
     lastMsg = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_MSG)),
     createdAt = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_CREATED_AT))
-)
-
-fun Cursor.toCall() = Call(
-    id = getLong(getColumnIndexOrThrow("call_id")),
-    contact = Contact(
-        id = getLong(getColumnIndexOrThrow("contact_id")),
-        firstName = getString(getColumnIndexOrThrow("first_name")),
-        lastName = getString(getColumnIndexOrThrow("last_name")),
-        phoneNumber = getString(getColumnIndexOrThrow("phone_number")),
-        profilePicture = getString(getColumnIndexOrThrow("profile_picture")),
-        lastMsg = getString(getColumnIndexOrThrow("last_msg")),
-        createdAt = getString(getColumnIndexOrThrow("created_at"))
-    ),
-    createdAt = getString(getColumnIndexOrThrow("call_created_at"))
 )
 
 fun Cursor.toMessage() = Message(

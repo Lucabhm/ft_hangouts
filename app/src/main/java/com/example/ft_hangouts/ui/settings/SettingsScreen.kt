@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.ui.components.HeaderColorCard
-import com.example.ft_hangouts.ui.components.LanguageCard
 
 @Composable
 fun SettingsScreen(modifier: Modifier = Modifier, settingsViewModel: SettingsViewModel) {
@@ -23,6 +22,5 @@ fun SettingsScreen(modifier: Modifier = Modifier, settingsViewModel: SettingsVie
             .verticalScroll(scrollState), verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         HeaderColorCard(viewModel = settingsViewModel)
-        LanguageCard()
     }
 }

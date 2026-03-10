@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import android.util.Log
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
-import com.example.ft_hangouts.data.local.ContactContract.CallEntry
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -21,14 +20,6 @@ private const val SQL_CREATE_CONTACT = "CREATE TABLE IF NOT EXISTS ${ContactEntr
         "${ContactEntry.COLUMN_PROFILE_PIC} TEXT," +
         "${ContactEntry.COLUMN_LAST_MSG} TEXT," +
         "${ContactEntry.COLUMN_CREATED_AT} TEXT)"
-
-private const val SQL_CREATE_CALL = "CREATE TABLE IF NOT EXISTS ${CallEntry.TABLE_NAME} (" +
-        "${BaseColumns._ID} INTEGER PRIMARY KEY," +
-        "${CallEntry.COLUMN_CONTACT_ID} INTEGER NOT NULL," +
-        "${CallEntry.COLUMN_CREATED_AT} TEXT," +
-        "FOREIGN KEY (${CallEntry.COLUMN_CONTACT_ID})" +
-        "REFERENCES ${ContactEntry.TABLE_NAME} (${BaseColumns._ID})" +
-        "ON DELETE CASCADE)"
 
 private const val SQL_CREATE_MESSAGE = "CREATE TABLE IF NOT EXISTS ${MessageEntry.TABLE_NAME} (" +
         "${BaseColumns._ID} INTEGER PRIMARY KEY," +
@@ -44,7 +35,6 @@ private const val SQL_CREATE_MESSAGE = "CREATE TABLE IF NOT EXISTS ${MessageEntr
         "ON DELETE CASCADE)"
 
 private const val SQL_DROP_CONTACT = "DROP TABLE IF EXISTS ${ContactEntry.TABLE_NAME}"
-private const val SQL_DROP_CALL = "DROP TABLE IF EXISTS ${CallEntry.TABLE_NAME}"
 private const val SQL_DROP_MESSAGE = "DROP TABLE IF EXISTS ${MessageEntry.TABLE_NAME}"
 
 class AppDatabaseHelper(context: Context) :
@@ -57,7 +47,6 @@ class AppDatabaseHelper(context: Context) :
     }
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_CONTACT)
-        db.execSQL(SQL_CREATE_CALL)
         db.execSQL(SQL_CREATE_MESSAGE)
 
         createOwnContact(db)
@@ -69,7 +58,6 @@ class AppDatabaseHelper(context: Context) :
         newVersion: Int
     ) {
         db.execSQL(SQL_DROP_CONTACT)
-        db.execSQL(SQL_DROP_CALL)
         db.execSQL(SQL_DROP_MESSAGE)
         onCreate(db)
     }

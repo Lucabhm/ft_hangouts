@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.ui.addContact.AddContactViewModel
 import java.io.File
 import java.io.FileOutputStream
 

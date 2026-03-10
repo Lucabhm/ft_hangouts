@@ -24,26 +24,13 @@ class ContactRepository(private val contactDao: ContactDao) {
         })
     }
 
-    suspend fun getOwnContact(): UIResult<Contact> {
+    fun getOwnContact(): UIResult<Contact> {
         return contactDao.getOwnContact().fold(onSuccess = { UIResult.Success(it) }, onFailure = {
             when (it) {
                 is NoSuchElementException -> UIResult.NotFound(it.message ?: "")
                 else -> UIResult.DataBaseError
             }
         })
-    }
-
-    fun getContactById(contactId: Long): UIResult<Contact> {
-        return contactDao.selectById(contactId)
-            .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
-                when (it) {
-                    is NoSuchElementException -> UIResult.NotFound(
-                        it.message ?: ""
-                    )
-
-                    else -> UIResult.DataBaseError
-                }
-            })
     }
 
     fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {

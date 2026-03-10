@@ -21,7 +21,7 @@ class NavViewModel : ViewModel() {
 
 
     fun navigateTo(screen: NavResult) {
-        _backStack.value = _backStack.value + screen
+        _backStack.value += screen
     }
 
     fun goBack() {
