@@ -52,7 +52,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
                     .fillMaxSize()
             ) {
                 LazyColumn(
-                    modifier = modifier
+                    modifier = Modifier
                         .weight(1f)
                 ) {
                     items(messages) { item -> MessageCard(messageInfo = item, contact = contact) }
