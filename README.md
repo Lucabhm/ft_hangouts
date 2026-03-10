@@ -33,22 +33,22 @@ The goal of this project is to become familiar with mobile systems by building a
 
 ## 📋 Mandatory Features  
 
-- [ ] Create / edit / delete contacts  
-- [ ] Contact homepage with summaries  
-- [ ] Persistent SQLite storage  
-- [ ] Send & receive SMS with contacts  
-- [ ] Conversation history  
-- [ ] Multi-language support (2 languages minimum)  
-- [ ] Header color customization  
-- [ ] Background timestamp toast  
-- [ ] Landscape & portrait support  
-- [ ] 42 logo as app icon  
+- [x] Create / edit / delete contacts  
+- [x] Contact homepage with summaries  
+- [x] Persistent SQLite storage  
+- [x] Send & receive SMS with contacts  
+- [x] Conversation history  
+- [x] Multi-language support (2 languages minimum)  
+- [x] Header color customization  
+- [x] Background timestamp toast  
+- [x] Landscape & portrait support  
+- [x] 42 logo as app icon  
 
 ---
 
 ## 🌟 Bonus Features  
 
-- [ ] Add profile pictures to contacts  
-- [ ] Automatically create new contact from unknown SMS sender  
-- [ ] Apply **Material Design** for improved UI  
-- [ ] Enable direct phone calls  
+- [x] Add profile pictures to contacts  
+- [x] Automatically create new contact from unknown SMS sender  
+- [x] Apply **Material Design** for improved UI  
+- [x] Enable direct phone calls  
