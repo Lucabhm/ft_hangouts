@@ -1,8 +1,12 @@
 package com.example.ft_hangouts.ui.navigation
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -10,11 +14,11 @@ import androidx.compose.ui.Modifier
 import com.example.ft_hangouts.data.model.NavResult
 import com.example.ft_hangouts.ui.addContact.AddContactScreen
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
-import com.example.ft_hangouts.ui.contacts.ContactsScreen
-import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.components.AddContactButton
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
+import com.example.ft_hangouts.ui.contacts.ContactsScreen
+import com.example.ft_hangouts.ui.contacts.ContactsViewModel
 import com.example.ft_hangouts.ui.message.MessageViewModel
 import com.example.ft_hangouts.ui.message.MessagesScreen
 import com.example.ft_hangouts.ui.settings.SettingsScreen
@@ -41,6 +45,7 @@ fun AppNavigation(
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.ime),
         bottomBar = {
             if (showTopBar) {
                 BottomBar(state, onClick = { screen -> navViewModel.changeStack(screen) })
@@ -49,12 +54,12 @@ fun AppNavigation(
         topBar = { TopBar(currentRoute = state, goBack = { navViewModel.goBack() }) },
         floatingActionButton = {
             if (showFloatingButton) AddContactButton(onClick = { navViewModel.navigateTo(NavResult.AddContactScreen) })
-        }
+        },
     ) { innerPadding ->
         when (state) {
             is NavResult.ContactsScreen -> {
                 ContactsScreen(
-                    Modifier.padding((innerPadding)),
+                    Modifier.padding(innerPadding),
                     chatsViewModel,
                     onClick = { contact ->
                         navViewModel.navigateTo(
@@ -72,12 +77,12 @@ fun AppNavigation(
 
             is NavResult.ChatScreen -> {
                 val contact = (state as NavResult.ChatScreen).contact
-                MessagesScreen(Modifier.padding((innerPadding)), messageViewModel, contact)
+                MessagesScreen(Modifier.padding(innerPadding), messageViewModel, contact)
             }
 
             is NavResult.AddContactScreen -> {
                 AddContactScreen(
-                    Modifier.padding((innerPadding)),
+                    Modifier.padding(innerPadding),
                     addContactViewModel,
                     onBack = {
                         navViewModel.goBack()
@@ -85,14 +90,14 @@ fun AppNavigation(
             }
 
             is NavResult.SettingsScreen -> {
-                SettingsScreen(Modifier.padding((innerPadding)), settingsViewModel)
+                SettingsScreen(Modifier.padding(innerPadding), settingsViewModel)
             }
 
             is NavResult.UpdateContactScreen -> {
                 val contact = (state as NavResult.UpdateContactScreen).contact
 
                 UpdateContactScreen(
-                    modifier.padding((innerPadding)),
+                    Modifier.padding(innerPadding),
                     updateContactViewModel,
                     contact,
                     onBack = {navViewModel.goBack()}
