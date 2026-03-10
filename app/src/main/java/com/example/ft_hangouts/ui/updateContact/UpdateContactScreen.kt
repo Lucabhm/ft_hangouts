@@ -100,7 +100,7 @@ fun UpdateContactScreen(
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text(text = stringResource(R.string.add_contact_create_button))
+            Text(text = stringResource(R.string.update_contact_button))
         }
     }
 }

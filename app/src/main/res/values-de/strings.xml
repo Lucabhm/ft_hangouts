@@ -16,4 +16,5 @@
     <string name="settings_language_button">Sprache ändern</string>
     <string name="settings_language_input_ger">Deutsch</string>
     <string name="settings_language_input_en">Englisch</string>
+    <string name="update_contact_button">Kontakt aktualisierien</string>
 </resources>
