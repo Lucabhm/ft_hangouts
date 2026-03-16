@@ -86,18 +86,18 @@ class SmsReceiver : BroadcastReceiver() {
                 val current = sdf.format(Date())
 
                 for (sms in messages) {
-                    messageRepository.createMessage(
-                        Message(
-                            null,
-                            sms.messageBody,
-                            contactId,
-                            ownId,
-                            current
+                    if (!sms.messageBody.isBlank()) {
+                        messageRepository.createMessage(
+                            Message(
+                                null,
+                                sms.messageBody,
+                                contactId,
+                                ownId,
+                                current
+                            )
                         )
-                    )
+                    }
                 }
-
-            } catch (e: Exception) {
 
             } finally {
                 pendingResult.finish()

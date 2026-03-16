@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.message
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ft_hangouts.data.model.Contact
@@ -64,17 +65,21 @@ class MessageViewModel(
                     val ownContact = state.data
                     val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
                     val current = sdf.format(Date())
-                    val message =
-                        Message(
-                            message = input,
-                            fromId = ownContact.id!!,
-                            sendToId = sendTo.id,
-                            createdAt = current
-                        )
+                    if (!input.isBlank()) {
+                        Log.d("test", input)
+                        val inputCheck = input.trim()
+                        val message =
+                            Message(
+                                message = inputCheck,
+                                fromId = ownContact.id!!,
+                                sendToId = sendTo.id,
+                                createdAt = current
+                            )
 
-                    smsRepository.sendSms(sendTo.phoneNumber, input)
-                    messageRepository.createMessage(message)
-                    contactRepository.updateContact(sendTo.id, null, null, null, null, current)
+                        smsRepository.sendSms(sendTo.phoneNumber, inputCheck)
+                        messageRepository.createMessage(message)
+                        contactRepository.updateContact(sendTo.id, null, null, null, null, current)
+                    }
                 }
 
                 is UIResult.NotFound -> {}
