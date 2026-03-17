@@ -16,16 +16,16 @@ import java.util.Date
 import java.util.Locale
 
 class AddContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
-    var firstName by mutableStateOf("")
-    var lastName by mutableStateOf("")
-    var phoneNumber by mutableStateOf("")
-    var profilePic by mutableStateOf("")
+    var firstName by mutableStateOf<String?>(null)
+    var lastName by mutableStateOf<String?>(null)
+    var phoneNumber by mutableStateOf<String?>(null)
+    var profilePic by mutableStateOf<String?>(null)
     private val _state = MutableSharedFlow<UIResult<Long>>()
     val state = _state.asSharedFlow()
 
     fun saveContact() {
         viewModelScope.launch {
-            if (phoneNumber.isBlank())
+            if (phoneNumber.isNullOrBlank())
                 _state.emit(UIResult.NotFound("Need to enter a Phone number"))
             else {
                 val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
@@ -37,7 +37,7 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
                             null,
                             firstName,
                             lastName,
-                            phoneNumber,
+                            phoneNumber!!,
                             profilePic,
                             null,
                             current

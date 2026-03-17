@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UpdateContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
-    var firstName by mutableStateOf("")
-    var lastName by mutableStateOf("")
-    var phoneNumber by mutableStateOf("")
-    var profilePic by mutableStateOf("")
+    var firstName by mutableStateOf<String?>(null)
+    var lastName by mutableStateOf<String?>(null)
+    var phoneNumber by mutableStateOf<String?>(null)
+    var profilePic by mutableStateOf<String?>(null)
     private val _state = MutableStateFlow<UIResult<Int>>(UIResult.Loading)
     val state: StateFlow<UIResult<Int>> = _state
 

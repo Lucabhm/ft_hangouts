@@ -35,7 +35,7 @@ import java.io.FileOutputStream
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
+fun PickProfileImage(currPath: String?, onUpdate: (String) -> Unit) {
     var path = currPath
     val context = LocalContext.current
     val launcher =
@@ -63,10 +63,10 @@ fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
                 },
             ),
     ) {
-        if (path.isEmpty())
+        if (path.isNullOrBlank())
             Icon(Icons.Default.Add, "addPic")
         else {
-            Image(bitmap = loadStringToBitmap(path), null)
+            Image(bitmap = loadStringToBitmap(path!!), null)
         }
     }
 

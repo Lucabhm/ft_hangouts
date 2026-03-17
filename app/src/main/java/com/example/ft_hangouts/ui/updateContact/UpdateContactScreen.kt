@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,26 +31,27 @@ fun UpdateContactScreen(
     contact: Contact,
     onBack: () -> Unit
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.firstName = contact.firstName ?: ""
-        viewModel.lastName = contact.lastName ?: ""
-        viewModel.phoneNumber = contact.phoneNumber
-        viewModel.profilePic = contact.profilePicture ?: ""
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.firstName = contact.firstName ?: null
+//        viewModel.lastName = contact.lastName ?: ""
+//        viewModel.phoneNumber = contact.phoneNumber
+//        viewModel.profilePic = contact.profilePicture ?: ""
+//    }
 
     LaunchedEffect(Unit) {
         viewModel.state.collect {
             if (it is UIResult.Success) {
-                viewModel.phoneNumber = ""
-                viewModel.profilePic = ""
-                viewModel.lastName = ""
-                viewModel.firstName = ""
+                viewModel.phoneNumber = null
+                viewModel.profilePic = null
+                viewModel.lastName = null
+                viewModel.firstName = null
 
                 viewModel.resetState()
                 onBack()
             }
         }
     }
+    val uiState = viewModel.state.collectAsState(UIResult.Loading)
     val scrollState = rememberScrollState()
 
     Column(
@@ -66,7 +68,7 @@ fun UpdateContactScreen(
             Text(text = stringResource(R.string.add_contact_first_name))
 
             OutlinedTextField(
-                value = viewModel.firstName,
+                value = viewModel.firstName ?: "",
                 onValueChange = { viewModel.firstName = it },
                 label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
                 modifier = Modifier.fillMaxWidth()
@@ -76,7 +78,7 @@ fun UpdateContactScreen(
         Column {
             Text(text = stringResource(R.string.add_contact_last_name))
             OutlinedTextField(
-                value = viewModel.lastName,
+                value = viewModel.lastName ?: "",
                 onValueChange = { viewModel.lastName = it },
                 label = { Text(stringResource(R.string.add_contact_last_name_input)) },
                 modifier = Modifier.fillMaxWidth()
@@ -86,10 +88,11 @@ fun UpdateContactScreen(
         Column {
             Text(text = stringResource(R.string.add_contact_phone_number))
             OutlinedTextField(
-                value = viewModel.phoneNumber,
+                value = viewModel.phoneNumber ?: "",
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                isError = uiState.value is UIResult.NotFound
             )
         }
 

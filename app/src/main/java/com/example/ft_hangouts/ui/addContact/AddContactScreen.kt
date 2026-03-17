@@ -35,10 +35,10 @@ fun AddContactScreen(
     LaunchedEffect(Unit) {
         viewModel.state.collect {
             if (it is UIResult.Success) {
-                viewModel.phoneNumber = ""
-                viewModel.profilePic = ""
-                viewModel.lastName = ""
-                viewModel.firstName = ""
+                viewModel.phoneNumber = null
+                viewModel.profilePic = null
+                viewModel.lastName = null
+                viewModel.firstName = null
                 onBack()
             }
         }
@@ -57,7 +57,7 @@ fun AddContactScreen(
         Column {
             Text(text = stringResource(R.string.add_contact_first_name))
             OutlinedTextField(
-                value = viewModel.firstName,
+                value = viewModel.firstName ?: "",
                 onValueChange = { viewModel.firstName = it },
                 label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
                 modifier = Modifier.fillMaxWidth()
@@ -67,7 +67,7 @@ fun AddContactScreen(
         Column {
             Text(text = stringResource(R.string.add_contact_last_name))
             OutlinedTextField(
-                value = viewModel.lastName,
+                value = viewModel.lastName ?: "",
                 onValueChange = { viewModel.lastName = it },
                 label = { Text(stringResource(R.string.add_contact_last_name_input)) },
                 modifier = Modifier.fillMaxWidth()
@@ -77,10 +77,15 @@ fun AddContactScreen(
         Column {
             Text(text = stringResource(R.string.add_contact_phone_number))
             OutlinedTextField(
-                value = viewModel.phoneNumber,
+                value = viewModel.phoneNumber ?: "",
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
                 modifier = Modifier.fillMaxWidth(),
+                supportingText = {
+                    if (uiState.value is UIResult.NotFound) {
+                        Text("You need to enter a valid Phone number")
+                    }
+                },
                 isError = uiState.value is UIResult.NotFound
             )
         }
