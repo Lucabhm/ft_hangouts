@@ -1,4 +1,4 @@
-package com.example.ft_hangouts.data.repository
+package com.example.ft_hangouts.data.model
 
 sealed class UIResult<out T> {
     object Loading : UIResult<Nothing>()

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import com.example.ft_hangouts.ui.components.MessageCard
 
 @Composable

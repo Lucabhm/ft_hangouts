@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
@@ -30,11 +30,11 @@ fun AddContactScreen(
     onBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val uiState = viewModel.state.collectAsState(UIResult.Loading)
+    val uiState = viewModel.state.collectAsState(AddContactUIState.Loading)
 
     LaunchedEffect(Unit) {
         viewModel.state.collect {
-            if (it is UIResult.Success) {
+            if (it is AddContactUIState.Success) {
                 viewModel.phoneNumber = null
                 viewModel.profilePic = null
                 viewModel.lastName = null
@@ -60,7 +60,11 @@ fun AddContactScreen(
                 value = viewModel.firstName ?: "",
                 onValueChange = { viewModel.firstName = it },
                 label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                supportingText = {
+                    uiState.value.firstNameError()?.let { Text(it) }
+                },
+                isError = uiState.value.firstNameError() != null
             )
         }
 
@@ -70,7 +74,11 @@ fun AddContactScreen(
                 value = viewModel.lastName ?: "",
                 onValueChange = { viewModel.lastName = it },
                 label = { Text(stringResource(R.string.add_contact_last_name_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                supportingText = {
+                    uiState.value.lastNameError()?.let { Text(it) }
+                },
+                isError = uiState.value.lastNameError() != null
             )
         }
 
@@ -82,11 +90,9 @@ fun AddContactScreen(
                 label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
                 modifier = Modifier.fillMaxWidth(),
                 supportingText = {
-                    if (uiState.value is UIResult.NotFound) {
-                        Text("You need to enter a valid Phone number")
-                    }
+                    uiState.value.phoneNumberError()?.let { Text(it) }
                 },
-                isError = uiState.value is UIResult.NotFound
+                isError = uiState.value.phoneNumberError() != null
             )
         }
 

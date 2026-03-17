@@ -8,7 +8,7 @@ import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.repository.MessageRepository
 import com.example.ft_hangouts.data.repository.SMSRepository
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll

@@ -2,6 +2,7 @@ package com.example.ft_hangouts.data.repository
 
 import com.example.ft_hangouts.data.local.dao.MessageDao
 import com.example.ft_hangouts.data.model.Message
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map

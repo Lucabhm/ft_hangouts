@@ -1,7 +1,10 @@
 package com.example.ft_hangouts.data.repository
 
+import android.database.sqlite.SQLiteConstraintException
+import android.database.sqlite.SQLiteFullException
 import com.example.ft_hangouts.data.local.dao.ContactDao
 import com.example.ft_hangouts.data.model.Contact
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
@@ -59,10 +62,15 @@ class ContactRepository(private val contactDao: ContactDao) {
             },
             onFailure = {
                 when (it) {
-                    is NoSuchElementException -> UIResult.NotFound(
-                        it.message ?: ""
-                    )
-
+                    is NoSuchElementException -> {
+                        UIResult.NotFound("Contact not found")
+                    }
+                    is SQLiteFullException -> {
+                        UIResult.NotFound("")
+                    }
+                    is SQLiteConstraintException -> {
+                        UIResult.NotFound("This Contact already exist with this phone number")
+                    }
                     else -> UIResult.DataBaseError
                 }
             })

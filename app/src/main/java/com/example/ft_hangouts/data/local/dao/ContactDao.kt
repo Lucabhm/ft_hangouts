@@ -121,7 +121,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
 
             val id = db.insert(ContactEntry.TABLE_NAME, null, values)
             if (id == -1L)
-                Result.failure(Exception("Contact insert failed"))
+                Result.failure(Exception())
             else
                 Result.success(id)
         } catch (e: Exception) {

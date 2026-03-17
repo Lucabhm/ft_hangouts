@@ -7,7 +7,7 @@ import android.provider.Telephony
 import com.example.ft_hangouts.FtHangouts
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

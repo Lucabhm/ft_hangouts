@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.Contact
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
@@ -31,13 +31,6 @@ fun UpdateContactScreen(
     contact: Contact,
     onBack: () -> Unit
 ) {
-//    LaunchedEffect(Unit) {
-//        viewModel.firstName = contact.firstName ?: null
-//        viewModel.lastName = contact.lastName ?: ""
-//        viewModel.phoneNumber = contact.phoneNumber
-//        viewModel.profilePic = contact.profilePicture ?: ""
-//    }
-
     LaunchedEffect(Unit) {
         viewModel.state.collect {
             if (it is UIResult.Success) {
