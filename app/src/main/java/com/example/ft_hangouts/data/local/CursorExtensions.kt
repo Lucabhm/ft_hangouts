@@ -6,6 +6,8 @@ import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
+import com.example.ft_hangouts.data.local.ContactContract.ThemeColorEntry
+import com.example.ft_hangouts.data.model.ThemeColor
 
 fun Cursor.toContact() = Contact(
     id = getLong(getColumnIndexOrThrow(BaseColumns._ID)),
@@ -23,4 +25,12 @@ fun Cursor.toMessage() = Message(
     fromId = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_FROM_ID)),
     sendToId = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_SEND_TO_ID)),
     createdAt = getString(getColumnIndexOrThrow(MessageEntry.COLUMN_CREATED_AT))
+)
+
+fun Cursor.toTheme() = ThemeColor(
+    id = getLong(getColumnIndexOrThrow(BaseColumns._ID)), themeColor = getLong(
+        getColumnIndexOrThrow(
+            ThemeColorEntry.COLUMN_COLOR
+        )
+    )
 )
