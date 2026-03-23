@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.model.UIResult
+import com.example.ft_hangouts.data.model.ContactUIState
+import com.example.ft_hangouts.data.model.firstNameError
+import com.example.ft_hangouts.data.model.lastNameError
+import com.example.ft_hangouts.data.model.phoneNumberError
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
@@ -30,11 +33,11 @@ fun AddContactScreen(
     onBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val uiState = viewModel.state.collectAsState(AddContactUIState.Loading)
+    val uiState = viewModel.state.collectAsState(ContactUIState.Loading)
 
     LaunchedEffect(Unit) {
         viewModel.state.collect {
-            if (it is AddContactUIState.Success) {
+            if (it is ContactUIState.Success) {
                 viewModel.phoneNumber = null
                 viewModel.profilePic = null
                 viewModel.lastName = null

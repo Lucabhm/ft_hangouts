@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.LocalAutofillHighlightColor
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -21,7 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.Contact
-import com.example.ft_hangouts.data.model.UIResult
+import com.example.ft_hangouts.data.model.ContactUIState
+import com.example.ft_hangouts.data.model.firstNameError
+import com.example.ft_hangouts.data.model.lastNameError
+import com.example.ft_hangouts.data.model.phoneNumberError
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
@@ -32,8 +36,15 @@ fun UpdateContactScreen(
     onBack: () -> Unit
 ) {
     LaunchedEffect(Unit) {
+        viewModel.firstName = contact.firstName
+        viewModel.lastName = contact.lastName
+        viewModel.phoneNumber = contact.phoneNumber
+        viewModel.profilePic = contact.profilePicture
+    }
+
+    LaunchedEffect(Unit) {
         viewModel.state.collect {
-            if (it is UIResult.Success) {
+            if (it is ContactUIState.Success) {
                 viewModel.phoneNumber = null
                 viewModel.profilePic = null
                 viewModel.lastName = null
@@ -44,7 +55,7 @@ fun UpdateContactScreen(
             }
         }
     }
-    val uiState = viewModel.state.collectAsState(UIResult.Loading)
+    val uiState = viewModel.state.collectAsState(ContactUIState.Loading)
     val scrollState = rememberScrollState()
 
     Column(
@@ -64,7 +75,11 @@ fun UpdateContactScreen(
                 value = viewModel.firstName ?: "",
                 onValueChange = { viewModel.firstName = it },
                 label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                isError = uiState.value.firstNameError() != null,
+                supportingText = {
+                    uiState.value.firstNameError()?.let { Text(it) }
+                }
             )
         }
 
@@ -74,7 +89,11 @@ fun UpdateContactScreen(
                 value = viewModel.lastName ?: "",
                 onValueChange = { viewModel.lastName = it },
                 label = { Text(stringResource(R.string.add_contact_last_name_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                isError = uiState.value.lastNameError() != null,
+                supportingText = {
+                    uiState.value.lastNameError()?.let { Text(it) }
+                }
             )
         }
 
@@ -85,7 +104,10 @@ fun UpdateContactScreen(
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
                 modifier = Modifier.fillMaxWidth(),
-                isError = uiState.value is UIResult.NotFound
+                isError = uiState.value.phoneNumberError() != null,
+                supportingText = {
+                    uiState.value.phoneNumberError()?.let { Text(it) }
+                }
             )
         }
 

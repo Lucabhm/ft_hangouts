@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ft_hangouts.data.model.ContactUIState
 import com.example.ft_hangouts.data.model.Contact
+import com.example.ft_hangouts.data.model.ContactFormError
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,34 +17,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ContactFormError(
-    var firstName: String? = null,
-    var lastName: String? = null,
-    var phoneNumber: String? = null,
-)
-
-sealed class AddContactUIState {
-    object Loading : AddContactUIState()
-    object Success : AddContactUIState()
-    data class InputError(val msg: ContactFormError = ContactFormError()) : AddContactUIState()
-    data class DataBaseError(val msg: String) : AddContactUIState()
-}
-
-fun AddContactUIState.phoneNumberError(): String? =
-    (this as? AddContactUIState.InputError)?.msg?.phoneNumber
-
-fun AddContactUIState.lastNameError(): String? =
-    (this as? AddContactUIState.InputError)?.msg?.lastName
-
-fun AddContactUIState.firstNameError(): String? =
-    (this as? AddContactUIState.InputError)?.msg?.firstName
-
 class AddContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
     var firstName by mutableStateOf<String?>(null)
     var lastName by mutableStateOf<String?>(null)
     var phoneNumber by mutableStateOf<String?>(null)
     var profilePic by mutableStateOf<String?>(null)
-    private val _state = MutableSharedFlow<AddContactUIState>()
+    private val _state = MutableSharedFlow<ContactUIState>()
     val state = _state.asSharedFlow()
 
     fun saveContact() {
@@ -57,7 +37,7 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
                 test.firstName = "Invalid first name"
 
             if (test.phoneNumber != null || test.lastName != null || test.firstName != null)
-                _state.emit(AddContactUIState.InputError(msg = test))
+                _state.emit(ContactUIState.InputError(msg = test))
             else {
                 val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
                 val current = sdf.format(Date())
@@ -75,16 +55,16 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
 
                 when(result) {
                     is UIResult.Loading -> {
-                        _state.emit(AddContactUIState.Loading)
+                        _state.emit(ContactUIState.Loading)
                     }
                     is UIResult.NotFound -> {
-                        _state.emit(AddContactUIState.DataBaseError(result.msg))
+                        _state.emit(ContactUIState.DataBaseError(result.msg))
                     }
                     is UIResult.Success -> {
-                        _state.emit(AddContactUIState.Success)
+                        _state.emit(ContactUIState.Success)
                     }
                     else -> {
-                        _state.emit(AddContactUIState.DataBaseError("Undefined Database Error"))
+                        _state.emit(ContactUIState.DataBaseError("Undefined Database Error"))
                     }
                 }
             }
@@ -98,10 +78,10 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
     }
 
     private fun lastNameCheck(): Boolean {
-        return lastName?.let { it.length in 0..50 } ?: true
+        return lastName?.let { it.length in 0..10 } ?: true
     }
 
     private fun firstNameCheck(): Boolean {
-        return firstName?.let { it.length in 0..50 } ?: true
+        return firstName?.let { it.length in 0..10 } ?: true
     }
 }
