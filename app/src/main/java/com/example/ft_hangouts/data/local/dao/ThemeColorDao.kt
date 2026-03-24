@@ -6,10 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.ft_hangouts.data.local.ContactContract.ThemeColorEntry
 import com.example.ft_hangouts.data.local.toTheme
 import com.example.ft_hangouts.data.model.ThemeColor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class ThemeColorDao(private val dbHelper: SQLiteOpenHelper) {
-    fun select(): Result<ThemeColor> {
-        return try {
+    suspend fun select(): Result<ThemeColor> = withContext(Dispatchers.IO) {
+        try {
             val db = dbHelper.readableDatabase
 
             db.query(ThemeColorEntry.TABLE_NAME, null, null, null, null, null, null)
@@ -43,8 +45,8 @@ class ThemeColorDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun update(color: Long): Result<Int> {
-        return try {
+    suspend fun update(color: Long): Result<Int> = withContext(Dispatchers.IO) {
+        try {
             val db = dbHelper.writableDatabase
             val values = ContentValues()
 

@@ -25,7 +25,7 @@ class MessageRepository(private val messageDao: MessageDao) {
             })
     }
 
-    fun createMessage(
+    suspend fun createMessage(
         message: Message
     ): UIResult<Long> {
         return messageDao.insert(message).fold(
