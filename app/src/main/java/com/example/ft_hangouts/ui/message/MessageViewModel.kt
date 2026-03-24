@@ -36,7 +36,7 @@ class MessageViewModel(
                 is UIResult.Success -> {
                     val ownContact = state.data
 
-                    emitAll(messageRepository.getAllMessages(ownContact.id!!, contact.id!!))
+                    emitAll(messageRepository.getAllMessages(ownContact.id, contact.id))
                 }
 
                 is UIResult.NotFound -> {
@@ -56,8 +56,6 @@ class MessageViewModel(
     }
 
     fun sendMessage(input: String, sendTo: Contact) {
-        if (sendTo.id == null)
-            return
         viewModelScope.launch {
             when (val state = contactRepository.getOwnContact()) {
                 is UIResult.Loading -> {}
@@ -69,7 +67,7 @@ class MessageViewModel(
                         val message =
                             Message(
                                 message = inputCheck,
-                                fromId = ownContact.id!!,
+                                fromId = ownContact.id,
                                 sendToId = sendTo.id,
                                 createdAt = current
                             )

@@ -37,7 +37,7 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
         else {
             viewModelScope.launch {
                 val result = contactRepository.updateContact(
-                    contact.id!!,
+                    contact.id,
                     firstName,
                     lastName,
                     phoneNumber,

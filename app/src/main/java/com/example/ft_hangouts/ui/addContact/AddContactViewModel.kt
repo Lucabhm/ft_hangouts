@@ -41,27 +41,26 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
             else {
                 val current = System.currentTimeMillis()
                 val result = contactRepository.createContact(
-                    Contact(
-                        null,
-                        firstName,
-                        lastName,
-                        phoneNumber!!,
-                        profilePic,
-                        null,
-                        current
-                    )
+                    firstName,
+                    lastName,
+                    phoneNumber,
+                    profilePic,
                 )
 
-                when(result) {
+
+                when (result) {
                     is UIResult.Loading -> {
                         _state.emit(ContactUIState.Loading)
                     }
+
                     is UIResult.NotFound -> {
                         _state.emit(ContactUIState.DataBaseError(result.msg))
                     }
+
                     is UIResult.Success -> {
                         _state.emit(ContactUIState.Success)
                     }
+
                     else -> {
                         _state.emit(ContactUIState.DataBaseError("Undefined Database Error"))
                     }

@@ -53,9 +53,12 @@ class ContactRepository(private val contactDao: ContactDao) {
     }
 
     suspend fun createContact(
-        contact: Contact
+        firstName: String? = null,
+        lastName: String? = null,
+        phoneNumber: String? = null,
+        profilePicture: String? = null,
     ): UIResult<Long> {
-        return contactDao.insert(contact).fold(
+        return contactDao.insert(firstName, lastName, phoneNumber, profilePicture).fold(
             onSuccess = {
                 _contactUpdate.tryEmit(Unit)
                 UIResult.Success(it)
@@ -65,12 +68,15 @@ class ContactRepository(private val contactDao: ContactDao) {
                     is NoSuchElementException -> {
                         UIResult.NotFound("Contact not found")
                     }
+
                     is SQLiteFullException -> {
                         UIResult.NotFound("")
                     }
+
                     is SQLiteConstraintException -> {
                         UIResult.NotFound("This Contact already exist with this phone number")
                     }
+
                     else -> UIResult.DataBaseError
                 }
             })
