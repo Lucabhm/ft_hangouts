@@ -34,7 +34,6 @@ import com.example.ft_hangouts.R
 import java.io.File
 import java.io.FileOutputStream
 
-@RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
     var path = currPath
@@ -75,11 +74,16 @@ fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
     Text(text = stringResource(R.string.add_contact_pic))
 }
 
-@RequiresApi(Build.VERSION_CODES.P)
 fun uriToBitmap(context: Context, uri: Uri): Bitmap {
-    val src = ImageDecoder.createSource(context.contentResolver, uri)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val src = ImageDecoder.createSource(context.contentResolver, uri)
 
-    return ImageDecoder.decodeBitmap(src)
+        return ImageDecoder.decodeBitmap(src)
+    } else {
+        return context.contentResolver.openInputStream(uri).use { inputStream ->
+            BitmapFactory.decodeStream(inputStream)
+        }
+    }
 }
 
 fun saveProfileImage(context: Context, bitmap: Bitmap): String {
