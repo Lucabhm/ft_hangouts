@@ -30,7 +30,6 @@ class NavViewModel : ViewModel() {
     }
 
     fun changeStack(mainScreen: NavResult) {
-        Log.d("test", "hallo $mainScreen")
         _backStack.update { listOf(mainScreen) }
     }
 

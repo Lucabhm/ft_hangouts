@@ -81,8 +81,7 @@ class AppDatabaseHelper(context: Context) :
     }
 
     private fun createOwnContact(db: SQLiteDatabase) {
-        val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-        val current = sdf.format(Date())
+        val current = System.currentTimeMillis()
         val values = ContentValues().apply {
             put(ContactEntry.COLUMN_PHONE_NUMBER, "self")
             put(ContactEntry.COLUMN_CREATED_AT, current)

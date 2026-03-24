@@ -39,8 +39,7 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
             if (test.phoneNumber != null || test.lastName != null || test.firstName != null)
                 _state.emit(ContactUIState.InputError(msg = test))
             else {
-                val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-                val current = sdf.format(Date())
+                val current = System.currentTimeMillis()
                 val result = contactRepository.createContact(
                     Contact(
                         null,

@@ -15,8 +15,8 @@ fun Cursor.toContact() = Contact(
     lastName = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_NAME)),
     phoneNumber = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PHONE_NUMBER)),
     profilePicture = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PROFILE_PIC)),
-    lastMsg = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_MSG)),
-    createdAt = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_CREATED_AT))
+    lastMsg = getLong(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_MSG)),
+    createdAt = getLong(getColumnIndexOrThrow(ContactEntry.COLUMN_CREATED_AT))
 )
 
 fun Cursor.toMessage() = Message(
@@ -24,7 +24,7 @@ fun Cursor.toMessage() = Message(
     message = getString(getColumnIndexOrThrow(MessageEntry.COLUMN_MESSAGE)),
     fromId = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_FROM_ID)),
     sendToId = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_SEND_TO_ID)),
-    createdAt = getString(getColumnIndexOrThrow(MessageEntry.COLUMN_CREATED_AT))
+    createdAt = getLong(getColumnIndexOrThrow(MessageEntry.COLUMN_CREATED_AT))
 )
 
 fun Cursor.toTheme() = ThemeColor(
