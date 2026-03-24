@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -35,7 +36,7 @@ import java.io.FileOutputStream
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun PickProfileImage(currPath: String?, onUpdate: (String) -> Unit) {
+fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
     var path = currPath
     val context = LocalContext.current
     val launcher =
@@ -63,10 +64,11 @@ fun PickProfileImage(currPath: String?, onUpdate: (String) -> Unit) {
                 },
             ),
     ) {
-        if (path.isNullOrBlank())
+        Log.d("test", "path = $path")
+        if (path.isBlank())
             Icon(Icons.Default.Add, "addPic")
         else {
-            Image(bitmap = loadStringToBitmap(path!!), null)
+            Image(bitmap = loadStringToBitmap(path), null)
         }
     }
 
