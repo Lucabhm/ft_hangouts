@@ -1,7 +1,10 @@
 package com.example.ft_hangouts.data.repository
 
+import android.database.sqlite.SQLiteConstraintException
+import android.database.sqlite.SQLiteFullException
 import com.example.ft_hangouts.data.local.dao.ContactDao
 import com.example.ft_hangouts.data.model.Contact
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
@@ -24,7 +27,7 @@ class ContactRepository(private val contactDao: ContactDao) {
         })
     }
 
-    fun getOwnContact(): UIResult<Contact> {
+    suspend fun getOwnContact(): UIResult<Contact> {
         return contactDao.getOwnContact().fold(onSuccess = { UIResult.Success(it) }, onFailure = {
             when (it) {
                 is NoSuchElementException -> UIResult.NotFound(it.message ?: "")
@@ -33,7 +36,7 @@ class ContactRepository(private val contactDao: ContactDao) {
         })
     }
 
-    fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {
+    suspend fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {
         return contactDao.selectByPhoneNumber(phoneNumber)
             .fold(onSuccess = {
                 _contactUpdate.tryEmit(Unit)
@@ -49,32 +52,43 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
-    fun createContact(
-        contact: Contact
+    suspend fun createContact(
+        firstName: String? = null,
+        lastName: String? = null,
+        phoneNumber: String? = null,
+        profilePicture: String? = null,
     ): UIResult<Long> {
-        return contactDao.insert(contact).fold(
+        return contactDao.insert(firstName, lastName, phoneNumber, profilePicture).fold(
             onSuccess = {
                 _contactUpdate.tryEmit(Unit)
                 UIResult.Success(it)
             },
             onFailure = {
                 when (it) {
-                    is NoSuchElementException -> UIResult.NotFound(
-                        it.message ?: ""
-                    )
+                    is NoSuchElementException -> {
+                        UIResult.NotFound("Contact not found")
+                    }
+
+                    is SQLiteFullException -> {
+                        UIResult.NotFound("")
+                    }
+
+                    is SQLiteConstraintException -> {
+                        UIResult.NotFound("This Contact already exist with this phone number")
+                    }
 
                     else -> UIResult.DataBaseError
                 }
             })
     }
 
-    fun updateContact(
+    suspend fun updateContact(
         contactId: Long,
         firstName: String? = null,
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: String? = null,
-        lastMsg: String? = null
+        lastMsg: Long? = null
     ): UIResult<Int> {
         return contactDao.updateById(
             contactId,
@@ -96,7 +110,7 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
-    fun deleteContact(contactId: Long): UIResult<Int> {
+    suspend fun deleteContact(contactId: Long): UIResult<Int> {
         return contactDao.deleteById(contactId)
             .fold(onSuccess = {
                 _contactUpdate.tryEmit(Unit)

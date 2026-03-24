@@ -7,7 +7,7 @@ import android.provider.Telephony
 import com.example.ft_hangouts.FtHangouts
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,20 +33,16 @@ class SmsReceiver : BroadcastReceiver() {
 
                 if (ownContact !is UIResult.Success) return@launch
 
-                val ownId = ownContact.data.id!!
+                val ownId = ownContact.data.id
                 val state = contactRepository.getContactByPhoneNumber(phoneNumber)
 
                 val contactId = when (state) {
                     is UIResult.Success -> {
                         val contact = state.data
-                        val sdf = SimpleDateFormat(
-                            "dd.MM.yyyy HH:mm:ss",
-                            Locale.getDefault()
-                        )
-                        val current = sdf.format(Date())
+                        val current = System.currentTimeMillis()
 
                         contactRepository.updateContact(
-                            contact.id!!,
+                            contact.id,
                             null,
                             null,
                             null,
@@ -57,47 +53,34 @@ class SmsReceiver : BroadcastReceiver() {
                     }
 
                     is UIResult.NotFound -> {
-                        val sdf = SimpleDateFormat(
-                            "dd.MM.yyyy HH:mm:ss",
-                            Locale.getDefault()
-                        )
-                        val current = sdf.format(Date())
                         val contactId = contactRepository.createContact(
-                            Contact(
-                                null,
-                                null,
-                                null,
-                                phoneNumber,
-                                null,
-                                current,
-                                current
-                            )
+                            null,
+                            null,
+                            null,
+                            phoneNumber,
                         )
+
                         if (contactId is UIResult.Success) contactId.data else return@launch
                     }
 
                     else -> return@launch
                 }
 
-                val sdf = SimpleDateFormat(
-                    "dd.MM.yyyy HH:mm:ss",
-                    Locale.getDefault()
-                )
-                val current = sdf.format(Date())
+                val current = System.currentTimeMillis()
 
                 for (sms in messages) {
-                    messageRepository.createMessage(
-                        Message(
-                            null,
-                            sms.messageBody,
-                            contactId,
-                            ownId,
-                            current
+                    if (!sms.messageBody.isBlank()) {
+                        messageRepository.createMessage(
+                            Message(
+                                null,
+                                sms.messageBody,
+                                contactId,
+                                ownId,
+                                current
+                            )
                         )
-                    )
+                    }
                 }
-
-            } catch (e: Exception) {
 
             } finally {
                 pendingResult.finish()

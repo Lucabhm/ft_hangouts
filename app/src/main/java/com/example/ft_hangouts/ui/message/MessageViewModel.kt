@@ -1,5 +1,6 @@
 package com.example.ft_hangouts.ui.message
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ft_hangouts.data.model.Contact
@@ -7,7 +8,7 @@ import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.repository.ContactRepository
 import com.example.ft_hangouts.data.repository.MessageRepository
 import com.example.ft_hangouts.data.repository.SMSRepository
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
@@ -35,7 +36,7 @@ class MessageViewModel(
                 is UIResult.Success -> {
                     val ownContact = state.data
 
-                    emitAll(messageRepository.getAllMessages(ownContact.id!!, contact.id!!))
+                    emitAll(messageRepository.getAllMessages(ownContact.id, contact.id))
                 }
 
                 is UIResult.NotFound -> {
@@ -55,26 +56,26 @@ class MessageViewModel(
     }
 
     fun sendMessage(input: String, sendTo: Contact) {
-        if (sendTo.id == null)
-            return
         viewModelScope.launch {
             when (val state = contactRepository.getOwnContact()) {
                 is UIResult.Loading -> {}
                 is UIResult.Success -> {
                     val ownContact = state.data
-                    val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-                    val current = sdf.format(Date())
-                    val message =
-                        Message(
-                            message = input,
-                            fromId = ownContact.id!!,
-                            sendToId = sendTo.id,
-                            createdAt = current
-                        )
+                    val current = System.currentTimeMillis()
+                    if (!input.isBlank()) {
+                        val inputCheck = input.trim()
+                        val message =
+                            Message(
+                                message = inputCheck,
+                                fromId = ownContact.id,
+                                sendToId = sendTo.id,
+                                createdAt = current
+                            )
 
-                    smsRepository.sendSms(sendTo.phoneNumber, input)
-                    messageRepository.createMessage(message)
-                    contactRepository.updateContact(sendTo.id, null, null, null, null, current)
+                        smsRepository.sendSms(sendTo.phoneNumber, inputCheck)
+                        messageRepository.createMessage(message)
+                        contactRepository.updateContact(sendTo.id, null, null, null, null, current)
+                    }
                 }
 
                 is UIResult.NotFound -> {}

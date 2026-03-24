@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
     private val _updateContactViewModel by lazy { UpdateContactViewModel(container.contactRepo) }
 
-    private val _settingsViewModel = SettingsViewModel()
+    private val _settingsViewModel by lazy { SettingsViewModel(container.themeRepo) }
     private var _timeStopped = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
 
         )
 
+        _settingsViewModel.loadThemeColor()
         setContent {
             val themeColor = _settingsViewModel.color
 

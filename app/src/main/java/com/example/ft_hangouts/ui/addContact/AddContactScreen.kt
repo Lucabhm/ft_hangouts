@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.ContactUIState
+import com.example.ft_hangouts.data.model.firstNameError
+import com.example.ft_hangouts.data.model.lastNameError
+import com.example.ft_hangouts.data.model.phoneNumberError
 import com.example.ft_hangouts.ui.components.PickProfileImage
 
 @Composable
@@ -30,15 +33,15 @@ fun AddContactScreen(
     onBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val uiState = viewModel.state.collectAsState(UIResult.Loading)
+    val uiState = viewModel.state.collectAsState(ContactUIState.Loading)
 
     LaunchedEffect(Unit) {
         viewModel.state.collect {
-            if (it is UIResult.Success) {
-                viewModel.phoneNumber = ""
-                viewModel.profilePic = ""
-                viewModel.lastName = ""
-                viewModel.firstName = ""
+            if (it is ContactUIState.Success) {
+                viewModel.phoneNumber = null
+                viewModel.profilePic = null
+                viewModel.lastName = null
+                viewModel.firstName = null
                 onBack()
             }
         }
@@ -52,36 +55,47 @@ fun AddContactScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        PickProfileImage("") { path -> viewModel.profilePic = path }
+        PickProfileImage(viewModel.profilePic ?: "") { path -> viewModel.profilePic = path }
 
         Column {
             Text(text = stringResource(R.string.add_contact_first_name))
             OutlinedTextField(
-                value = viewModel.firstName,
+                value = viewModel.firstName ?: "",
                 onValueChange = { viewModel.firstName = it },
                 label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                supportingText = {
+                    uiState.value.firstNameError()?.let { Text(it) }
+                },
+                isError = uiState.value.firstNameError() != null
             )
         }
 
         Column {
             Text(text = stringResource(R.string.add_contact_last_name))
             OutlinedTextField(
-                value = viewModel.lastName,
+                value = viewModel.lastName ?: "",
                 onValueChange = { viewModel.lastName = it },
                 label = { Text(stringResource(R.string.add_contact_last_name_input)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                supportingText = {
+                    uiState.value.lastNameError()?.let { Text(it) }
+                },
+                isError = uiState.value.lastNameError() != null
             )
         }
 
         Column {
             Text(text = stringResource(R.string.add_contact_phone_number))
             OutlinedTextField(
-                value = viewModel.phoneNumber,
+                value = viewModel.phoneNumber ?: "",
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
                 modifier = Modifier.fillMaxWidth(),
-                isError = uiState.value is UIResult.NotFound
+                supportingText = {
+                    uiState.value.phoneNumberError()?.let { Text(it) }
+                },
+                isError = uiState.value.phoneNumberError() != null
             )
         }
 

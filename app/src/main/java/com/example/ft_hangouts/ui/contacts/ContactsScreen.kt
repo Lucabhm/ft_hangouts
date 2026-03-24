@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.model.Contact
-import com.example.ft_hangouts.data.repository.UIResult
+import com.example.ft_hangouts.data.model.UIResult
 import com.example.ft_hangouts.ui.components.ContactCard
 
 @Composable
@@ -45,7 +45,7 @@ fun ContactsScreen(
                     ContactCard(
                         contact = item,
                         onClick = { onClick(item) },
-                        onDelete = { viewModel.deleteContact(item.id!!) },
+                        onDelete = { viewModel.deleteContact(item.id) },
                         onUpdate = { onUpdate(item) })
                 })
             }
