@@ -6,8 +6,8 @@ data class Contact(
     val lastName: String?,
     val phoneNumber: String,
     val profilePicture: String?,
-    val lastMsg: String?,
-    val createdAt: String
+    val lastMsg: Long?,
+    val createdAt: Long
 )
 
 class ContactFormError(

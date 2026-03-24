@@ -39,11 +39,7 @@ class SmsReceiver : BroadcastReceiver() {
                 val contactId = when (state) {
                     is UIResult.Success -> {
                         val contact = state.data
-                        val sdf = SimpleDateFormat(
-                            "dd.MM.yyyy HH:mm:ss",
-                            Locale.getDefault()
-                        )
-                        val current = sdf.format(Date())
+                        val current = System.currentTimeMillis()
 
                         contactRepository.updateContact(
                             contact.id!!,
@@ -57,11 +53,7 @@ class SmsReceiver : BroadcastReceiver() {
                     }
 
                     is UIResult.NotFound -> {
-                        val sdf = SimpleDateFormat(
-                            "dd.MM.yyyy HH:mm:ss",
-                            Locale.getDefault()
-                        )
-                        val current = sdf.format(Date())
+                        val current = System.currentTimeMillis()
                         val contactId = contactRepository.createContact(
                             Contact(
                                 null,
@@ -79,11 +71,7 @@ class SmsReceiver : BroadcastReceiver() {
                     else -> return@launch
                 }
 
-                val sdf = SimpleDateFormat(
-                    "dd.MM.yyyy HH:mm:ss",
-                    Locale.getDefault()
-                )
-                val current = sdf.format(Date())
+                val current = System.currentTimeMillis()
 
                 for (sms in messages) {
                     if (!sms.messageBody.isBlank()) {

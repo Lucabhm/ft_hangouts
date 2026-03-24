@@ -82,7 +82,7 @@ class ContactRepository(private val contactDao: ContactDao) {
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: String? = null,
-        lastMsg: String? = null
+        lastMsg: Long? = null
     ): UIResult<Int> {
         return contactDao.updateById(
             contactId,

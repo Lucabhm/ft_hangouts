@@ -63,10 +63,8 @@ class MessageViewModel(
                 is UIResult.Loading -> {}
                 is UIResult.Success -> {
                     val ownContact = state.data
-                    val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-                    val current = sdf.format(Date())
+                    val current = System.currentTimeMillis()
                     if (!input.isBlank()) {
-                        Log.d("test", input)
                         val inputCheck = input.trim()
                         val message =
                             Message(

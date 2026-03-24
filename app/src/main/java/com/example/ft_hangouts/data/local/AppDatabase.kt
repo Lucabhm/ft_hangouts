@@ -21,15 +21,15 @@ private const val SQL_CREATE_CONTACT = "CREATE TABLE IF NOT EXISTS ${ContactEntr
         "${ContactEntry.COLUMN_LAST_NAME} TEXT," +
         "${ContactEntry.COLUMN_PHONE_NUMBER} TEXT NOT NULL UNIQUE," +
         "${ContactEntry.COLUMN_PROFILE_PIC} TEXT," +
-        "${ContactEntry.COLUMN_LAST_MSG} TEXT," +
-        "${ContactEntry.COLUMN_CREATED_AT} TEXT)"
+        "${ContactEntry.COLUMN_LAST_MSG} INTEGER," +
+        "${ContactEntry.COLUMN_CREATED_AT} INTEGER)"
 
 private const val SQL_CREATE_MESSAGE = "CREATE TABLE IF NOT EXISTS ${MessageEntry.TABLE_NAME} (" +
         "${BaseColumns._ID} INTEGER PRIMARY KEY," +
         "${MessageEntry.COLUMN_MESSAGE} TEXT," +
         "${MessageEntry.COLUMN_FROM_ID} INTEGER NOT NULL," +
         "${MessageEntry.COLUMN_SEND_TO_ID} INTEGER NOT NULL," +
-        "${MessageEntry.COLUMN_CREATED_AT} TEXT," +
+        "${MessageEntry.COLUMN_CREATED_AT} INTEGER," +
         "FOREIGN KEY (${MessageEntry.COLUMN_FROM_ID})" +
         "REFERENCES ${ContactEntry.TABLE_NAME} (${BaseColumns._ID})" +
         "ON DELETE CASCADE, " +
@@ -81,8 +81,7 @@ class AppDatabaseHelper(context: Context) :
     }
 
     private fun createOwnContact(db: SQLiteDatabase) {
-        val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-        val current = sdf.format(Date())
+        val current = System.currentTimeMillis()
         val values = ContentValues().apply {
             put(ContactEntry.COLUMN_PHONE_NUMBER, "self")
             put(ContactEntry.COLUMN_CREATED_AT, current)

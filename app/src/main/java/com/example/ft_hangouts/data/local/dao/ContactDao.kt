@@ -135,7 +135,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: String? = null,
-        lastMsg: String? = null
+        lastMsg: Long? = null
     ): Result<Int> {
         return try {
             val db = dbHelper.writableDatabase

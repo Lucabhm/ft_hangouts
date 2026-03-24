@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -23,10 +24,9 @@ fun MessageCard(modifier: Modifier = Modifier, messageInfo: Message, contact: Co
         modifier = modifier.fillMaxWidth().padding(5.dp),
         horizontalArrangement = if (messageInfo.fromId == contact.id) Arrangement.Start else Arrangement.End
     ) {
-        val inputFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
         val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = inputFormat.parse(messageInfo.createdAt)
-        val onlyTime = outputFormat.format(date!!)
+        val date = Date(messageInfo.createdAt)
+        val onlyTime = outputFormat.format(date)
 
         Card {
             Column(modifier = Modifier
