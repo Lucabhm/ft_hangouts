@@ -21,4 +21,9 @@ object ContactContract {
         const val COLUMN_CREATED_AT = "created_at"
     }
 
+    object ThemeColorEntry : BaseColumns {
+        const val TABLE_NAME = "theme_color"
+        const val COLUMN_COLOR = "color"
+    }
+
 }

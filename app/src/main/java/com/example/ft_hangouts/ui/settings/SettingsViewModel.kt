@@ -4,13 +4,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toColorLong
 import androidx.lifecycle.ViewModel
+import com.example.ft_hangouts.data.model.ThemeColor
+import com.example.ft_hangouts.data.model.UIResult
+import com.example.ft_hangouts.data.repository.ThemeRepository
 
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel(private val themeRepository: ThemeRepository) : ViewModel() {
     private var _color by mutableStateOf(Color.Black)
     val color: Color get() = _color
 
+    fun loadThemeColor() {
+        val color = themeRepository.getThemeColor()
+
+        if (color is UIResult.Success) {
+            _color = Color(color.data.themeColor.toULong())
+        }
+    }
+
     fun changeThemeColor(color: Color) {
         _color = color
+
+        themeRepository.updateThemeColor(color.toColorLong())
     }
 }
