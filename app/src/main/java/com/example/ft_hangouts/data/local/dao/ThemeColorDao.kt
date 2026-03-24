@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.ft_hangouts.data.local.ContactContract.ThemeColorEntry
 import com.example.ft_hangouts.data.local.toTheme
 import com.example.ft_hangouts.data.model.ThemeColor
-import org.jetbrains.annotations.Async
 
 class ThemeColorDao(private val dbHelper: SQLiteOpenHelper) {
     fun select(): Result<ThemeColor> {
@@ -44,12 +43,12 @@ class ThemeColorDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun update(color: Long?): Result<Int> {
+    fun update(color: Long): Result<Int> {
         return try {
             val db = dbHelper.writableDatabase
             val values = ContentValues()
 
-            color?.let { values.put(ThemeColorEntry.COLUMN_COLOR, color) }
+            color.let { values.put(ThemeColorEntry.COLUMN_COLOR, color) }
 
             val count = db.update(ThemeColorEntry.TABLE_NAME, values, null, null)
             if (count == 0) {

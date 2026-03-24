@@ -7,12 +7,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.ui.components.HeaderColorCard
 
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier, settingsViewModel: SettingsViewModel) {
+fun SettingsScreen(modifier: Modifier = Modifier, viewModel: SettingsViewModel) {
+    LaunchedEffect(Unit) {
+        viewModel.loadThemeColor()
+    }
     val scrollState = rememberScrollState()
 
     Column(
@@ -21,6 +25,6 @@ fun SettingsScreen(modifier: Modifier = Modifier, settingsViewModel: SettingsVie
             .padding(5.dp)
             .verticalScroll(scrollState), verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        HeaderColorCard(viewModel = settingsViewModel)
+        HeaderColorCard(viewModel = viewModel)
     }
 }

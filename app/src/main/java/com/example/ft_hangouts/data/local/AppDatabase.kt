@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import android.util.Log
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toColorLong
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 import com.example.ft_hangouts.data.local.ContactContract.ThemeColorEntry
@@ -93,7 +95,7 @@ class AppDatabaseHelper(context: Context) :
     }
 
     private fun addThemeColor(db: SQLiteDatabase) {
-        val color = 0xFF000000
+        val color = Color.Black.toColorLong()
         val values = ContentValues().apply {
             put(ThemeColorEntry.COLUMN_COLOR, color)
         }
