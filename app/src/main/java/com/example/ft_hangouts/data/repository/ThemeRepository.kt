@@ -6,7 +6,7 @@ import com.example.ft_hangouts.data.model.ThemeColor
 import com.example.ft_hangouts.data.model.UIResult
 
 class ThemeRepository(private val themeColorDao: ThemeColorDao) {
-    fun getThemeColor(): UIResult<ThemeColor> {
+    suspend fun getThemeColor(): UIResult<ThemeColor> {
         return themeColorDao.select().fold(onSuccess = { UIResult.Success(it) }, onFailure = {
             when (it) {
                 is NoSuchElementException -> {
@@ -20,7 +20,7 @@ class ThemeRepository(private val themeColorDao: ThemeColorDao) {
         })
     }
 
-    fun updateThemeColor(upColor: Long): UIResult<Int> {
+    suspend fun updateThemeColor(upColor: Long): UIResult<Int> {
         return themeColorDao.update(upColor)
             .fold(onSuccess = { UIResult.Success(it) }, onFailure = {
                 UIResult.DataBaseError

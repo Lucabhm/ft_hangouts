@@ -6,10 +6,14 @@ import android.provider.BaseColumns
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 import com.example.ft_hangouts.data.local.toMessage
 import com.example.ft_hangouts.data.model.Message
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MessageDao(private val dbHelper: SQLiteOpenHelper) {
-    fun selectAll(ownId: Long, contactId: Long): Result<List<Message>> {
-        return try {
+    suspend fun selectAll(ownId: Long, contactId: Long): Result<List<Message>> = withContext(
+        Dispatchers.IO
+    ) {
+        try {
             val db = dbHelper.readableDatabase
             val messages = mutableListOf<Message>()
             val selection =
@@ -20,7 +24,12 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
                 MessageEntry.TABLE_NAME,
                 null,
                 selection,
-                arrayOf(ownId.toString(), contactId.toString(), contactId.toString(), ownId.toString()),
+                arrayOf(
+                    ownId.toString(),
+                    contactId.toString(),
+                    contactId.toString(),
+                    ownId.toString()
+                ),
                 null,
                 null,
                 "${MessageEntry.COLUMN_CREATED_AT} ASC"
@@ -35,8 +44,8 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun insert(msg: Message): Result<Long> {
-        return try {
+    suspend fun insert(msg: Message): Result<Long> = withContext(Dispatchers.IO) {
+        try {
             val db = dbHelper.writableDatabase
             val values = ContentValues().apply {
                 put(MessageEntry.COLUMN_MESSAGE, msg.message)
