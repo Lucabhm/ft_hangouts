@@ -55,7 +55,7 @@ fun AddContactScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        PickProfileImage("") { path -> viewModel.profilePic = path }
+        PickProfileImage(viewModel.profilePic ?: "") { path -> viewModel.profilePic = path }
 
         Column {
             Text(text = stringResource(R.string.add_contact_first_name))

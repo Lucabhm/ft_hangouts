@@ -33,7 +33,7 @@ class SmsReceiver : BroadcastReceiver() {
 
                 if (ownContact !is UIResult.Success) return@launch
 
-                val ownId = ownContact.data.id!!
+                val ownId = ownContact.data.id
                 val state = contactRepository.getContactByPhoneNumber(phoneNumber)
 
                 val contactId = when (state) {
@@ -42,7 +42,7 @@ class SmsReceiver : BroadcastReceiver() {
                         val current = System.currentTimeMillis()
 
                         contactRepository.updateContact(
-                            contact.id!!,
+                            contact.id,
                             null,
                             null,
                             null,
@@ -53,18 +53,13 @@ class SmsReceiver : BroadcastReceiver() {
                     }
 
                     is UIResult.NotFound -> {
-                        val current = System.currentTimeMillis()
                         val contactId = contactRepository.createContact(
-                            Contact(
-                                null,
-                                null,
-                                null,
-                                phoneNumber,
-                                null,
-                                current,
-                                current
-                            )
+                            null,
+                            null,
+                            null,
+                            phoneNumber,
                         )
+
                         if (contactId is UIResult.Success) contactId.data else return@launch
                     }
 

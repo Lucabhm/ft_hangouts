@@ -45,7 +45,7 @@ fun ContactsScreen(
                     ContactCard(
                         contact = item,
                         onClick = { onClick(item) },
-                        onDelete = { viewModel.deleteContact(item.id!!) },
+                        onDelete = { viewModel.deleteContact(item.id) },
                         onUpdate = { onUpdate(item) })
                 })
             }

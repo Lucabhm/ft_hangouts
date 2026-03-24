@@ -110,17 +110,21 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
             }
         }
 
-    suspend fun insert(contact: Contact): Result<Long> = withContext(Dispatchers.IO) {
+    suspend fun insert(
+        firstName: String? = null,
+        lastName: String? = null,
+        phoneNumber: String? = null,
+        profilePicture: String? = null,
+    ): Result<Long> = withContext(Dispatchers.IO) {
         try {
             val db = dbHelper.writableDatabase
-            val values = ContentValues().apply {
-                put(ContactEntry.COLUMN_FIRST_NAME, contact.firstName)
-                put(ContactEntry.COLUMN_LAST_NAME, contact.lastName)
-                put(ContactEntry.COLUMN_PHONE_NUMBER, contact.phoneNumber)
-                put(ContactEntry.COLUMN_PROFILE_PIC, contact.profilePicture)
-                put(ContactEntry.COLUMN_LAST_MSG, contact.lastMsg)
-                put(ContactEntry.COLUMN_CREATED_AT, contact.createdAt)
-            }
+            val values = ContentValues()
+
+            firstName?.let { values.put(ContactEntry.COLUMN_FIRST_NAME, it) }
+            lastName?.let { values.put(ContactEntry.COLUMN_LAST_NAME, it) }
+            phoneNumber?.let { values.put(ContactEntry.COLUMN_PHONE_NUMBER, it) }
+            profilePicture?.let { values.put(ContactEntry.COLUMN_PROFILE_PIC, it) }
+            values.put(ContactEntry.COLUMN_CREATED_AT, System.currentTimeMillis())
 
             val id = db.insert(ContactEntry.TABLE_NAME, null, values)
             if (id == -1L) Result.failure(Exception())
