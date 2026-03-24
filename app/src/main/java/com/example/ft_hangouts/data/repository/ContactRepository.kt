@@ -27,7 +27,7 @@ class ContactRepository(private val contactDao: ContactDao) {
         })
     }
 
-    fun getOwnContact(): UIResult<Contact> {
+    suspend fun getOwnContact(): UIResult<Contact> {
         return contactDao.getOwnContact().fold(onSuccess = { UIResult.Success(it) }, onFailure = {
             when (it) {
                 is NoSuchElementException -> UIResult.NotFound(it.message ?: "")
@@ -36,7 +36,7 @@ class ContactRepository(private val contactDao: ContactDao) {
         })
     }
 
-    fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {
+    suspend fun getContactByPhoneNumber(phoneNumber: String): UIResult<Contact> {
         return contactDao.selectByPhoneNumber(phoneNumber)
             .fold(onSuccess = {
                 _contactUpdate.tryEmit(Unit)
@@ -52,7 +52,7 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
-    fun createContact(
+    suspend fun createContact(
         contact: Contact
     ): UIResult<Long> {
         return contactDao.insert(contact).fold(
@@ -76,7 +76,7 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
-    fun updateContact(
+    suspend fun updateContact(
         contactId: Long,
         firstName: String? = null,
         lastName: String? = null,
@@ -104,7 +104,7 @@ class ContactRepository(private val contactDao: ContactDao) {
             })
     }
 
-    fun deleteContact(contactId: Long): UIResult<Int> {
+    suspend fun deleteContact(contactId: Long): UIResult<Int> {
         return contactDao.deleteById(contactId)
             .fold(onSuccess = {
                 _contactUpdate.tryEmit(Unit)
