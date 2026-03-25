@@ -2,8 +2,10 @@ package com.example.ft_hangouts.ui.message
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,9 +53,8 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
             Column(
                 modifier = modifier
                     .fillMaxSize()
-                    .imePadding()
             ) {
-                LazyColumn(modifier = Modifier.weight(1f))
+                LazyColumn(modifier = Modifier.weight(1f), reverseLayout = true)
                 {
                     items(messages) { item -> MessageCard(messageInfo = item, contact = contact) }
                 }
@@ -77,8 +78,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
                         ),
                         keyboardActions = KeyboardActions(
                             onSend = {
-                                if (contact.id != null)
-                                    viewModel.sendMessage(input.value, contact)
+                                viewModel.sendMessage(input.value, contact)
                                 input.value = ""
                             }
                         )
@@ -86,8 +86,7 @@ fun MessagesScreen(modifier: Modifier = Modifier, viewModel: MessageViewModel, c
 
                     IconButton(
                         onClick = {
-                            if (contact.id != null)
-                                viewModel.sendMessage(input.value, contact)
+                            viewModel.sendMessage(input.value, contact)
                             input.value = ""
                         }
                     ) {

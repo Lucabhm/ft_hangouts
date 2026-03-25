@@ -45,7 +45,6 @@ fun AppNavigation(
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
-        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.ime),
         bottomBar = {
             if (showTopBar) {
                 BottomBar(state, onClick = { screen -> navViewModel.changeStack(screen) })
