@@ -87,8 +87,4 @@ class MainActivity : ComponentActivity() {
         super.onStop()
         _timeStopped = System.currentTimeMillis()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
