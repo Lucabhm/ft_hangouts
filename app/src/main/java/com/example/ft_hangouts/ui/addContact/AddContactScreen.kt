@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.ContactUIState
@@ -92,6 +94,7 @@ fun AddContactScreen(
                 onValueChange = { viewModel.phoneNumber = it },
                 label = { Text(stringResource(R.string.add_contact_phone_number_input)) },
                 modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 supportingText = {
                     uiState.value.phoneNumberError()?.let { Text(it) }
                 },

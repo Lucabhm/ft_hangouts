@@ -39,30 +39,31 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
             if (test.phoneNumber != null || test.lastName != null || test.firstName != null)
                 _state.emit(ContactUIState.InputError(msg = test))
             else {
-                val current = System.currentTimeMillis()
-                val result = contactRepository.createContact(
-                    firstName,
-                    lastName,
-                    phoneNumber,
-                    profilePic,
-                )
+                phoneNumber?.let {
+                    val result = contactRepository.createContact(
+                        firstName,
+                        lastName,
+                        it,
+                        profilePic,
+                    )
 
 
-                when (result) {
-                    is UIResult.Loading -> {
-                        _state.emit(ContactUIState.Loading)
-                    }
+                    when (result) {
+                        is UIResult.Loading -> {
+                            _state.emit(ContactUIState.Loading)
+                        }
 
-                    is UIResult.NotFound -> {
-                        _state.emit(ContactUIState.DataBaseError(result.msg))
-                    }
+                        is UIResult.NotFound -> {
+                            _state.emit(ContactUIState.DataBaseError(result.msg))
+                        }
 
-                    is UIResult.Success -> {
-                        _state.emit(ContactUIState.Success)
-                    }
+                        is UIResult.Success -> {
+                            _state.emit(ContactUIState.Success)
+                        }
 
-                    else -> {
-                        _state.emit(ContactUIState.DataBaseError("Undefined Database Error"))
+                        else -> {
+                            _state.emit(ContactUIState.DataBaseError("Undefined Database Error"))
+                        }
                     }
                 }
             }

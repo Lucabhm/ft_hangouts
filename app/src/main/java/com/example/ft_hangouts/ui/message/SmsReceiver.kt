@@ -56,8 +56,8 @@ class SmsReceiver : BroadcastReceiver() {
                         val contactId = contactRepository.createContact(
                             null,
                             null,
-                            null,
                             phoneNumber,
+                            null,
                         )
 
                         if (contactId is UIResult.Success) contactId.data else return@launch
