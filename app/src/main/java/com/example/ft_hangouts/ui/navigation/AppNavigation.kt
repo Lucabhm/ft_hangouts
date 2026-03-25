@@ -1,12 +1,8 @@
 package com.example.ft_hangouts.ui.navigation
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,7 +10,6 @@ import androidx.compose.ui.Modifier
 import com.example.ft_hangouts.data.model.NavResult
 import com.example.ft_hangouts.ui.addContact.AddContactScreen
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
-import com.example.ft_hangouts.ui.components.AddContactButton
 import com.example.ft_hangouts.ui.components.BottomBar
 import com.example.ft_hangouts.ui.components.TopBar
 import com.example.ft_hangouts.ui.contacts.ContactsScreen
@@ -40,7 +35,6 @@ fun AppNavigation(
 
     val showTopBar =
         state !is NavResult.AddContactScreen && state !is NavResult.ChatScreen && state !is NavResult.UpdateContactScreen
-    val showFloatingButton = state is NavResult.ContactsScreen
 
     Scaffold(
         modifier = modifier
@@ -50,9 +44,12 @@ fun AppNavigation(
                 BottomBar(state, onClick = { screen -> navViewModel.changeStack(screen) })
             }
         },
-        topBar = { TopBar(currentRoute = state, goBack = { navViewModel.goBack() }) },
-        floatingActionButton = {
-            if (showFloatingButton) AddContactButton(onClick = { navViewModel.navigateTo(NavResult.AddContactScreen) })
+        topBar = {
+            TopBar(currentRoute = state, goBack = { navViewModel.goBack() }, onAdd = {
+                navViewModel.navigateTo(
+                    NavResult.AddContactScreen
+                )
+            })
         },
     ) { innerPadding ->
         when (state) {
@@ -99,7 +96,7 @@ fun AppNavigation(
                     Modifier.padding(innerPadding),
                     updateContactViewModel,
                     contact,
-                    onBack = {navViewModel.goBack()}
+                    onBack = { navViewModel.goBack() }
                 )
             }
         }
