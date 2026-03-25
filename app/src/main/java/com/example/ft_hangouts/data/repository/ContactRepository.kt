@@ -55,7 +55,7 @@ class ContactRepository(private val contactDao: ContactDao) {
     suspend fun createContact(
         firstName: String? = null,
         lastName: String? = null,
-        phoneNumber: String? = null,
+        phoneNumber: String,
         profilePicture: String? = null,
     ): UIResult<Long> {
         return contactDao.insert(firstName, lastName, phoneNumber, profilePicture).fold(
