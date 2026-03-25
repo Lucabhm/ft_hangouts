@@ -63,7 +63,6 @@ fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
                 },
             ),
     ) {
-        Log.d("test", "path = $path")
         if (path.isBlank())
             Icon(Icons.Default.Add, "addPic")
         else {

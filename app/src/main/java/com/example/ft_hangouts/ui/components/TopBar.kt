@@ -2,6 +2,8 @@ package com.example.ft_hangouts.ui.components
 
 import android.content.Intent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +36,12 @@ import com.example.ft_hangouts.data.model.NavResult
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () -> Unit) {
+fun TopBar(
+    modifier: Modifier = Modifier,
+    currentRoute: NavResult,
+    goBack: () -> Unit,
+    onAdd: () -> Unit
+) {
     val showBack =
         currentRoute is NavResult.ChatScreen || currentRoute is NavResult.AddContactScreen || currentRoute is NavResult.UpdateContactScreen
 
@@ -117,6 +125,24 @@ fun TopBar(modifier: Modifier = Modifier, currentRoute: NavResult, goBack: () ->
                     Icon(
                         imageVector = Icons.Default.Call,
                         contentDescription = "callIcon",
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            } else if (currentRoute is NavResult.ContactsScreen) {
+                IconButton(
+                    onClick =
+                        onAdd,
+                    modifier = modifier
+                        .size(48.dp)
+                        .border(
+                            width = 2.dp,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            shape = CircleShape
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "addContact",
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
