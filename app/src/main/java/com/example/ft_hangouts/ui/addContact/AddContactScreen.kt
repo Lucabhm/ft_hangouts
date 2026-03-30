@@ -69,7 +69,7 @@ fun AddContactScreen(
                 label = { Text(stringResource(R.string.add_contact_fist_name_input)) },
                 modifier = Modifier.fillMaxWidth(),
                 supportingText = {
-                    uiState.value.firstNameError()?.let { Text(it) }
+                    uiState.value.firstNameError()?.let { Text(stringResource(it)) }
                 },
                 isError = uiState.value.firstNameError() != null
             )
@@ -83,7 +83,7 @@ fun AddContactScreen(
                 label = { Text(stringResource(R.string.add_contact_last_name_input)) },
                 modifier = Modifier.fillMaxWidth(),
                 supportingText = {
-                    uiState.value.lastNameError()?.let { Text(it) }
+                    uiState.value.lastNameError()?.let { Text(stringResource(it)) }
                 },
                 isError = uiState.value.lastNameError() != null
             )
@@ -98,7 +98,7 @@ fun AddContactScreen(
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 supportingText = {
-                    uiState.value.phoneNumberError()?.let { Text(it) }
+                    uiState.value.phoneNumberError()?.let { Text(stringResource(it)) }
                 },
                 isError = uiState.value.phoneNumberError() != null
             )
@@ -113,7 +113,7 @@ fun AddContactScreen(
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 supportingText = {
-                    uiState.value.emailError()?.let { Text(it) }
+                    uiState.value.emailError()?.let { Text(stringResource(it)) }
                 },
                 isError = uiState.value.emailError() != null
             )

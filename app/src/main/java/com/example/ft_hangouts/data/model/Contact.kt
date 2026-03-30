@@ -12,10 +12,10 @@ data class Contact(
 )
 
 class ContactFormError(
-    var firstName: String? = null,
-    var lastName: String? = null,
-    var phoneNumber: String? = null,
-    var email: String? = null,
+    var firstName: Int? = null,
+    var lastName: Int? = null,
+    var phoneNumber: Int? = null,
+    var email: Int? = null,
 )
 
 sealed class ContactUIState {
@@ -25,14 +25,14 @@ sealed class ContactUIState {
     data class DataBaseError(val msg: String) : ContactUIState()
 }
 
-fun ContactUIState.phoneNumberError(): String? =
+fun ContactUIState.phoneNumberError(): Int? =
     (this as? ContactUIState.InputError)?.msg?.phoneNumber
 
-fun ContactUIState.lastNameError(): String? =
+fun ContactUIState.lastNameError(): Int? =
     (this as? ContactUIState.InputError)?.msg?.lastName
 
-fun ContactUIState.firstNameError(): String? =
+fun ContactUIState.firstNameError(): Int? =
     (this as? ContactUIState.InputError)?.msg?.firstName
 
-fun ContactUIState.emailError(): String? =
+fun ContactUIState.emailError(): Int? =
     (this as? ContactUIState.InputError)?.msg?.email

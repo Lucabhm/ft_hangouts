@@ -18,4 +18,7 @@
     <string name="settings_language_input_en">Englisch</string>
     <string name="update_contact_button">Kontakt aktualisierien</string>
     <string name="add_contact_email">Füge eine Emailaddress ein</string>
+    <string name="add_contact_input_name_error">Bitte gib einen gültigen Namen ein (nur Buchstaben, min. 2 Zeichen).</string>
+    <string name="add_contact_input_email_error">Bitte gib eine gültige E-Mail-Adresse ein (z. B. name@mail.de ).</string>
+    <string name="add_contact_input_number_error">Bitte gib eine gültige Telefonnummer ein (7–15 Ziffern, optional +).</string>
 </resources>

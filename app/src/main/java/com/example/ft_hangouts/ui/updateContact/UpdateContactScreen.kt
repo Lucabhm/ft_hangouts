@@ -83,7 +83,7 @@ fun UpdateContactScreen(
                 modifier = Modifier.fillMaxWidth(),
                 isError = uiState.value.firstNameError() != null,
                 supportingText = {
-                    uiState.value.firstNameError()?.let { Text(it) }
+                    uiState.value.firstNameError()?.let { Text(stringResource(it)) }
                 }
             )
         }
@@ -97,7 +97,7 @@ fun UpdateContactScreen(
                 modifier = Modifier.fillMaxWidth(),
                 isError = uiState.value.lastNameError() != null,
                 supportingText = {
-                    uiState.value.lastNameError()?.let { Text(it) }
+                    uiState.value.lastNameError()?.let { Text(stringResource(it)) }
                 }
             )
         }
@@ -112,7 +112,7 @@ fun UpdateContactScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 isError = uiState.value.phoneNumberError() != null,
                 supportingText = {
-                    uiState.value.phoneNumberError()?.let { Text(it) }
+                    uiState.value.phoneNumberError()?.let { Text(stringResource(it)) }
                 }
             )
         }
@@ -127,7 +127,7 @@ fun UpdateContactScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 isError = uiState.value.emailError() != null,
                 supportingText = {
-                    uiState.value.emailError()?.let { Text(it) }
+                    uiState.value.emailError()?.let { Text(stringResource(it)) }
                 }
             )
         }
