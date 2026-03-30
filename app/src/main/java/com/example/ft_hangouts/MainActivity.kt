@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import com.example.ft_hangouts.ui.addContact.AddContactViewModel
@@ -21,7 +22,7 @@ import java.util.Locale
 class MainActivity : ComponentActivity() {
     private val container by lazy { (application as FtHangouts).container }
 
-    private val _navViewModel = NavViewModel()
+    private val _navViewModel: NavViewModel by viewModels()
     private val _chatViewModel by lazy { ContactsViewModel(container.contactRepo) }
     private val _messageViewModel by lazy {
         MessageViewModel(
