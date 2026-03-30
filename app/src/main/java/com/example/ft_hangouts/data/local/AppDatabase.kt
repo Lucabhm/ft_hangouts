@@ -21,6 +21,7 @@ private const val SQL_CREATE_CONTACT = "CREATE TABLE IF NOT EXISTS ${ContactEntr
         "${ContactEntry.COLUMN_LAST_NAME} TEXT," +
         "${ContactEntry.COLUMN_PHONE_NUMBER} TEXT NOT NULL UNIQUE," +
         "${ContactEntry.COLUMN_PROFILE_PIC} TEXT," +
+        "${ContactEntry.COLUMN_EMAIL} TEXT," +
         "${ContactEntry.COLUMN_LAST_MSG} INTEGER," +
         "${ContactEntry.COLUMN_CREATED_AT} INTEGER)"
 

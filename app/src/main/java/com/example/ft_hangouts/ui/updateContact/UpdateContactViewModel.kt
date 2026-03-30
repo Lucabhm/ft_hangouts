@@ -19,6 +19,7 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
     var lastName by mutableStateOf<String?>(null)
     var phoneNumber by mutableStateOf<String?>(null)
     var profilePic by mutableStateOf<String?>(null)
+    var email by mutableStateOf<String?>(null)
     private val _state = MutableStateFlow<ContactUIState>(ContactUIState.Loading)
     val state: StateFlow<ContactUIState> = _state
 
@@ -31,8 +32,10 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
             test.lastName = "Invalid last name"
         if (!firstNameCheck())
             test.firstName = "Invalid first name"
+        if (!emailCheck())
+            test.email = "Invalid email"
 
-        if (test.phoneNumber != null || test.lastName != null || test.firstName != null)
+        if (test.phoneNumber != null || test.lastName != null || test.firstName != null || test.email != null)
             _state.value = ContactUIState.InputError(msg = test)
         else {
             viewModelScope.launch {
@@ -42,6 +45,7 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
                     lastName,
                     phoneNumber,
                     profilePic,
+                    email,
                     null,
                 )
 
@@ -79,5 +83,9 @@ class UpdateContactViewModel(private val contactRepository: ContactRepository) :
 
     private fun firstNameCheck(): Boolean {
         return firstName?.let { it.length in 0..10 } ?: true
+    }
+
+    private fun emailCheck(): Boolean {
+        return email?.let { it.length in 0..10 } ?: true
     }
 }

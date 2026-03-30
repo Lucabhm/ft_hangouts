@@ -47,6 +47,7 @@ class SmsReceiver : BroadcastReceiver() {
                             null,
                             null,
                             null,
+                            null,
                             current
                         )
                         contact.id

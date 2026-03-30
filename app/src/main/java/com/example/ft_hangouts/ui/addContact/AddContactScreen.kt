@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.ft_hangouts.R
 import com.example.ft_hangouts.data.model.ContactUIState
+import com.example.ft_hangouts.data.model.emailError
 import com.example.ft_hangouts.data.model.firstNameError
 import com.example.ft_hangouts.data.model.lastNameError
 import com.example.ft_hangouts.data.model.phoneNumberError
@@ -44,6 +45,7 @@ fun AddContactScreen(
                 viewModel.profilePic = null
                 viewModel.lastName = null
                 viewModel.firstName = null
+                viewModel.email = null
                 onBack()
             }
         }
@@ -99,6 +101,21 @@ fun AddContactScreen(
                     uiState.value.phoneNumberError()?.let { Text(it) }
                 },
                 isError = uiState.value.phoneNumberError() != null
+            )
+        }
+
+        Column {
+            Text(text = stringResource(R.string.add_contact_email))
+            OutlinedTextField(
+                value = viewModel.email ?: "",
+                onValueChange = { viewModel.email = it },
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                supportingText = {
+                    uiState.value.emailError()?.let { Text(it) }
+                },
+                isError = uiState.value.emailError() != null
             )
         }
 
