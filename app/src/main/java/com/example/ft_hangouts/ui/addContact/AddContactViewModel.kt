@@ -22,6 +22,7 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
     var lastName by mutableStateOf<String?>(null)
     var phoneNumber by mutableStateOf<String?>(null)
     var profilePic by mutableStateOf<String?>(null)
+    var email by mutableStateOf<String?>(null)
     private val _state = MutableSharedFlow<ContactUIState>()
     val state = _state.asSharedFlow()
 
@@ -35,8 +36,10 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
                 test.lastName = "Invalid last name"
             if (!firstNameCheck())
                 test.firstName = "Invalid first name"
+            if (!emailCheck())
+                test.email = "Invalid email"
 
-            if (test.phoneNumber != null || test.lastName != null || test.firstName != null)
+            if (test.phoneNumber != null || test.lastName != null || test.firstName != null || test.email != null)
                 _state.emit(ContactUIState.InputError(msg = test))
             else {
                 phoneNumber?.let {
@@ -45,6 +48,7 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
                         lastName,
                         it,
                         profilePic,
+                        email
                     )
 
 
@@ -82,5 +86,9 @@ class AddContactViewModel(private val contactRepository: ContactRepository) : Vi
 
     private fun firstNameCheck(): Boolean {
         return firstName?.let { it.length in 0..10 } ?: true
+    }
+
+    private fun emailCheck(): Boolean {
+        return email?.let { it.length in 0..10 } ?: true
     }
 }

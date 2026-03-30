@@ -57,8 +57,9 @@ class ContactRepository(private val contactDao: ContactDao) {
         lastName: String? = null,
         phoneNumber: String,
         profilePicture: String? = null,
+        email: String? = null,
     ): UIResult<Long> {
-        return contactDao.insert(firstName, lastName, phoneNumber, profilePicture).fold(
+        return contactDao.insert(firstName, lastName, phoneNumber, profilePicture, email).fold(
             onSuccess = {
                 _contactUpdate.tryEmit(Unit)
                 UIResult.Success(it)
@@ -88,6 +89,7 @@ class ContactRepository(private val contactDao: ContactDao) {
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: String? = null,
+        email: String? = null,
         lastMsg: Long? = null
     ): UIResult<Int> {
         return contactDao.updateById(
@@ -96,6 +98,7 @@ class ContactRepository(private val contactDao: ContactDao) {
             lastName,
             phoneNumber,
             profilePicture,
+            email,
             lastMsg
         ).fold(
             onSuccess = {

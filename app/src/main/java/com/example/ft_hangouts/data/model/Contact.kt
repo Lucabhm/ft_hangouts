@@ -6,6 +6,7 @@ data class Contact(
     val lastName: String?,
     val phoneNumber: String,
     val profilePicture: String?,
+    val email: String?,
     val lastMsg: Long?,
     val createdAt: Long
 )
@@ -14,6 +15,7 @@ class ContactFormError(
     var firstName: String? = null,
     var lastName: String? = null,
     var phoneNumber: String? = null,
+    var email: String? = null,
 )
 
 sealed class ContactUIState {
@@ -31,3 +33,6 @@ fun ContactUIState.lastNameError(): String? =
 
 fun ContactUIState.firstNameError(): String? =
     (this as? ContactUIState.InputError)?.msg?.firstName
+
+fun ContactUIState.emailError(): String? =
+    (this as? ContactUIState.InputError)?.msg?.email
