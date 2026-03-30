@@ -9,6 +9,7 @@ object ContactContract {
         const val COLUMN_LAST_NAME = "last_name"
         const val COLUMN_PHONE_NUMBER = "phone_number"
         const val COLUMN_PROFILE_PIC = "profile_pic"
+        const val COLUMN_EMAIL = "email"
         const val COLUMN_LAST_MSG = "last_msg"
         const val COLUMN_CREATED_AT = "created_at"
     }

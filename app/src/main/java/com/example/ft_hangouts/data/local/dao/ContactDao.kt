@@ -29,10 +29,8 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
                     contacts.add(cursor.toContact())
                 }
             }
-            Log.d("test", "$contacts")
             Result.success(contacts)
         } catch (e: Exception) {
-            Log.d("test", "$e")
             Result.failure(e)
         }
     }
@@ -115,6 +113,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: String? = null,
+        email: String? = null,
     ): Result<Long> = withContext(Dispatchers.IO) {
         try {
             val db = dbHelper.writableDatabase
@@ -124,6 +123,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
             lastName?.let { values.put(ContactEntry.COLUMN_LAST_NAME, it) }
             phoneNumber?.let { values.put(ContactEntry.COLUMN_PHONE_NUMBER, it) }
             profilePicture?.let { values.put(ContactEntry.COLUMN_PROFILE_PIC, it) }
+            email?.let { values.put(ContactEntry.COLUMN_EMAIL, it) }
             values.put(ContactEntry.COLUMN_CREATED_AT, System.currentTimeMillis())
 
             val id = db.insert(ContactEntry.TABLE_NAME, null, values)
@@ -140,6 +140,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
         lastName: String? = null,
         phoneNumber: String? = null,
         profilePicture: String? = null,
+        email: String? = null,
         lastMsg: Long? = null
     ): Result<Int> = withContext(Dispatchers.IO) {
         try {
@@ -150,6 +151,7 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
             lastName?.let { values.put(ContactEntry.COLUMN_LAST_NAME, it) }
             phoneNumber?.let { values.put(ContactEntry.COLUMN_PHONE_NUMBER, it) }
             profilePicture?.let { values.put(ContactEntry.COLUMN_PROFILE_PIC, it) }
+            email?.let { values.put(ContactEntry.COLUMN_EMAIL, it) }
             lastMsg?.let { values.put(ContactEntry.COLUMN_LAST_MSG, it) }
 
             val count = db.update(

@@ -18,4 +18,5 @@
     <string name="settings_language_input_ger">German</string>
     <string name="settings_language_input_en">English</string>
     <string name="update_contact_button">Update Contact</string>
+    <string name="add_contact_email">Enter a email address</string>
 </resources>

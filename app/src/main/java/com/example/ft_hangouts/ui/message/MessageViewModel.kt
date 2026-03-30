@@ -74,7 +74,15 @@ class MessageViewModel(
 
                         smsRepository.sendSms(sendTo.phoneNumber, inputCheck)
                         messageRepository.createMessage(message)
-                        contactRepository.updateContact(sendTo.id, null, null, null, null, current)
+                        contactRepository.updateContact(
+                            sendTo.id,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            current
+                        )
                     }
                 }
 

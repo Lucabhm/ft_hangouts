@@ -15,6 +15,7 @@ fun Cursor.toContact() = Contact(
     lastName = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_NAME)),
     phoneNumber = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PHONE_NUMBER)),
     profilePicture = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_PROFILE_PIC)),
+    email = getString(getColumnIndexOrThrow(ContactEntry.COLUMN_EMAIL)),
     lastMsg = getLong(getColumnIndexOrThrow(ContactEntry.COLUMN_LAST_MSG)),
     createdAt = getLong(getColumnIndexOrThrow(ContactEntry.COLUMN_CREATED_AT))
 )
