@@ -11,9 +11,6 @@ import androidx.compose.ui.graphics.toColorLong
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 import com.example.ft_hangouts.data.local.ContactContract.ThemeColorEntry
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 private const val SQL_CREATE_CONTACT = "CREATE TABLE IF NOT EXISTS ${ContactEntry.TABLE_NAME} (" +
         "${BaseColumns._ID} INTEGER PRIMARY KEY," +

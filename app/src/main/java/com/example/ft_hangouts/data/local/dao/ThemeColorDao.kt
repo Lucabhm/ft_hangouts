@@ -27,24 +27,6 @@ class ThemeColorDao(private val dbHelper: SQLiteOpenHelper) {
         }
     }
 
-    fun insert(color: Long): Result<Long> {
-        return try {
-            val db = dbHelper.writableDatabase
-            val values = ContentValues().apply {
-                put(ThemeColorEntry.COLUMN_COLOR, color)
-            }
-
-            val id = db.insert(ThemeColorEntry.TABLE_NAME, null, values)
-            if (id == -1L) {
-                Result.failure(SQLiteAbortException("Theme Color insert failed"))
-            } else {
-                Result.success(id)
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
     suspend fun update(color: Long): Result<Int> = withContext(Dispatchers.IO) {
         try {
             val db = dbHelper.writableDatabase

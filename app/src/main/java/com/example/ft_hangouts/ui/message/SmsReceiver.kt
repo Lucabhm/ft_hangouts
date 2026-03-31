@@ -5,15 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import com.example.ft_hangouts.FtHangouts
-import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.Message
 import com.example.ft_hangouts.data.model.UIResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class SmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {

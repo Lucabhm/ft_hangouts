@@ -14,11 +14,8 @@
     <string name="add_contact_phone_number_input">Phone Number</string>
     <string name="add_contact_create_button">Create Contact</string>
     <string name="settings_theme_button">Change Theme Color</string>
-    <string name="settings_language_button">Change Language</string>
-    <string name="settings_language_input_ger">German</string>
-    <string name="settings_language_input_en">English</string>
     <string name="update_contact_button">Update Contact</string>
-    <string name="add_contact_email">Enter a email address</string>
+    <string name="add_contact_email">Enter an email address</string>
     <string name="add_contact_input_name_error">Please enter a valid name (letters only, min. 2 characters).</string>
     <string name="add_contact_input_email_error">Please enter a valid email address (e.g. name@mail.com ).</string>
     <string name="add_contact_input_number_error">Please enter a valid phone number (7–15 digits, optional +).</string>

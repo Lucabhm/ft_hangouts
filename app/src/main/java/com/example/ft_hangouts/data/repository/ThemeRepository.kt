@@ -1,6 +1,5 @@
 package com.example.ft_hangouts.data.repository
 
-import android.database.sqlite.SQLiteAbortException
 import com.example.ft_hangouts.data.local.dao.ThemeColorDao
 import com.example.ft_hangouts.data.model.ThemeColor
 import com.example.ft_hangouts.data.model.UIResult

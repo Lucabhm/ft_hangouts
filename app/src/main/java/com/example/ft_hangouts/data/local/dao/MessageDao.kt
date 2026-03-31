@@ -2,7 +2,6 @@ package com.example.ft_hangouts.data.local.dao
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteOpenHelper
-import android.provider.BaseColumns
 import com.example.ft_hangouts.data.local.ContactContract.MessageEntry
 import com.example.ft_hangouts.data.local.toMessage
 import com.example.ft_hangouts.data.model.Message
@@ -59,25 +58,6 @@ class MessageDao(private val dbHelper: SQLiteOpenHelper) {
                 Result.failure(Exception("Message insert failed"))
             else
                 Result.success(id)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    fun deleteById(messageId: Long): Result<Int> {
-        return try {
-            val db = dbHelper.writableDatabase
-
-            val count = db.delete(
-                MessageEntry.TABLE_NAME,
-                "${BaseColumns._ID} = ?",
-                arrayOf(messageId.toString())
-            )
-
-            if (count == 0)
-                Result.failure(NoSuchElementException("Message not found"))
-            else
-                Result.success(count)
         } catch (e: Exception) {
             Result.failure(e)
         }

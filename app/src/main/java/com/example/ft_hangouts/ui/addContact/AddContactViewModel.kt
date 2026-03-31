@@ -3,21 +3,16 @@ package com.example.ft_hangouts.ui.addContact
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ft_hangouts.R
-import com.example.ft_hangouts.data.model.ContactUIState
-import com.example.ft_hangouts.data.model.Contact
 import com.example.ft_hangouts.data.model.ContactFormError
-import com.example.ft_hangouts.data.repository.ContactRepository
+import com.example.ft_hangouts.data.model.ContactUIState
 import com.example.ft_hangouts.data.model.UIResult
+import com.example.ft_hangouts.data.repository.ContactRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class AddContactViewModel(private val contactRepository: ContactRepository) : ViewModel() {
     var firstName by mutableStateOf<String?>(null)

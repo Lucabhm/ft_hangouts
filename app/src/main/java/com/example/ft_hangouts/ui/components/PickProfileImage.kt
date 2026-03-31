@@ -6,10 +6,8 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -43,6 +41,7 @@ fun PickProfileImage(currPath: String, onUpdate: (String) -> Unit) {
             uri?.let {
                 val bitmap = uriToBitmap(context, uri)
                 path = saveProfileImage(context, bitmap)
+                bitmap.recycle()
                 onUpdate(path)
             }
         }

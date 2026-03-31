@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toColorLong
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ft_hangouts.data.model.ThemeColor
 import com.example.ft_hangouts.data.model.UIResult
 import com.example.ft_hangouts.data.repository.ThemeRepository
 import kotlinx.coroutines.launch

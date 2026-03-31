@@ -3,7 +3,6 @@ package com.example.ft_hangouts.data.local.dao
 import android.content.ContentValues
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import android.util.Log
 import com.example.ft_hangouts.data.local.ContactContract.ContactEntry
 import com.example.ft_hangouts.data.local.toContact
 import com.example.ft_hangouts.data.model.Contact
@@ -30,30 +29,6 @@ class ContactDao(private val dbHelper: SQLiteOpenHelper) {
                 }
             }
             Result.success(contacts)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    fun selectById(contactId: Long): Result<Contact> {
-        return try {
-            val db = dbHelper.readableDatabase
-
-            db.query(
-                ContactEntry.TABLE_NAME,
-                null,
-                "${BaseColumns._ID} = ?",
-                arrayOf(contactId.toString()),
-                null,
-                null,
-                null
-            ).use { cursor ->
-                if (cursor.moveToFirst()) {
-                    Result.success(cursor.toContact())
-                } else {
-                    Result.failure(NoSuchElementException("No Contact found"))
-                }
-            }
         } catch (e: Exception) {
             Result.failure(e)
         }
